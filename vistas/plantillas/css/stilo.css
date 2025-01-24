@@ -1,0 +1,195 @@
+.container1 header::before{
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    height: 3px;
+    width: 27px;
+    left: 0;
+    background-color:rgba(4, 168, 233, 0.5);
+    border-radius: 9px;
+
+}
+.titulo{
+    font-size: 20px;
+    font-weight: 500;
+    margin: 6px 0;
+    color: #333;
+}
+.hiden{
+    transform: translateY(-800px);
+}
+.button {
+    position: relative;
+    width: 120px;
+    height: 40px;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    color: white;
+    flex-direction: column;
+    justify-content: center;
+    border: none;
+    padding: 12px;
+    gap: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    left: -4px;
+    top: -1px;
+    margin: auto;
+    width: 128px;
+    height: 48px;
+    border-radius: 10px;
+    background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100% );
+    z-index: -10;
+    pointer-events: none;
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  .button::after {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(-45deg, #fc00ff 0%, #00dbde 100% );
+    transform: translate3d(0, 0, 0) scale(0.95);
+    filter: blur(20px);
+  }
+  
+  .button:hover::after {
+    filter: blur(30px);
+  }
+  
+  .button:hover::before {
+    transform: rotate(-180deg);
+  }
+  
+  .button:active::before {
+    scale: 0.7;
+  }
+  
+  
+
+   .checkbox-label {
+    font-size: 12px;
+    color: #1e1c1c;
+    padding: 10px 50px 10px 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    user-select: none;
+    display: flex;
+    position: relative;
+    align-items: center;
+    transition: all 0.3s;
+  }
+  
+  .checkbox {
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    margin-right: -22px;
+    appearance: none;
+    border-radius: 5px;
+    background-color: #64ccc5;
+    z-index: 2;
+    transition: all 0.3s;
+  }
+  
+  .container-checkbox {
+    width: 35px;
+    height: 35px;
+    position: relative;
+    top: 4px;
+    left: 8%;
+    border-radius: 5px;
+    background-color: #dafffb;
+    transition: all 0.3s;
+  }
+  
+  .checkbox::before {
+    content: "";
+    background-color: #1965a7;
+    position: relative;
+    display: flex;
+    top: 45%;
+    left: 40%;
+    width: 90px;
+    height: 3px;
+    border-radius: 25px;
+    transform: translate(100px, 0px) scale(0);
+    transition: ease-out 0.15s;
+  }
+  
+  .checkbox:checked::before {
+    transform: translateX(1em);
+    transform: translateY(-0.750em);
+    top: 12px;
+    transition: ease-out 0.15s;
+  }
+  
+  .checkbox:hover {
+    transform: translate(4px, 4px);
+    transition: ease-out 0.15s;
+    background-color: #1965a7;
+  }
+  
+  .checkbox:checked {
+    transform: translate(1px, 1px);
+    transition: ease-out 0.15s;
+    background-color: #1965a7;
+  }
+  
+  .svg-icon {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    z-index: 3;
+    color: #fefefe;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+    transform: rotate(0deg) scale(0);
+    transition: ease-in 0.2s;
+  }
+  
+  .checkbox:checked ~ .svg-icon {
+    transform: translate(1em,0.750em);
+    transition: ease-in 0.2s;
+  }
+  .bg-primary {
+    background: #4681ff !important;
+    color: #ffffff;
+    fill: #4680ff;
+  }
+  .bg-success,.bg-2  {
+    background: #26dad2 !important;
+    color: #ffffff;
+    fill: #26dad2;
+  }
+  .bg-info,.bg-class {
+    background: #57ed6d !important;
+    color: #ffffff;
+    fill: #62f362;
+  }
+  .bg-danger,.bg-4 {
+    background: #fc6180 !important;
+    color: #ffffff;
+    fill: #fc6180;
+  }
+  .bg-warning,.bg-5 {
+    background: #ffb64d !important;
+    color: #ffffff;
+    fill: #ffb64d;
+  }
+  .bg-pink ,.bg-6 {
+    background: #e6a1f2 !important;
+    color: #ffffff;
+    fill: #e6a1f2;
+  }
+  .bg-dark,.bg-7 {
+    background: #444c67 !important;
+    color: #ffffff;
+    fill: #444c67;
+  }
