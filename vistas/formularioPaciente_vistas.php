@@ -327,7 +327,7 @@
                                 </div>
 
                                  
-                                <div class="tab-pane p-20" id="AreaConsulta" role="tabpanel">
+                             <div class="tab-pane p-20" id="AreaConsulta" role="tabpanel">
                                 
                                 <div class="form-group row">
                                 
@@ -396,18 +396,45 @@
                             
                         </div>
                         
-                        <div class="offset-sm-3 col-md-9">
+                        <div class="offset-sm-3 col-md-9" id="mostrarBoton">
                         
                             <button type="submit" class="btn btn-primary" id="botonP"><i class="fa fa-check"></i> Registrar</button>
                             
                         </div>
 
                         
-                    </form>
+                </form>
                     
-                </div>
-                
             </div>
-            
+                
         </div>
+            
+     </div>
+
+    <div class="col-3">
+
+            <div class="card">
+
+                <div class="col-md-12">
+                    
+                    <h4 class="card-title">Cantidad de Paciente para el dia:<p id="diaAtencion">200</p> </h4>
+
+                            <div id="DisponibilidadDia">
+                                
+                                <h5 class="m-t-30">Cantidad de Paciente:<span class="pull-right" id="cantidadPacienteXDia"></span></h5>
+
+                            <div class="progress ">
+
+                            <div class="progress-bar bg-danger wow animated progress-animated" style="width: 15%; height:6px;" role="progressbar">
+
+
+                            </div>
+
+                            
+
+                </div>
+
+            </div>
+     </div>
+
 </div>

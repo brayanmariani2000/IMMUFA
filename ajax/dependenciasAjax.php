@@ -15,3 +15,8 @@ if (isset($_POST['eliminarDependencia'])) {
         
     }
 }
+if(isset($_POST['habilitarDependencia'])){
+    if($_POST['habilitarDependencia']==true){
+        $in_dependencia->habilitar_dependencia($_POST['idDependencias']);
+    }
+}

@@ -30,3 +30,12 @@ if (isset($_POST['CitaxEspecialidad'])){
         
     }
 }
+
+if (isset($_POST['habilitarArea'])) {
+   
+    if ($_POST['habilitarArea']==true){
+   
+        $in_area->habilitar_area($_POST['idEspecialidad']);
+        
+    }
+}

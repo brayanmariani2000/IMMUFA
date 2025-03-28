@@ -11,3 +11,42 @@ document.getElementById('cedula').addEventListener('input', function () {
      input.classList.add('is-invalid');
    }
  });
+ $(document).ready(function () {
+  // Validar campo de solo letras
+  $('#campoLetras').on('input', function () {
+      const regex = /^[A-Za-zÁáÉéÍíÓóÚúÜü\s]+$/;
+      const valor = $(this).val();
+      if (!regex.test(valor)) {
+          $(this).val(valor.replace(/[^A-Za-zÁáÉéÍíÓóÚúÜü\s]/g, ''));
+      }
+      verificarCampos();
+  });
+
+  // Validar campo de solo números
+  $('#campoNumeros').on('input', function () {
+      const regex = /^[0-9]+$/;
+      const valor = $(this).val();
+      if (!regex.test(valor)) {
+          $(this).val(valor.replace(/[^0-9]/g, ''));
+      }
+      verificarCampos();
+  });
+
+  // Validar campo select
+  $('#campoSelect').on('change', function () {
+      verificarCampos();
+  });
+
+  // Función para verificar si todos los campos están llenos
+  function verificarCampos() {
+      const campoLetras = $('#campoLetras').val();
+      const campoNumeros = $('#campoNumeros').val();
+      const campoSelect = $('#campoSelect').val();
+
+      if (campoLetras && campoNumeros && campoSelect) {
+          $('#botonGuardar').show();
+      } else {
+          $('#botonGuardar').hide();
+      }
+  }
+});

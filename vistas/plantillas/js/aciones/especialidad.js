@@ -22,14 +22,15 @@
         let especialidad=JSON.parse(repuesta);
 
         especialidad.forEach(row=> {
-          
+
+          if(row.status==1){
           plantilla+=`<h5 class="m-t-30">${row.especialidades}<span class="pull-right">1</span></h5>
 
                   <div class="progress ">
 
                       <div class="progress-bar bg-danger wow animated progress-animated" style="width: 15%; height:6px;" role="progressbar"></div>
 
-                  </div>`
+                  </div>`}
           
         });
 
@@ -158,7 +159,7 @@
 
                 if(result.value){ 
 
-                  window.location.href = `${server}/nuevaArea`;}})
+                  window.location.href = `${server1}/nuevaArea`;}})
 
                 }else{
 
@@ -186,4 +187,89 @@
   
   
         })   
+
+        $(document).on('click','#habilitarArea',function(){
+          const server1='http://localhost/ubv/proyecto2/'
+      
+          Swal.fire({        
+      
+            type: 'info',
+      
+            title: 'HABILITAR',
+      
+            text: 'ESTA SEGURO QUUE DESEA HABILITAR',  
+      
+            confirmButtonText:'OK',
+      
+            showCancelButton:true,
+      
+          }).then((result)=>{
+      
+            if(result.value){ 
+      
+              var area=$(this).val()
+      
+      
+              $.ajax({
+      
+                type:'POST',
+      
+                url:`${server1}ajax/areaAjax.php`,
+      
+                data:{
+      
+                  'habilitarArea':true,
+      
+                  'idEspecialidad':area
+      
+                },
+      
+                success:function(repuesta){
+      
+                  console.log(repuesta)
+      
+                  if(repuesta==1){  
+      
+                    Swal.fire({        
+      
+                      type: 'success',
+      
+                      title: 'Éxito',
+      
+                      text: 'SE HA HABILITADO CORRECTAMENTE',  
+      
+                      confirmButtonText:'OK',      
+      
+                    }).then((result)=>{
+      
+                      if(result.value){ 
+      
+                        window.location.href = `${server}/nuevaArea`;}})
+      
+                      }else{
+      
+                        Swal.fire(
+      
+                          'ERROR',
+      
+                          'ERROR',
+      
+                          'error'
+      
+                          )
+      
+                        }
+      
+                        
+                      }
+            
+                    })
+        
+          
+                  }
+        
+                });
+        
+        
+              })   
   
