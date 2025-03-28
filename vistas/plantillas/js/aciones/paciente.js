@@ -79,11 +79,11 @@ $('#paciente_cita').submit(function(e){
             */
 
   })
-   $(document).on('click','#verInfo_p',function(){ 
+   $(document).on('click','#actualizar_cita',function(){ 
    
-    var cedula=$(this).val()
+    var idCita=$(this).val()
     
-    console.log(cedula)
+    console.log(idCita)
     
     var areaConsultar='',fechaCita='',estadoCita='',dependencia='';
    
@@ -92,13 +92,13 @@ $('#paciente_cita').submit(function(e){
     
       type:'POST',
     
-      url:`${server}ajax/verInfoPaciente.php`,
+      url:`${server}ajax/citaAjax.php`,
     
       data:{
     
-        'ver_paciente':true,
+        'ver_Cita':true,
     
-        'cedula_p':cedula 
+        'id_cita':idCita 
     
       },
     
@@ -108,28 +108,23 @@ $('#paciente_cita').submit(function(e){
     
         datosC.forEach(datos=>{ 
     
-          $('#nombrePaciente').text(datos.nombre),
+          $('#nombrePaciente').text(datos.nombrePaciente),
     
-          $('#apellidoPaciente').text(datos.apellido),
+          $('#apellidoPaciente').text(datos.apellidoPaciente),
     
-          $('#cedulaPaciente').text(datos.cedula),
+          $('#cedulaPaciente').text(datos.cedulaPaciente),
     
-          $('#telefonoPaciente').text(datos.telefono),
+          $('#fechaAntencionPaciente').text(datos.fechaConsulta),
     
-          $('#sexoPaciente').text(datos.sexo),
-    
-          $('#edadPaciente').text(datos.edad),
-    
-          $('#municipioPaciente').text(datos.municipiosN),
-    
-          $('#parroquiaPaciente').text(datos.parroquias),
-    
-          $('#discapacidadPaciente').text(datos.tipo_discapacidad),
-    
-          $('#etniaPaciente').text(datos.etnias),
-    
-          $('#fechaNaciPaciente').text(datos.fechaNaci)        
-  
+          $('#especialidadCitaPersona').text(datos.especialidad),
+
+          $('#especialidadCitaPersona').val(datos.id_especialidad),
+          
+          $('#id_consulta').val(datos.id_consulta),
+
+          $('#id_cita').val(datos.id_cita),
+                 
+          $('#condicionCita').val(datos.condicion)
              
         }) 
       
@@ -141,86 +136,39 @@ $('#paciente_cita').submit(function(e){
              * *********************************************
              * **********************************************
             */
-  $('#veirInfoPaciente').modal('show')
+  $('#veirInfo_cita').modal('show')
   
 })
 
-       /**    ********ACTUALIZAR PACIENTE ************  
-             *     ************************************
-             * *********************************************
-             * **********************************************
-            */
-      
-      $('#municipioPacienteActualizar').click(function(e){
-      
-        let municipio=$('#municipioPacienteActualizar').val();
-      
-        $.ajax({
-      
-          url:`${server}/ajax/direccion.php`,
-      
-          type:'GET',
-      
-          data:{municipio},
-      
-          success:function(response){
-      
-            let plantilla='';
-      
-            let parroquias=JSON.parse(response);
-      
-            parroquias.forEach(parroquia => {
-      
-              if(municipio==parroquia.municipio_id){
-      
-                plantilla+=`<option value="${parroquia.value}">${parroquia.parroquias}</option>`; 
-      
-              }
-      
-            });
-      
-            $('#parroquiaPacienteActualizar').html(plantilla);
-      
-          }
-      
-        })
-      
-      })
-  
-      
       
       
       $('#botonAc').click(function(e){
-      
+
+        
         e.preventDefault();
       
         const paciente={
       
-          nombre:$('#nombrePacienteActualizar').val(),
-      
-          apellido:$('#apellidoPacienteActualizar').val(),
-      
-          cedula:$('#cedulaPacienteActualizar').val(),
-      
-          telefono:$('#telefonoPacienteActualizar').val(),
-      
-          fechaNaci:$('#fechaNaciPacienteActualizar').val(),
-      
-          sexo:$('#sexoPacienteActualizar').val(),
-      
-          municipio:$('#municipioPacienteActualizar').val(),
-      
-          parroquia:$('#parroquiaPacienteActualizar').val(),
-      
-          discapacidad:$('#discapacidadPacienteActualizar').val(),
-      
-          etnia:$('#etniaPacienteActualizar').val(),
-      
-          edad:$('#edadPacienteActualizar').val()
+          nombre:$('#nombrePaciente').text(),
+    
+          apellido:$('#apellidoPaciente').text(),
+    
+          cedula:$('#cedulaPaciente').text(),
+    
+          fecha_consulta:$('#fechaAntencionPaciente').text(),
+    
+          especialidad:$('#especialidadCitaPersona').text(),   
+                 
+          condicion:$('#condicionCita').val(),
+
+          id_consulta:$('#id_consulta').val(),
+
+          id_cita:$('#id_cita').val()
       
         }
+        console.log(paciente)
       
-        $.post(`${server}ajax/actualizarPaciente.php`,paciente,function(repuesta){
+        /*$.post(`${server}ajax/actualizarPaciente.php`,paciente,function(repuesta){
       
           console.log(repuesta);
       
@@ -250,7 +198,7 @@ $('#paciente_cita').submit(function(e){
       
           }
     
-        })    
+        })    */
          
       })	
   

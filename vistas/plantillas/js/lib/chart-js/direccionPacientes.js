@@ -1,7 +1,6 @@
 ( function ( $ ) {
 	"use strict";
     var ctx = document.getElementById( "pieChart" );
-	ctx.height = 300;
 	var myChart = new Chart( ctx, {
 		type: 'pie',
 		data: {

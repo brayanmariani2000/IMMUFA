@@ -152,7 +152,6 @@ class loginControlador extends loginModelo{
       $list=conexionModelo::ejecutar_consulta_simple("SELECT * FROM `especialidad` ");
       $datos=$list->fetchAll();
       foreach($datos as $row){
-        if($row['status']==1){
         ?><tr>
         <td><?php echo $row['id_especialidad'] ?></td>
 
@@ -163,7 +162,17 @@ class loginControlador extends loginModelo{
 
             <div style="margin:4px ;">
 
-            <button type="submit" class="btn btn-danger" id="eliminarArea" value="<?php echo $row['id_especialidad']?>"><i class="ti-close"></i>  Desabilitar</button>
+            <?php if($row['status']==1){?>
+              
+            <button type="submit" class="btn btn-danger btn " id="eliminarArea" value="<?php echo $row['id_especialidad'] ?>"><i class="ti-close"></i>Desabilitar</button>
+              
+            <?php  } else { ?>
+
+              
+            <button type="submit" class="btn btn-success btn " id="habilitarArea" value="<?php echo $row['id_especialidad'] ?>">Habilitar</button>
+              
+            <?php } ?>
+
 
             </div>
          
@@ -173,9 +182,9 @@ class loginControlador extends loginModelo{
     </tr>
 
     <?php
-      }
     }
-     }
+     
+  }
 
 
      public function listar_dependencia(){
@@ -185,7 +194,6 @@ class loginControlador extends loginModelo{
       $datos=$list->fetchAll();
      
       foreach($datos as $row){
-        if($row['status']==1){
         ?><tr>
         <td><?php echo $row['id_dependencia'] ?></td>
 
@@ -195,9 +203,18 @@ class loginControlador extends loginModelo{
               <div style=" display: flex;">
 
               <div style="margin:4px ;">
+               
+              <?php if($row['status']==1){?>
+               
+              
+              <button type="submit" class="btn btn-danger btn " id="eliminarDependencia" value="<?php echo $row['id_dependencia'] ?>"><i class="ti-close"></i>Desabilitar</button>
+               
+              
+              <?php  } else { ?>
 
-              <button type="submit" class="btn btn-warning btn " id="eliminarDependencia" value="<?php echo $row['id_dependencia'] ?>"><i class="ti-close"></i>Desabilitar</button>
-
+              <button type="submit" class="btn btn-success btn " id="habilitarDependencia" value="<?php echo $row['id_dependencia'] ?>">Habilitar</button>
+              
+              <?php } ?>
 
                </div>
 
@@ -206,8 +223,7 @@ class loginControlador extends loginModelo{
             </td>
 
     </tr>
-    <?php
-    }  
+    <?php  
     }
      }
     

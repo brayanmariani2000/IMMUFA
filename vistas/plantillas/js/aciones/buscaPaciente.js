@@ -101,7 +101,7 @@ console.log("hola actulaizar")
     
     type:'POST',
   
-    url:`${server}vista/datosPaciente.php`,
+    url:`${server}vistas/datosPaciente.php`,
   
     data:{
   

@@ -56,7 +56,7 @@ class citaControlador extends citaModelo{
               
                   <div style=" display:flex;">
                     
-                    <button type="submit" class="btn btn-info"    id="actualizar"     value="<?php echo $row['id_cita']?>" style="margin:5px;">Actualizar Cita</button>
+                    <button type="submit" class="btn btn-info"    id="actualizar_cita"     value="<?php echo $row['id_cita']?>" style="margin:5px;">Actualizar Cita</button>
               
                     </div>
                     
@@ -66,5 +66,78 @@ class citaControlador extends citaModelo{
                 }
               }
             }
+       }
+       public function mostrar_citas_x_personas_controlador($idCita){
+
+         $mostrarCitas=citaModelo::mostrar_cita_modelo_x_persona($idCita);
+
+         $lista=$mostrarCitas->fetchAll();
+         
+         $datos=array();
+         
+         foreach($lista as $row){
+         
+          $datos[]=array(
+
+          'nombrePaciente'=>$row['nombre'],
+
+          'apellidoPaciente'=>$row['apellido'],
+
+          'cedulaPaciente'=>$row['cedula'],
+          
+          'fechaConsulta'=>$row['fecha_consulta'],
+          
+          'especialidad'=>$row['especialidad'],
+          
+          'condicion'=>$row['id_condicion'],
+          
+          'id_consulta'=>$row['id_consulta'],
+          
+          'id_cita'=>$row['id_cita'],
+
+          'id_especialidad'=>$row['id_especialidad']
+          );
+         }
+         $jason=json_encode($datos);
+
+         echo $jason;        
+       }
+
+       public function Historia_cita_controlador(){
+        $mostar=citaModelo::historia_cita_modelo();
+        $brayan=0;
+        if ($mostar->rowCount()>0) {
+          $contador=$mostar->fetchAll();
+            foreach ($contador as $row) {
+                $brayan=$brayan+1;
+                ?>
+                <tr>
+                <td><?php echo $brayan?></td>
+                
+                <td><?php echo $row['Nombre_Paciente'] .' '. $row['Apellido_Paciente']?> </td>
+                
+                <td><?php echo  $row['Cedula_Paciente']?></td>
+                
+                <td><?php echo  $row['Especialidad']?></td>
+                
+                <td><?php echo   $row['Nombre_Medico'] .' '. $row['Apellido_Medico']?></td>
+                
+                <td><?php echo  $row['Fecha_Atencion']?></td>
+
+                <td><?php echo  $row['Fecha_Registro']?></td>
+
+                <td><?php echo  $row['Nombre_Registrador'] .' '. $row['Apellido_Registrador']?></td>
+
+
+                
+                <td>
+            
+                  
+              </td>
+            </tr><?php
+    
+            }
+          }
+
        }
 }

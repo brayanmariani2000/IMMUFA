@@ -1,6 +1,6 @@
 <?php
 const SERVI ="localhost";
-const DB="inmufa_1";
+const DB="inmufa_5";
 const USU="root";
 const CLAVE="";
      

@@ -23,7 +23,7 @@
     <link href="<?php echo SERVERURL;?>vistas/plantillas/css/stilo.css" rel="stylesheet">
     <link href="<?php echo SERVERURL;?>vistas/plantillas/css/sweetalert2.min.css" rel="stylesheet">
     <link href="<?php echo SERVERURL;?>vistas/plantillas/css/form.css" rel="stylesheet">
-    <link href="<?php echo SERVERURL;?>vistas/plantillas/css/estilos.css" rel="stylesheet">
+    
     <link rel="stylesheet" type="text/css" href="<?php echo SERVERURL;?>css/all.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo SERVERURL;?>css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo SERVERURL;?>css/lightbox.css">
@@ -31,6 +31,34 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo SERVERURL;?>css/owl.carousel.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo SERVERURL;?>css/owl.theme.default.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo SERVERURL;?>css/jquery.rateyo.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo SERVERURL;?>css/input.css"/>
+    <?php require_once "./controlador/vistasControlador.php";
+
+$iv=new vistasControlador();
+
+$vistas=$iv->obtener_vistas_controlador();
+
+$listablanca1=['home','404','login',];
+
+if (in_array($vistas,$listablanca1) ) {
+
+     echo '<link rel="stylesheet" type="text/css" href="'.SERVERURL.'vistas/plantillas/css/materialize/css/materialize.css"/>';
+
+}
+$iv2=new vistasControlador();
+
+$vistas=$iv2->obtener_vistas_controlador();
+
+$listablanca1=['login'];
+
+if (in_array($vistas,$listablanca1) ) {
+
+     echo '<link href="'.SERVERURL.'vistas/plantillas/css/estilos.css" rel="stylesheet">';
+     echo '<link rel="stylesheet" type="text/css" href="'.SERVERURL.'vistas/plantillas/css/materialize/css/materialize.css"/>';
+
+}
+    
+?>
 <style class="datamaps-style-block">
 
 .datamap path.datamaps-graticule {

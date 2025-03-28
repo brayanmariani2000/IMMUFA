@@ -407,22 +407,19 @@ class pacienteControlador extends pacienteModelo{
                                           
                                 <div class="form-row">
                                 
-                                    <div class="col-md-4">
-
-                                    <label for="nombreDatosPaciente">Nombre</label>
-                                
-                                        <p id="nombre">'.$row['nombre'].'</p>
-                                
+                                    <div class="col-md-3">                                  
+                                    <label for="nombreDatosPaciente">Nombres</label>                                        
+                                    <p id="nombre">'.$row['nombre'].'</p>                                
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
 
-                                        <label for="apellidoDatosPaciente">Apellido</label>
+                                        <label for="apellidoDatosPaciente">Apellidos</label>
                                 
                                         <p id="apellido" >'.$row['apellido'].'</p>
                                     
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
 
                                         <label for="cedualDatosPaciente">Cedula</label>
 
@@ -430,42 +427,16 @@ class pacienteControlador extends pacienteModelo{
 
                                         <input type="text" name="usuario" id="cedula" value="'.$row['cedula'].'" class="hiden"> 
 
-                                    </div>
+                                    </div>                      
 
-                                </div>
-                                
-                                </div>
-
-                                <div class="form-group">
-
-                                <div class="form-row">
-
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
 
                                             <label for="telefonoDatosPaciente">telefono</label>
                                 
                                             <p id="telefono" >'.$row['telefono'].'</p>
 
                                     </div>
-                                    <div class="col-md-4">
-
-                                    <label for="edadDatosPaciente">Edad</label>
-
-                                    <p id="fechaNaci" >'.$row['fecha_nacimiento'].'</p>
-
-                                    </div>
-
-                                    <div class="col-md-4">
-
-                                        <label for="sexoDatosPaciente">Sexo</label>
-
-                                        <p id="sexoDatosPaciente"  ">'?><?php  if($row['sexo']==1){echo "FEMENINO";}else {
-                                        
-                                          echo "MASCULINO";
-                                        
-                                        }?><?php echo ' </p>
-            
-                                    </div>
+                                    
 
                                 </div>
 

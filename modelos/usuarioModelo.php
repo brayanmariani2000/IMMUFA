@@ -16,6 +16,19 @@ class usuarioModelo extends conexionModelo{
 
 
     }
+    protected static function agregar_persona_1($nombre,$apellido,$cedula,$fecha_naci,$telefono,$sexo){
+    
+        $sql=conexionModelo::conectar()->prepare("INSERT INTO persona(nombre,apellido,cedula,telefono,fecha_nacimiento,correo,sexo,id_parroquia,id_etnia,id_discapacidad)
+        
+         VALUES ('$nombre','$apellido','$cedula','$telefono','$fecha_naci','null','$sexo','52','0','0')");
+        
+        $sql->execute();
+        
+        return $sql;
+
+
+
+    }
     
     protected static function nuevo_medico($idPersona,$especialidad){
         
@@ -95,6 +108,22 @@ class usuarioModelo extends conexionModelo{
     protected static function eliminar_dependencia_modelo($dependencia){
        
         $sql=conexionModelo::conectar()->prepare("UPDATE `dependencias` SET `status`='2' WHERE id_dependencia='$dependencia'");
+       
+        $sql->execute();
+       
+        return $sql;
+    }
+    protected static function habilitar_dependencia_modelo($dependencia){
+       
+        $sql=conexionModelo::conectar()->prepare("UPDATE `dependencias` SET `status`='1' WHERE id_dependencia='$dependencia'");
+       
+        $sql->execute();
+       
+        return $sql;
+    }
+    protected static function habilitar_area_modelo($area){
+       
+        $sql=conexionModelo::conectar()->prepare("UPDATE `especialidad` SET `status`='1' WHERE id_especialidad='$area'");
        
         $sql->execute();
        

@@ -11,8 +11,10 @@
 					label: "Cantidad de Pacientes Por años",
 					data: [ 65, 59, 80, 81, 56, 55, 40 ],
 					borderColor: "rgba(0, 123, 255, 0.9)",
-					borderWidth: "0",
-					backgroundColor: "rgb(0, 123, 255)"
+					borderWidth: 0,
+					backgroundColor: "rgb(0, 123, 255)",
+					barThickness:5,
+					maxBarThicknes:5
                             }
                         ]
 		},

@@ -8,19 +8,8 @@
     <!--stickey kit -->
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
 
-
-    <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/datamap/d3.min.js"></script>
-
-    <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/datamap/topojson.js"></script>
-
     
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/weather/jquery.simpleWeather.min.js"></script>
-    
-    <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/weather/weather-init.js"></script>
-    
-    <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/owl-carousel/owl.carousel.min.js"></script>
-    
-    <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/owl-carousel/owl.carousel-init.js"></script>
     
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/chart-js/Chart.bundle.js"></script>
 
@@ -61,6 +50,14 @@
 
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/validacion.js" type="module"></script>
 
+    <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/pdf.js" type="module"></script>
+
+    <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/peticionCantidadPaaciente.js" type="module"></script>
+
+    <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/validacionFormulario.js" type="module"></script>
+
+    <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/reportes.js" type="module"></script>
+
     <script type="text/javascript" src="<?php echo SERVERURL ?>vistas/plantillas/js/lightbox.js"></script>
 	
     <script type="text/javascript" src="<?php echo SERVERURL ?>vistas/plantillas/js/isotope.pkgd.min.js"></script>
@@ -68,5 +65,27 @@
     <script type="text/javascript" src="<?php echo SERVERURL ?>vistas/plantillas/js/jquery.flexslider.js"></script>
 	
     <script type="text/javascript" src="<?php echo SERVERURL ?>vistas/plantillas/js/jquery.rateyo.js"></script>
+
+
+    <?php require_once "./controlador/vistasControlador.php";
+
+$iv=new vistasControlador();
+
+$vistas=$iv->obtener_vistas_controlador();
+
+$listablanca1=['home','404','login',];
+
+if (in_array($vistas,$listablanca1) ) {
+
+     echo '<script type="text/javascript" src="'.SERVERURL .'vistas/plantillas/css/materialize/js/materialize.js"></script>
+
+    <script type="text/javascript" src="'.SERVERURL .'vistas/plantillas/css/materialize/js/materialize.min.js"></script>';
+
+}
+    
+?>
+
+
+
 
 

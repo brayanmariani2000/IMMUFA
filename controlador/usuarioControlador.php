@@ -19,7 +19,11 @@ class usuarioControlador extends usuarioModelo{
     $fecha_naci=conexionModelo::limpiar_texto($_POST['fecha_naci']);
   
     $especialidad=conexionModelo::limpiar_texto($_POST['especialidad']);
-     
+    
+    $sexo=conexionModelo::limpiar_texto($_POST['sexo']);
+    
+    $correo=conexionModelo::limpiar_texto($_POST['correo']);
+
     $validadcion=usuarioModelo::validacion($cedula);
 
     if ($validadcion->rowCount()>0)
@@ -88,7 +92,7 @@ class usuarioControlador extends usuarioModelo{
       echo 1;
     }else
     {
-      $agregar_usuario_persona=usuarioModelo::agregar_medico_modelo($nombre,$apellido,$cedula,$fecha_naci,$telefono,$sexo);
+      $agregar_usuario_persona=usuarioModelo::agregar_persona_1($nombre,$apellido,$cedula,$fecha_naci,$telefono,$sexo);
         
       $validadcion2=usuarioModelo::validacion($cedula);
 
@@ -218,18 +222,23 @@ public function listar_especialista_controlador(){
     $json=array();
 
     foreach($lista as $row){
+      if ($row['status']==1) {
+      
+        $json[]=array(
 
-      $json[]=array(
+          'value'=>$row['id_medico'],
+  
+          'Nmedico'=>$row['nombre'],
+  
+          'Amedico'=>$row['apellido'],
+  
+          'especialidades'=>$row['id_especialidad']
 
-        'value'=>$row['id_medico'],
+        );
+      
+      }
 
-        'Nmedico'=>$row['nombre'],
 
-        'Amedico'=>$row['apellido'],
-
-        'especialidades'=>$row['id_especialidad']
-
-      );
 
 
     }
@@ -255,7 +264,9 @@ public function Listar_especialidad_x_cita(){
 
       $json[]=array(
 
-        'especialidades'=>$row['especialidad']
+        'especialidades'=>$row['especialidad'],
+
+        'status'=>$row['status']
 
       );
 
@@ -267,6 +278,38 @@ public function Listar_especialidad_x_cita(){
   $jason=json_encode($json);
 
   echo $jason;
+
+}
+
+public function habilitar_dependencia($dependencia){
+
+  $habilitarDependencia=usuarioModelo::habilitar_dependencia_modelo($dependencia);
+
+  if ($habilitarDependencia->rowCount()>0) {
+
+    echo 1;
+
+  }else{
+
+    echo 2;
+
+  }
+
+}
+public function habilitar_area($area){
+
+  $habilitarArea=usuarioModelo::habilitar_area_modelo($area);
+
+  if ($habilitarArea->rowCount()>0) {
+
+    echo 1;
+
+  }else{
+
+    echo 2;
+
+  }
+
 }
 }
 

@@ -61,7 +61,7 @@ $(document).on('click','#resgistrarMedico',function(){
       
         correo:$("#correo").val(),
       
-        edad:$('#sexo_m').val(),
+        sexo:$('#sexo_m').val(),
       
         especialidad:$('#especialidadM').val(),
 
