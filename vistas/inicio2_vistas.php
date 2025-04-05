@@ -38,7 +38,7 @@
                                     </div>
                                     
                                 </div>
-                            </a>
+                                </a>
                                 
                             </div>
 
@@ -149,11 +149,11 @@
                             <div class="col-lg-8">
                                 
                                 
-                                <div class="card p-20 col-md-12">
+                                <div class="card p-20 ">
                                     
                                     <div class="media widget-ten">
                                     
-                                        <div class="col-md-4 widget-ten p-30">
+                                        <div class=" widget-ten p-30">
                                         
                                             <button class="btn btn-info" id="registarPacienteInicio" url="formularioPaciente">Registrar Paciente</button>
                                         
@@ -179,28 +179,19 @@
 
 
                             <div class="card">
-
-                                <div class="col-md-12">
-                                    
-                                    <h4 class="card-title">Citas Por Area de Consulta o Especialidad </h4>
-
-                                    <div id="especialidadCitaJs">
-                                       
-                                        <h5 class="m-t-30">GINECOLOGIA<span class="pull-right">1</span></h5>
-
-                                        <div class="progress ">
-
-                                            <div class="progress-bar bg-danger wow animated progress-animated" style="width: 15%; height:6px;" role="progressbar"></div>
-
+                                    <div class="col-md-12">
+                                        <h4 class="card-title">Citas Por Área de Consulta o Especialidad</h4>
+                                        <div id="especialidadCitaJs">
+                                            <!-- Mensaje de carga -->
+                                            <div class="text-center p-4">
+                                                <div class="spinner-border text-primary" role="status">
+                                                    <span class="visually-hidden">Cargando...</span>
+                                                </div>
+                                                <p>Cargando datos de especialidades...</p>
+                                            </div>
                                         </div>
-                                    
                                     </div>
-
                                 </div>
-
-                                </div>
-                           
-                            </div>
 
                         </div>
                     
@@ -239,7 +230,8 @@
                                 
                             </div>
                             
-                            <div class="panel-body"><iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; inset: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>
+                            <div class="panel-body">
+                                <iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; inset: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>
                             
                                 <canvas id="pieChart" height="312" style="display: block; height: 250px; width: 250px;" width="312"></canvas>
                                 
@@ -285,51 +277,20 @@
 
                             <div class="card">
 
-                                <div class="col-md-12">
-                                    
-                                    <h4 class="card-title">Total de Citas Por Dependencias </h4>
-
-                                        <h5 class="m-t-30">GOBERNACION<span class="pull-right">1</span></h5>
-
-                                    <div class="progress ">
-
-                                        <div class="progress-bar bg-danger wow animated progress-animated" style="width: 15%; height:6px;" role="progressbar"></div>
-
-                                    </div>
-
-                                    <h5 class="m-t-30">PSUV<span class="pull-right">0</span></h5>
-
-                                    <div class="progress">
-
-                                        <div class="progress-bar bg-info wow animated progress-animated" style="width: 0%; height:6px;" role="progressbar"></div>
-
-                                    </div>
-                                    
-                                    <h5 class="m-t-30">COMUNIDAD<span class="pull-right">0</span></h5>
-                                    
-                                    <div class="progress">
-                                    
-                                        <div class="progress-bar bg-face wow animated progress-animated" style="width: 0%; height:6px;" role="progressbar"></div>
-                                    
-                                    </div>
-
-                                    <h5 class="m-t-30">ALIANZAS<span class="pull-right">0</span></h5>
-                                    
-                                    <div class="progress">
-                                    
-                                        <div class="progress-bar bg-youtube wow animated progress-animated" style="width: 0%; height:6px;" role="progressbar"></div>
-                                    
-                                    </div>
-                                    <h5 class="m-t-30">SATIUSUM<span class="pull-right">0</span></h5>
-                                    
-                                    <div class="progress">
-                                    
-                                        <div class="progress-bar bg-pink wow animated progress-animated" style="width: 0%; height:6px;" role="progressbar"></div>
-                                    
-                                    </div>
-                                
-                                </div>
-
+                                                      <div class="col-md-12">
+                                                      <h4 class="card-title">Citas por Dependencia</h4>
+                                                      <div id="dependenciasCitaJs">
+                                                          <!-- Mensaje de carga -->
+                                                          <div class="text-center p-4">
+                                                              <div class="spinner-border text-primary" role="status">
+                                                                  <span class="visually-hidden">Cargando...</span>
+                                                              </div>
+                                                              <p>Cargando datos de las dependecias...</p>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+              
                             </div>
 
                             </div>

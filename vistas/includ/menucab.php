@@ -3,12 +3,12 @@
             <nav class="navbar top-navbar navbar-expand-md navbar-light">
                 <!-- Logo -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="">
                         <!-- Logo icon -->
-                        <b><img src="<?php echo SERVERURL?>vistas/plantillas/images/logo.png" alt="homepage" class="dark-logo"></b>
+                        <b><img src="vistas/plantillas/images/logo.png" alt="homepage" class="dark-logo"></b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
-                        <span style="display: none;"><img src="<?php echo SERVERURL?>vistas/plantillas/images/logo-text.png" alt="homepage" class="dark-logo"></span>
+                        <span style="display: none;"><img src="vistas/plantillas/images/logo-text.png" alt="homepage" class="dark-logo"></span>
                     </a>
                 </div>
                 <!-- End Logo -->
@@ -33,7 +33,7 @@
                             <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-power-off"></i></a>
                             <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                                 <ul class="dropdown-user">
-                                    <li><a href="<?php echo SERVERURL?>ajax/cerrar_secion.php"></i>CERRAR SECION</a></li>
+                                    <li><a href="ajax/cerrar_secion.php"></i>CERRAR SECION</a></li>
                                 </ul>
                             </div>
                         </li>

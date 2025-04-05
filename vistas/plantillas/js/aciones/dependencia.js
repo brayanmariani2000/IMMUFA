@@ -86,7 +86,7 @@
 }) 
 
 $(document).on('click','#habilitarDependencia',function(){
-  const server1='http://localhost/ubv/proyecto2/'
+  const server1=''
    Swal.fire({        
      type: 'info',
      title: 'HABILITAR',
@@ -129,5 +129,63 @@ $(document).on('click','#habilitarDependencia',function(){
  
    }
  });
+
+}) 
+$(document).ready(function(){
+  $.ajax({
+    url: 'ajax/AjaxChartDependencias.php',
+    type: 'POST',
+    dataType: 'json', // Especificamos que esperamos JSON
+    success: function(data){
+        let html = '';
+        
+        // Verificar si hay un error
+        if (data.error) {
+            html = `<div class="alert alert-danger">${data.error}</div>`;
+        } 
+        // Verificar si no hay datos
+        else if (data.length === 0) {
+            html = `<div class="alert alert-info">No hay citas registradas por Dependencias</div>`;
+        } 
+        // Procesar datos normales
+        else {
+            // Encontrar el máximo para calcular porcentajes
+            const maxCitas = Math.max(...data.map(item => item.cantidad));
+            
+            // Generar HTML para cada especialidad
+            data.forEach(item => {
+                const porcentaje = maxCitas > 0 ? Math.round((item.cantidad / maxCitas) * 100) : 0;
+                
+                html += `
+                    <div class="especialidad-item mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h5 class="m-0">${item.dependencia}</h5>
+                            <span class="badge ${item.color} rounded-pill"><p class="text-dark">${item.cantidad}</p></span>
+                        </div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar ${item.color}" 
+                                role="progressbar" 
+                                style="width: ${porcentaje}%" 
+                                aria-valuenow="${item.cantidad}" 
+                                aria-valuemin="0" 
+                                aria-valuemax="${maxCitas}">
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        $('#dependenciasCitaJs').html(html);
+    },
+    error: function(xhr, status, error) {
+        $('#dependenciasCitaJs').html(`
+            <div class="alert alert-danger">
+                Error al cargar datos: ${error}
+            </div>
+        `);
+    }
+});
+
 
 }) 

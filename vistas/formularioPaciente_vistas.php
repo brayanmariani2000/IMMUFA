@@ -415,9 +415,7 @@
 
             <div class="card">
 
-                <div class="col-md-12">
-                    
-                    <h4 class="card-title">Cantidad de Paciente para el dia:<p id="diaAtencion">200</p> </h4>
+                    <h4 class="card-title">Cantidad de Paciente para el dia:<p id="diaAtencion"></p> </h4>
 
                             <div id="DisponibilidadDia">
                                 
@@ -425,14 +423,13 @@
 
                             <div class="progress ">
 
-                            <div class="progress-bar bg-danger wow animated progress-animated" style="width: 15%; height:6px;" role="progressbar">
+                            <div class="progress-bar bg-danger wow animated progress-animated" style="width: %; height:6px;" role="progressbar">
 
 
                             </div>
 
                             
 
-                </div>
 
             </div>
      </div>

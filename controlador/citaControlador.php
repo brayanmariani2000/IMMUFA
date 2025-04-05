@@ -66,8 +66,8 @@ class citaControlador extends citaModelo{
                 }
               }
             }
-       }
-       public function mostrar_citas_x_personas_controlador($idCita){
+    }
+    public function mostrar_citas_x_personas_controlador($idCita){
 
          $mostrarCitas=citaModelo::mostrar_cita_modelo_x_persona($idCita);
 
@@ -101,9 +101,8 @@ class citaControlador extends citaModelo{
          $jason=json_encode($datos);
 
          echo $jason;        
-       }
-
-       public function Historia_cita_controlador(){
+    }
+      public function Historia_cita_controlador(){
         $mostar=citaModelo::historia_cita_modelo();
         $brayan=0;
         if ($mostar->rowCount()>0) {
@@ -139,5 +138,68 @@ class citaControlador extends citaModelo{
             }
           }
 
+    }
+      public function citas_dias_controlador($especialidad,$especialista,$fecha_consulta){
+
+        $CantidadCitas=citaModelo::citas_dias_modelos($especialidad,$especialista,$fecha_consulta);
+
+        $lista=$CantidadCitas->fetchAll();
+        
+        $datos=array();
+
+        foreach($lista as $row){
+         
+          $datos[]=array(
+
+          'cantidadCita'=>$row['total_citas']
+
+          );
+         }
+         $jason=json_encode($datos);
+
+         echo $jason;
+
+    }
+
+    public function cita_Especialidad($especialidad){
+     $brayan=0;
+      date_default_timezone_set('America/Caracas');
+
+      $hoy = date('Y-m-d');
+      
+      $citas=citaModelo::citasEspecialidadModelos($especialidad,$hoy);
+
+      $lista=$citas->fetchAll();
+
+       foreach($lista as $row){
+        $brayan++;
+        ?>
+        <tr>
+        <td><?php echo $brayan?></td>
+        
+        <td><?php echo $row['paciente']?> </td>
+
+        <td><?php echo  $row['cedula']?></td>
+        
+        <td><?php echo  $row['especialidad']?></td>
+        
+        <td><?php echo  $row['fecha_consulta']?></td>
+        
+        <td><?php echo  $row['dependencia']?></td>
+        
+        <td>
+    
+        <div style=" display:flex;">
+          
+          <button type="submit" class="btn btn-info"    id="actualizar_cita"     value="<?php echo $row['id_cita']?>" style="margin:5px;">Actualizar Cita</button>
+    
+          </div>
+          
+      </td>
+    </tr><?php
+
        }
+
+    }
+
 }
