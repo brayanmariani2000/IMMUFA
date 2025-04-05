@@ -1,72 +1,99 @@
 <?php
-require('fpdf.php');
-$datos = json_decode(file_get_contents('php://input'), true);
+require('fpdf.php'); // Asegúrate de que la ruta a FPDF es correcta
 
+// 1. Recibir los datos enviados desde JavaScript
+$pdfData = json_decode($_POST['pdfData'], true);
+$fileName = $_POST['fileName'] ?? 'documento.pdf';
 
-class PDF extends FPDF
-{
-// Cabecera de p�gina
-function Header()
-{
-	// Logo
-	//$this->Image('header.jpg',10,10,185);
-	// Arial bold 15
-	$this->SetFont('Arial','B',16);
-	// Salto de l�nea
-	//$this->Ln(25);
-	// Movernos a la derecha
-	$this->Cell(80);
-	// T�tulo
-	$this->Cell(30,7,'Reportes de Citas',0,1,'C');
-
-
-	
-	  // Arial bold 15
-	$this->SetFont('Arial','',12);
-	// Movernos a la derecha
-	// Sub T�tulo
-	$this->Cell(80, 10, 'Nombre y Apellido',1,'','C');
-	
-	$this->Cell(40, 10, 'cedula',1,'','C');
-
-	$this->Cell(40, 10, 'Area de Consulta',1,'','C');
-
-	$this->Cell(40, 10, 'fecha programada',1,'','C');
-
-	$this->Cell(40, 10, 'Dependencia',1,'','C');
-	// Salto de l�nea
-	$this->Ln(10);
+// 2. Validar los datos recibidos
+if (!$pdfData || !isset($pdfData['type'])) {
+    die("Error: Datos del PDF no recibidos correctamente");
 }
 
-// Pie de p�gina
-function Footer()
-{
-	// Posici�n: a 1,5 cm del final
-	$this->SetY(-15);
-	// Arial italic 8
-	$this->SetFont('Arial','I',8);
-	// N�mero de p�gina
-	$this->Cell(0,10,'Pagina '.$this->PageNo().'/{nb}',0,0,'C');
-}
+// 3. Crear una clase personalizada de PDF CORREGIDA
+class MyPDF extends FPDF {
+    private $customTitle;
+    
+    // Método corregido para ser compatible con FPDF
+    function SetTitle($title, $isUTF8 = false) {
+        parent::SetTitle($title, $isUTF8); // Llama al método original
+        $this->customTitle = $title; // Guarda el título para uso personalizado
+    }
+    
+    function Header() {
+        if ($this->customTitle) {
+            $this->SetFont('Arial', 'B', 16);
+            $this->Cell(0, 10, $this->customTitle, 0, 1, 'C');
+            $this->Ln(10);
+        }
+    }
+    
+    function Footer() {
+        $this->SetY(-15);
+        $this->SetFont('Arial', 'I', 8);
+        $this->Cell(0, 10, 'Página ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
+    }
+    
+    function createTable($headers, $data, $orientation = 'portrait') {
+        // Configurar márgenes según orientación
+        $margin = $orientation === 'landscape' ? 15 : 20;
+        $this->SetLeftMargin($margin);
+        
+        // Colores, ancho de línea y fuente
+        $this->SetFillColor(200, 220, 255);
+        $this->SetTextColor(0);
+        $this->SetDrawColor(128, 0, 0);
+        $this->SetLineWidth(0.3);
+        $this->SetFont('Arial', 'B', 12);
+        
+        // Calcular ancho de columnas
+        $numColumns = count($headers);
+        $pageWidth = $orientation === 'landscape' ? 270 : 190;
+        $colWidth = ($pageWidth - ($margin * 2)) / $numColumns;
+        
+        // Cabecera de la tabla
+        foreach ($headers as $header) {
+            $this->Cell($colWidth, 7, $header, 1, 0, 'C', true);
+        }
+        $this->Ln();
+        
+        // Datos de la tabla
+        $this->SetFont('Arial', '', 10);
+        $fill = false;
+        foreach ($data as $row) {
+            if ($this->GetY() > ($this->GetPageHeight() - 20)) {
+                $this->AddPage();
+            }
+            
+            foreach ($row as $cell) {
+                $this->Cell($colWidth, 6, $cell, 'LR', 0, 'L', $fill);
+            }
+            $this->Ln();
+            $fill = !$fill;
+        }
+        
+        $this->Cell($colWidth * $numColumns, 0, '', 'T');
+    }
 }
 
-// Creaci�n del objeto de la clase heredada
-$pdf = new PDF();
-//$title = 'Resumen Estadistico';
-$pdf->SetTitle('Reportes de Citas');
-$pdf->SetAuthor('JTEI del SATIUSUM');
-$pdf->SetCreator('Reportes de Citas IMMUFA');
-$pdf->SetSubject('Resumen Estadistico');
+// 4. Crear el PDF
+$pdf = new MyPDF($pdfData['orientation'] === 'landscape' ? 'L' : 'P');
 $pdf->AliasNbPages();
-$pdf->AddPage();
-$pdf->SetFont('Times','',10);
-foreach ($datos as $fila) {
-    $pdf->Cell(80, 10, $fila['nombre'],1,'','C');
-    $pdf->Cell(40, 10, $fila['cedula']);
-	$pdf->Cell(40, 10, $fila['areaConsulta']);
-	$pdf->Cell(40, 10, $fila['fechaConsulta']);
-	$pdf->Cell(40, 10, $fila['dependencia']);
-    $pdf->Ln();
+
+// Configurar título (USANDO EL MÉTODO CORRECTO)
+if (isset($pdfData['title'])) {
+    $pdf->SetTitle($pdfData['title']); // Usa SetTitle en lugar de setTitle
 }
-$pdf->Output();
+
+$pdf->AddPage();
+
+// 5. Generar contenido
+if ($pdfData['type'] === 'table' && isset($pdfData['headers']) && isset($pdfData['rows'])) {
+    $pdf->createTable($pdfData['headers'], $pdfData['rows'], $pdfData['orientation']);
+} else {
+    die("Error: Datos de tabla incompletos");
+}
+
+// 6. Enviar el PDF
+$pdf->Output('I', $fileName);
 ?>
