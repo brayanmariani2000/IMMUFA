@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-8">
+    <div class="col-lg-8">
         <div class="card card-outline-info ">
             <div class="card-header m-b-10"><h4 class="m-b-0 text-white">Areas de Consultas</h4></div>
             <div class="card-body">
@@ -13,7 +13,7 @@
                     <form id="areConNew" class="form-bordered form-group">
                     <div class="form-group ">
                         <div class="m-t-10">
-                            <div class="col-11">
+                            <div class="col-lg-11">
                         <h4 class="card-title">Nueva Area de Consulta</h4>
                                         <div class="form-row">
                                         <div class="col-md-6">
@@ -33,7 +33,7 @@
                  <div class="tab-pane p-20" id="areaConsulta" role="tabpanel">
 
                  <div class="">
-                    <div class="col-7">
+                    <div class="col-lg-7">
             <div class="">
                 <h4 class="card-title">Area De Consulta</h4>
                 <div class="tabla-responsive">

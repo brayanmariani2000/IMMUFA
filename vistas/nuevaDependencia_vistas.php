@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-8">
+    <div class="col-lg-8">
         <div class="card card-outline-info">
             <div class="card-header m-b-10"><h4 class="m-b-0 text-white">Dependencias</h4></div>
             <div class="card-body">

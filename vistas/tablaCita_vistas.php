@@ -1,5 +1,5 @@
 
-<div class="col-12 mb-40" id="tabla_t">
+<div class="col-lg-12 mb-40" id="tabla_t">
 
     <div class="card">
 

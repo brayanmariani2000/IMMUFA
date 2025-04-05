@@ -23,7 +23,7 @@
 
                 </a>
 
-                <a class="dt-button  buttons-html5" tabindex="1" aria-controls="example23" id="pdf_cita" href="#">
+                <a class="dt-button  buttons-html5" tabindex="1" aria-controls="example23" id="pdf_edad" href="#">
 
                   <span>PDF</span>
                 
@@ -34,7 +34,7 @@
 
             </div>
 
-            <table  class="table table-hover table-responsive" cellspacing="0" width="100%" role="grid" aria-describedby="example23_info" style="width: 100%;" id="tablaCita">
+            <table  class="table table-hover table-responsive" cellspacing="0" width="100%" role="grid" aria-describedby="example23_info" style="width: 100%;" id="tablaEdadCantidad">
 
               <thead>
 

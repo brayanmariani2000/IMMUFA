@@ -1,7 +1,7 @@
  
  <div class="row">
  
-        <div class="col-10">
+        <div class="col-lg-10">
         
             <div class="card card-outline-primary ">
             
@@ -180,7 +180,7 @@
                  
                       <div class="tab-pane p-20" id="Usuariosver" role="tabpanel">
 
-                      <div class="">
+                      <div class="col-md-12">
 
                         <div class="card-body">
 
