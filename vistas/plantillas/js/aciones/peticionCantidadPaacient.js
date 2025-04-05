@@ -1,32 +1,41 @@
+import {server} from "./variables.js";
+
 $(document).ready(function() {
     // Variables para almacenar los valores de los campos
     let especialidad = '';
-    let especialista = '';
+    let especialista = 0;
     let fechaCita = '';
 
     // Detectar cambios en el campo de especialidad
     $('#area_consultar').on('change', function() {
         especialidad = $(this).val(); // Obtener el valor seleccionado
+        console.log(especialidad)
         verificarCampos(); // Verificar si todos los campos están llenos
+        
     });
 
     // Detectar cambios en el campo de especialista
     $('#especialista').on('change', function() {
         especialista = $(this).val(); // Obtener el valor seleccionado
+        console.log(especialista)
         verificarCampos(); // Verificar si todos los campos están llenos
     });
 
     // Detectar cambios en el campo de fecha de la cita
     $('#fecha_consulta').on('change', function() {
         fechaCita = $(this).val(); // Obtener el valor seleccionado
+        console.log(fechaCita)
         verificarCampos(); // Verificar si todos los campos están llenos
     });
 
     // Función para verificar si todos los campos están llenos
     function verificarCampos() {
-        if (especialidad !== '' && especialista !== '' && fechaCita !== '') {
+        if (especialidad >0 && especialista >0) {
             // Todos los campos están llenos, realizar la petición AJAX
             realizarPeticionAJAX();
+           
+        }else{
+            
         }
     }
 
@@ -34,31 +43,22 @@ $(document).ready(function() {
     function realizarPeticionAJAX() {
         // Datos que se enviarán al servidor
         const datos = {
+            cantidadPacienteXDia:true,
             especialidad: especialidad,
             especialista: especialista,
             fecha_cita: fechaCita
         };
 
         // Realizar la petición AJAX
-        $.ajax({
-            url: 'contar_citas.php', // Ruta al archivo PHP que procesará la petición
-            type: 'POST', // Método HTTP (POST en este caso)
-            data: datos, // Datos que se enviarán al servidor
-            dataType: 'json', // Tipo de respuesta esperada (JSON en este caso)
-            success: function(response) {
-                // Manejar la respuesta del servidor
-                if (response.success) {
-                    // La petición fue exitosa
-                    alert('Total de citas para el día: ' + response.total_citas);
-                } else {
-                    // Hubo un error en la petición
-                    alert('Error: ' + response.message);
-                }
-            },
-            error: function(xhr, status, error) {
-                // Manejar errores de la petición AJAX
-                alert('Error en la petición AJAX: ' + error);
-            }
-        });
+        $.post(`${server}ajax/citaAjax.php`,datos,function(repuesta){
+            let cantidaCita=jQuery.parseJSON(repuesta);
+            let plantillaCantidad=``
+               cantidaCita.forEach(numero => {
+                plantillaCantidad=`${numero.cantidadCita}`;
+               });
+            let plantillafecha=`${fechaCita}`;
+            $('#diaAtencion').html(plantillafecha)
+            $('#cantidadPacienteXDia').html(plantillaCantidad)
+        })
     }
 });

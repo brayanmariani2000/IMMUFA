@@ -5,44 +5,65 @@
            * 
           */
    $(document).ready(function(){
-    $.ajax({
-
-      type:'POST',
-
-      url:`${server}ajax/areaAjax.php`,
-
-      data:{
-
-        CitaxEspecialidad:true
-      },
-
-      success:function(repuesta){
-        let plantilla='';
-      
-        let especialidad=JSON.parse(repuesta);
-
-        especialidad.forEach(row=> {
-
-          if(row.status==1){
-          plantilla+=`<h5 class="m-t-30">${row.especialidades}<span class="pull-right">1</span></h5>
-
-                  <div class="progress ">
-
-                      <div class="progress-bar bg-danger wow animated progress-animated" style="width: 15%; height:6px;" role="progressbar"></div>
-
-                  </div>`}
-          
-        });
-
-        $('#especialidadCitaJs').html(plantilla)
-
-        console.log(repuesta)
+      $.ajax({
+          url: 'ajax/citasCantidadEspecialidad.php',
+          type: 'POST',
+          dataType: 'json', // Especificamos que esperamos JSON
+          success: function(data){
+              let html = '';
               
-            }
-  
-          })
+              // Verificar si hay un error
+              if (data.error) {
+                  html = `<div class="alert alert-danger">${data.error}</div>`;
+              } 
+              // Verificar si no hay datos
+              else if (data.length === 0) {
+                  html = `<div class="alert alert-info">No hay citas registradas por especialidad</div>`;
+              } 
+              // Procesar datos normales
+              else {
+                  // Encontrar el máximo para calcular porcentajes
+                  const maxCitas = Math.max(...data.map(item => item.cantidad));
+                  
+                  // Generar HTML para cada especialidad
+                  data.forEach(item => {
+                      const porcentaje = maxCitas > 0 ? Math.round((item.cantidad / maxCitas) * 100) : 0;
+                      
+                      html += `
+                          <div class="especialidad-item mb-3">
+                              <div class="d-flex justify-content-between align-items-center mb-1">
+                                  <h5 class="m-0">${item.especialidad}</h5>
+                                  <span class="badge ${item.color} rounded-pill"><p class="text-dark">${item.cantidad}</p></span>
+                              </div>
+                              <div class="progress" style="height: 6px;">
+                                  <div class="progress-bar ${item.color}" 
+                                      role="progressbar" 
+                                      style="width: ${porcentaje}%" 
+                                      aria-valuenow="${item.cantidad}" 
+                                      aria-valuemin="0" 
+                                      aria-valuemax="${maxCitas}">
+                                  </div>
+                              </div>
+                          </div>
+                      `;
+                  });
+              }
+              
+              $('#especialidadCitaJs').html(html);
+          },
+          error: function(xhr, status, error) {
+              $('#especialidadCitaJs').html(`
+                  <div class="alert alert-danger">
+                      Error al cargar datos: ${error}
+                  </div>
+              `);
+          }
+      });
+      
+    
+  })
+    
 
-    }) 
     
    import { server } from "./variables.js";
 

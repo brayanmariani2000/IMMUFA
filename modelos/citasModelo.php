@@ -67,4 +67,52 @@ JOIN
   return $sql;
 }
 
+protected static function citas_dias_modelos($especialidad,$especialista,$fecha_consulta){
+
+    $sql=conexionModelo::conectar()->prepare("SELECT COUNT(*) AS total_citas
+    FROM consulta 
+    WHERE id_especialidad = $especialidad
+    AND id_medico = $especialista
+    AND fecha_consulta = '$fecha_consulta'
+");
+$sql->execute();
+return $sql;
+
+}
+protected static function citasEspecialidadModelos($especialidad,$fecha_Actual){
+
+    $sql=conexionModelo::conectar()->prepare("SELECT 
+        persona.id_persona,
+        CONCAT(persona.nombre, ' ', persona.apellido) AS paciente,
+        persona.cedula,
+        persona.telefono,
+        especialidad.especialidad,
+        consulta.fecha_consulta,
+        consulta.hora_consulta,
+        medico.id_medico,
+        dependencias.dependencia,
+        condicion.condicion
+    FROM 
+        cita
+    JOIN 
+        persona ON cita.persona_id = persona.id_persona
+    JOIN 
+        consulta ON cita.id_consulta = consulta.id_consulta
+    JOIN 
+        especialidad ON consulta.id_especialidad = especialidad.id_especialidad
+    JOIN 
+        medico ON consulta.id_medico = medico.id_medico
+    JOIN 
+        dependencias ON cita.dependencia_id = dependencias.id_dependencia
+    JOIN 
+        condicion ON cita.condicion_id = condicion.id_condicion
+    WHERE 
+        consulta.id_especialidad = $especialidad 
+
+        AND consulta.fecha_consulta = $fecha_Actual
+");
+$sql->execute();
+return $sql;
+
+}
 }

@@ -1,80 +1,78 @@
-( function ( $ ) {
-	"use strict";
-    var ctx = document.getElementById( "pieChart" );
-	var myChart = new Chart( ctx, {
-		type: 'pie',
-		data: {
-			datasets: [ {
-				data: [ 45, 25, 20, 10,20,30,1,35,100,20,35,67,82,0],
-				backgroundColor: [
-                                    "rgba(0, 123, 255,0.9)",
-                                    "rgba(0, 123, 147,0.7)",
-                                    "rgba(0, 255, 123,0.5)",
-                                    "rgba(231, 91, 91, 0.5)",
-                                    "rgba(231, 170, 91, 0.5)",
-                                    "rgba(228, 233, 84, 0.5)",
-                                    "rgba(169, 233, 84, 0.5)",
-                                    "rgba(84, 233, 99, 0.5)",
-                                    "rgba(67, 231, 149, 0.5)",
-                                    "rgba(67, 231, 226, 0.5)",
-                                    "rgba(67, 94, 231, 0.648)",
-                                    "rgba(144, 67, 231, 0.648)",
-                                    "rgba(231, 67, 215, 0.648)",
-                                    "rgba(0,0,0,0.07)",
-                                ],
-				hoverBackgroundColor: [
-                    "rgba(0, 123, 255,0.9)",
-                    "rgba(0, 123, 147,0.7)",
-                    "rgba(0, 255, 123,0.5)",
-                    "rgba(231, 91, 91, 0.5)",
-                    "rgba(231, 170, 91, 0.5)",
-                    "rgba(228, 233, 84, 0.5)",
-                    "rgba(169, 233, 84, 0.5)",
-                    "rgba(84, 233, 99, 0.5)",
-                    "rgba(67, 231, 149, 0.5)",
-                    "rgba(67, 231, 226, 0.5)",
-                    "rgba(67, 94, 231, 0.648)",
-                    "rgba(144, 67, 231, 0.648)",
-                    "rgba(231, 67, 215, 0.648)",
-                    "rgba(0,0,0,0.07)",
-                                ]
-
-                            } ],
-			labels: [
-                "PIAR",
-              
-                "MATURIN",
-               
-                "EZEQUIEL ZAMORA",
-              
-                "CEDEÑO",
-           
-                "CARIPE",
-      
-                "ACOSTA",
-     
-                "AGUASAY",
- 
-                "BOLIVAR",
-     
-                "LIBERTADOR",
- 
-                "PUNCERES",
-     
-                "SANTA BARBARA",
-     
-                "SOTILLO",
-           
-                "URACOA",
-
-                "FORANEOS"
-           
+    $(document).ready(function() {
+        // Ocultar canvas inicialmente
+        $('#pieChart').hide();
+        
+        // Hacer la petición AJAX
+        $.ajax({
+            url: 'ajax/chartDirecciones.php',
+            type: 'POST',
+            dataType: 'json',
+            success: function(data) {
+                if (data.error) {
+                    $('.loading').html('<div style="color:red">Error: ' + data.error + '</div>');
+                    return;
+                }
                 
-                        ]
-		},
-		options: {
-			responsive: true
-		}
-	} );
-
-} )( jQuery );
+                // Ocultar mensaje de carga
+                $('.loading').hide();
+                
+                // Mostrar canvas
+                $('#pieChart').show();
+                
+                // Crear el gráfico de pie
+                const ctx = document.getElementById('pieChart').getContext('2d');
+                const pieChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false, // Ocultamos la leyenda por defecto
+                                position: 'right'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const label = context.label || '';
+                                        const value = context.raw || 0;
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = Math.round((value / total) * 100);
+                                        return `${label}: ${value} pacientes (${percentage}%)`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                // Crear leyenda personalizada
+                createCustomLegend(data);
+            },
+            error: function(xhr, status, error) {
+                $('.loading').html('<div style="color:red">Error al cargar los datos: ' + error + '</div>');
+            }
+        });
+        
+        // Función para crear leyenda personalizada
+        function createCustomLegend(data) {
+            let legendHtml = '<ul>';
+            const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+            
+            data.labels.forEach((label, i) => {
+                const value = data.datasets[0].data[i];
+                const percentage = Math.round((value / total) * 100);
+                const color = data.datasets[0].backgroundColor[i];
+                
+                legendHtml += `
+                    <li>
+                        <span class="legend-color" style="background-color:${color};"></span>
+                        ${label}: ${value} (${percentage}%)
+                    </li>
+                `;
+            });
+            
+            legendHtml += '</ul>';
+            $('#chartLegend').html(legendHtml);
+        }
+    });

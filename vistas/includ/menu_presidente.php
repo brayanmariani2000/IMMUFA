@@ -27,7 +27,7 @@
 
                         <li> <a class="  " href="<?php echo SERVERURL?>HistoriaCita"><i class="fa fa-wpforms"></i><span class="hide-menu">Historial de Citas</span></a></li>
 
-                        <li> <a class="  " href="<?php echo SERVERURL?>hola"><i class="fa fa-wpforms"></i><span class="hide-menu">Reportes</span></a></li>
+                        <li> <a class="  " href="<?php echo SERVERURL?>reportes"><i class="fa fa-wpforms"></i><span class="hide-menu">Gestion Reportes</span></a></li>
 
                     </ul>
                 </nav>

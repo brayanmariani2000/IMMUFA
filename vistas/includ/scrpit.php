@@ -19,9 +19,15 @@
     
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/chart-js/chartjs-init.js"></script>
 
-    <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/chart-js/direccionPacientes.js"></script>
+    <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/chart-js/direccionPacientes.js" type="module"></script>
+
+    <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/chart-js/donaEdades.js" type="module"></script>
+
+    <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/chart-js/citasDonus.js" type="module"></script>
 
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/echart/echarts.js"></script>
+
+    <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/echart/edades.js"></script>
     
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/echart/echarts-init.js"></script>
     <!--Custom JavaScript -->
@@ -52,7 +58,7 @@
 
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/pdf.js" type="module"></script>
 
-    <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/peticionCantidadPaaciente.js" type="module"></script>
+    <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/peticionCantidadPaacient.js" type="module"></script>
 
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/validacionFormulario.js" type="module"></script>
 

@@ -19,7 +19,7 @@ $('#area_consultar').click(function(e){
     },
     success:function(response){
 
-      let plantilla='';
+      let plantilla='<option value="0">---SELECCIONE UNA OPCION---</option>';
 
       let especialista=JSON.parse(response);
 

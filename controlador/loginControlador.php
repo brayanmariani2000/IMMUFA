@@ -233,7 +233,7 @@ class loginControlador extends loginModelo{
       session_start(['name'=>'Inmufa']);
       session_unset();
       session_destroy();
-      header("location: ".SERVERURL."login");
+      header("location: ".SERVERURL."home");
       exit();
 }
 }
