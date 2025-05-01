@@ -160,5 +160,35 @@ class usuarioModelo extends conexionModelo{
        
         return $sql;
     }
+    public static function listar_usuarios_modal() {
+        $sql = conexionModelo::conectar()->prepare("SELECT * FROM `usuario` INNER JOIN rol,persona,parroquia,municipios,etnia,discapacidad
+        WHERE usuario.persona_id=persona.id_persona 
+        AND persona.id_etnia=etnia.id_etnia
+        AND persona.id_discapacidad=discapacidad.id_discapacidad
+        AND usuario.rol=rol.id_rol
+        AND persona.id_parroquia=parroquia.id_parroquia
+        AND parroquia.id_municipios=municipios.id_municipio
+
+");
+        
+        $sql->execute();
+       
+        return $sql;
+    }
+
+    public static function listar_medicos_modal() {
+        $sql = conexionModelo::conectar()->prepare("SELECT * FROM medico 
+        INNER JOIN persona ON medico.id_persona = persona.id_persona
+        INNER JOIN parroquia ON persona.id_parroquia = parroquia.id_parroquia
+        INNER JOIN municipios ON parroquia.id_municipios = municipios.id_municipio
+        INNER JOIN etnia ON persona.id_etnia = etnia.id_etnia
+        INNER JOIN discapacidad ON persona.id_discapacidad = discapacidad.id_discapacidad
+        INNER JOIN especialidad on medico.id_especialidad = especialidad.id_especialidad
+");
+        
+        $sql->execute();
+       
+        return $sql;
+    }  
 
 }

@@ -185,7 +185,9 @@ class citaControlador extends citaModelo{
         
         <td><?php echo  $row['fecha_consulta']?></td>
         
-        <td><?php echo  $row['dependencia']?></td>
+        <td><?php echo  $row['fecha_nacimiento']?></td>
+
+        <td><?php echo  $row['condicion']?></td>
         
         <td>
     
@@ -202,4 +204,77 @@ class citaControlador extends citaModelo{
 
     }
 
+    public function cita_actualizar_Controlador($estado_cita,$id){
+
+      $citas=citaModelo::citas_actualizar_Modelo($estado_cita,$id);
+
+      if($citas->rowCount() > 0) {
+        echo json_encode([
+            'success' => true,
+            'message' => 'Estado de la cita actualizado correctamente'
+        ]);
+    } else {
+        echo json_encode([
+            'success' => false,
+            'message' => 'No se encontró la cita o no hubo cambios'
+        ]);
+    }
+
+    }
+    public function mostrar_citas_atendidas(){
+      $brayan=0;
+      $mostar=citaModelo::mostrar_cita_modelo();
+      if ($mostar->rowCount()>0) {
+          $contador=$mostar->fetchAll();
+            foreach ($contador as $row) {
+              if ($row['condicion_id']==3) {
+                $brayan=$brayan+1;
+                ?>
+                <tr>
+                <td><?php echo $brayan?></td>
+                
+                <td><?php echo $row['nombre'].' '. $row['apellido']?> </td>
+
+                <td><?php echo  $row['cedula']?></td>
+                
+                <td><?php echo  $row['especialidad']?></td>
+                
+                <td><?php echo  $row['fecha_consulta']?></td>
+                
+                <td><?php echo  $row['dependencia']?></td>
+                
+            </tr><?php
+                  
+              }
+            }
+          }
+  }
+  public function mostrar_citas_perdidas(){
+    $brayan=0;
+    $mostar=citaModelo::mostrar_cita_modelo();
+    if ($mostar->rowCount()>0) {
+        $contador=$mostar->fetchAll();
+          foreach ($contador as $row) {
+            if ($row['condicion_id']==4) {
+              $brayan=$brayan+1;
+              ?>
+              <tr>
+              <td><?php echo $brayan?></td>
+              
+              <td><?php echo $row['nombre'].' '. $row['apellido']?> </td>
+
+              <td><?php echo  $row['cedula']?></td>
+              
+              <td><?php echo  $row['especialidad']?></td>
+              
+              <td><?php echo  $row['fecha_consulta']?></td>
+              
+              <td><?php echo  $row['dependencia']?></td>
+              
+          </tr><?php
+                
+            }
+          }
+        }
+}
 }

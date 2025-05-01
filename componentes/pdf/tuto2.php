@@ -1,99 +1,65 @@
 <?php
-require('fpdf.php'); // Asegúrate de que la ruta a FPDF es correcta
+require('fpdf.php');
 
-// 1. Recibir los datos enviados desde JavaScript
-$pdfData = json_decode($_POST['pdfData'], true);
-$fileName = $_POST['fileName'] ?? 'documento.pdf';
+// Habilitar errores para debug (quitar en producción)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// 2. Validar los datos recibidos
-if (!$pdfData || !isset($pdfData['type'])) {
-    die("Error: Datos del PDF no recibidos correctamente");
-}
+// Recibir datos JSON
+$datos = json_decode(file_get_contents('php://input'), true);
 
-// 3. Crear una clase personalizada de PDF CORREGIDA
-class MyPDF extends FPDF {
-    private $customTitle;
-    
-    // Método corregido para ser compatible con FPDF
-    function SetTitle($title, $isUTF8 = false) {
-        parent::SetTitle($title, $isUTF8); // Llama al método original
-        $this->customTitle = $title; // Guarda el título para uso personalizado
-    }
-    
+class PDF extends FPDF {
+    // Cabecera
     function Header() {
-        if ($this->customTitle) {
-            $this->SetFont('Arial', 'B', 16);
-            $this->Cell(0, 10, $this->customTitle, 0, 1, 'C');
-            $this->Ln(10);
-        }
+        $this->SetFont('Arial', 'B', 15);
+        $this->Cell(0, 10, utf8_decode($this->metadatos['título']), 0, 1, 'C');
+        $this->SetFont('Arial', '', 10);
+        $this->Cell(0, 10, 'Generado el: ' . utf8_decode($this->metadatos['generadoEl']), 0, 1, 'C');
+        $this->Ln(10);
     }
-    
+
+    // Pie de página
     function Footer() {
         $this->SetY(-15);
         $this->SetFont('Arial', 'I', 8);
-        $this->Cell(0, 10, 'Página ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
-    }
-    
-    function createTable($headers, $data, $orientation = 'portrait') {
-        // Configurar márgenes según orientación
-        $margin = $orientation === 'landscape' ? 15 : 20;
-        $this->SetLeftMargin($margin);
-        
-        // Colores, ancho de línea y fuente
-        $this->SetFillColor(200, 220, 255);
-        $this->SetTextColor(0);
-        $this->SetDrawColor(128, 0, 0);
-        $this->SetLineWidth(0.3);
-        $this->SetFont('Arial', 'B', 12);
-        
-        // Calcular ancho de columnas
-        $numColumns = count($headers);
-        $pageWidth = $orientation === 'landscape' ? 270 : 190;
-        $colWidth = ($pageWidth - ($margin * 2)) / $numColumns;
-        
-        // Cabecera de la tabla
-        foreach ($headers as $header) {
-            $this->Cell($colWidth, 7, $header, 1, 0, 'C', true);
-        }
-        $this->Ln();
-        
-        // Datos de la tabla
-        $this->SetFont('Arial', '', 10);
-        $fill = false;
-        foreach ($data as $row) {
-            if ($this->GetY() > ($this->GetPageHeight() - 20)) {
-                $this->AddPage();
-            }
-            
-            foreach ($row as $cell) {
-                $this->Cell($colWidth, 6, $cell, 'LR', 0, 'L', $fill);
-            }
-            $this->Ln();
-            $fill = !$fill;
-        }
-        
-        $this->Cell($colWidth * $numColumns, 0, '', 'T');
+        $this->Cell(0, 10, utf8_decode('Página ') . $this->PageNo() . '/{nb}', 0, 0, 'C');
     }
 }
 
-// 4. Crear el PDF
-$pdf = new MyPDF($pdfData['orientation'] === 'landscape' ? 'L' : 'P');
+// Crear PDF
+$pdf = new PDF();
+$pdf->metadatos = $datos['metadatos'];
 $pdf->AliasNbPages();
-
-// Configurar título (USANDO EL MÉTODO CORRECTO)
-if (isset($pdfData['title'])) {
-    $pdf->SetTitle($pdfData['title']); // Usa SetTitle en lugar de setTitle
-}
-
 $pdf->AddPage();
+$pdf->SetFont('Arial', '', 12);
 
-// 5. Generar contenido
-if ($pdfData['type'] === 'table' && isset($pdfData['headers']) && isset($pdfData['rows'])) {
-    $pdf->createTable($pdfData['headers'], $pdfData['rows'], $pdfData['orientation']);
-} else {
-    die("Error: Datos de tabla incompletos");
+// Configuración de columnas (en milímetros)
+$anchos = [
+    10,  // N° (más estrecho)
+    65,  // ★ Nombre y Apellido (más ancho) ★
+    25,  // Cédula
+    40,  // Área
+    40,  // Fecha
+    50   // Observación
+];
+
+// Encabezados de tabla
+$pdf->SetFont('Arial', 'B', 12);
+foreach ($datos['contenido']['datos']['encabezados'] as $i => $encabezado) {
+    $pdf->Cell($anchos[$i], 10, utf8_decode($encabezado), 1, 0, 'C');
+}
+$pdf->Ln();
+
+// Datos de la tabla
+$pdf->SetFont('Arial', '', 11); // Fuente ligeramente más pequeña
+foreach ($datos['contenido']['datos']['filas'] as $fila) {
+    foreach ($fila as $i => $valor) {
+        $align = ($i === 0) ? 'R' : 'L'; // N° alineado a la derecha
+        $pdf->Cell($anchos[$i], 8, utf8_decode($valor), 1, 0, $align); // Altura de celda reducida a 8
+    }
+    $pdf->Ln();
 }
 
-// 6. Enviar el PDF
-$pdf->Output('I', $fileName);
+// Salida (descarga automática)
+$pdf->Output('D', 'reporte_citas_' . date('Y-m-d') . '.pdf');
 ?>

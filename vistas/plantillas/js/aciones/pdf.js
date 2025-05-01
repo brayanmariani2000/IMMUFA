@@ -1,101 +1,74 @@
-$(document).ready(function(){
-        // Función para exportar a PDF
-        function exportToPDF(options) {
-            // Validación básica
-            if (!options.exportUrl) {
-                console.error('Se requiere la URL del endpoint PHP');
-                return;
-            }
+document.getElementById('pdf_cita').addEventListener('click', async () => {
+    try {
+        // Mostrar mensaje de carga
+        Swal.fire({
+            title: 'Generando PDF',
+            text: 'Por favor, espere...',
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
 
-            // Crear formulario dinámico
-            const form = document.createElement('form');
-            form.style.display = 'none';
-            form.method = 'POST';
-            form.action = options.exportUrl;
-            form.target = options.action === 'open' ? '_blank' : '_self';
-
-            // Añadir datos como inputs ocultos
-            const addHiddenInput = (name, value) => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = name;
-                input.value = typeof value === 'object' ? JSON.stringify(value) : value;
-                form.appendChild(input);
-            };
-
-            addHiddenInput('pdfData', options.data || {});
-            addHiddenInput('fileName', options.fileName || 'documento.pdf');
-
-            document.body.appendChild(form);
-            form.submit();
-            document.body.removeChild(form);
-        }
-
-        // Función específica para exportar tablas
-        function exportTableToPDF(tableId, options = {}) {
-            const table = document.getElementById(tableId);
-            if (!table) {
-                console.error(`No se encontró la tabla con ID: ${tableId}`);
-                return;
-            }
-
-            // Extraer datos de la tabla
-            const headers = [];
-            const rows = [];
-
-            // Obtener encabezados (th)
-            const headerCells = table.querySelectorAll('thead th');
-            headerCells.forEach(th => headers.push(th.textContent.trim()));
-
-            // Obtener filas de datos (td)
-            const dataRows = table.querySelectorAll('tbody tr');
-            dataRows.forEach(tr => {
-                const row = [];
-                tr.querySelectorAll('td').forEach(td => row.push(td.textContent.trim()));
-                rows.push(row);
-            });
-
-            // Configurar opciones para el PDF
-            const pdfOptions = {
-                exportUrl: options.exportUrl || 'componentes/pdf/tuto2.php',
-                fileName: options.fileName || 'tabla-exportada.pdf',
-                action: options.action || 'download',
-                data: {
-                    title: options.title || 'Tabla Exportada',
-                    type: 'table',
-                    headers: headers,
-                    rows: rows,
-                    orientation: options.orientation || 'portrait'
+        // Obtener datos de la tabla
+        const tabla = document.getElementById('tablaCita');
+        const filas = tabla.querySelectorAll('tbody tr');
+        
+        const datos = {
+            metadatos: {
+                título: 'Reporte de Citas',
+                autor: 'Sistema de Citas',
+                generadoEl: new Date().toLocaleDateString('es-ES', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })
+            },
+            contenido: {
+                tipo: 'tabla',
+                datos: {
+                    encabezados: ['N°', 'Nombre y Apellido', 'Cédula', 'Área de Consulta', 'Fecha Programada', 'Observación'],
+                    filas: []
                 }
-            };
+            }
+        };
 
-            exportToPDF(pdfOptions);
+        // Procesar filas (celda 5 vacía)
+        filas.forEach(fila => {
+            const celdas = fila.querySelectorAll('td');
+            if (celdas.length >= 6) {
+                datos.contenido.datos.filas.push([
+                    celdas[0].textContent.trim(),  // N°
+                    celdas[1].textContent.trim(), // Nombre
+                    celdas[2].textContent.trim(), // Cédula
+                    celdas[3].textContent.trim(), // Área
+                    celdas[4].textContent.trim(), // Fecha
+                    ''                           // Observación (vacía)
+                ]);
+            }
+        });
+
+        // Enviar datos al servidor
+        const response = await fetch('componentes/pdf/tuto2.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(datos)
+        });
+
+        if (!response.ok) {
+            throw new Error('Error en el servidor: ' + response.status);
         }
 
-        // Evento click para el botón
-        document.getElementById('btn-generar-pdf').addEventListener('click', function() {
-            exportTableToPDF('tablaCitaCantidad', {
-                exportUrl: 'componentes/pdf/tuto2.php',
-                fileName: 'reporte_citas_por_especialidad.pdf',
-                title: 'Reporte de Citas por Especialidad - ' + new Date().toLocaleDateString(),
-                orientation: 'landscape',
-                action: 'download' // 'open' para abrir en nueva pestaña
-            });
-            
-            // Opcional: Mostrar mensaje al usuario
-            alert('El PDF se está generando. Por favor espere...');
-        });
+        // Mostrar PDF en nueva pestaña
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        window.open(url, '_blank');
 
-        document.getElementById('pdf_edad').addEventListener('click', function() {
-            exportTableToPDF('tablaEdadCantidad', {
-                exportUrl: 'componentes/pdf/tuto2.php',
-                fileName: 'reporte_edades.pdf',
-                title: 'Reporte de edades - ' + new Date().toLocaleDateString(),
-                orientation: 'landscape',
-                action: 'download' // 'open' para abrir en nueva pestaña
-            });
-            
-            // Opcional: Mostrar mensaje al usuario
-            alert('El PDF se está generando. Por favor espere...');
-        });
-    })
+        Swal.close();
+    } catch (error) {
+        console.error('Error:', error);
+        Swal.fire('Error', 'No se pudo generar el PDF: ' + error.message, 'error');
+    }
+});
+

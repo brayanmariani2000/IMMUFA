@@ -35,7 +35,9 @@ $('#paciente_cita').submit(function(e){
   
     especialista:$('#especialista').val(),
   
-    fecha_consulta:$('#fecha_consulta').val()
+    fecha_consulta:$('#fecha_consulta').val(),
+
+    regsitrar_Paciente:true
   
   }
   console.log(paciente)
@@ -103,7 +105,6 @@ $('#paciente_cita').submit(function(e){
       },
     
       success:function(citas){
-    console.log(citas)
         var datosC=jQuery.parseJSON(citas);
     
         datosC.forEach(datos=>{ 
@@ -142,63 +143,60 @@ $('#paciente_cita').submit(function(e){
 
       
       
-      $('#botonAc').click(function(e){
-
-        
-        e.preventDefault();
-      
-        const paciente={
-      
-          nombre:$('#nombrePaciente').text(),
-    
-          apellido:$('#apellidoPaciente').text(),
-    
-          cedula:$('#cedulaPaciente').text(),
-    
-          fecha_consulta:$('#fechaAntencionPaciente').text(),
-    
-          especialidad:$('#especialidadCitaPersona').text(),   
-                 
-          condicion:$('#condicionCita').val(),
-
-          id_consulta:$('#id_consulta').val(),
-
-          id_cita:$('#id_cita').val()
-      
-        }
-        console.log(paciente)
-      
-        /*$.post(`${server}ajax/actualizarPaciente.php`,paciente,function(repuesta){
-      
-          console.log(repuesta);
-      
-          if(repuesta==2){
-      
-            Swal.fire({        
-      
-              type: 'success',
-      
-              title: 'Éxito',
-      
-              text: 'Se ha Actualizado los datos del paciente',        
-      
-            });
-      
-          }else{
-      
-            Swal.fire({
-      
-              type: 'error',
-      
-              title: 'Error',
-      
-              text: 'Por favor Verifique los datos',        
-      
-            });
-      
-          }
-    
-        })    */
-         
-      })	
+$('#ActualizarBtnActul').click(function(e){
+  e.preventDefault();
   
+  const datosCita = {
+      condicion: $('#condicionCita').val(),
+      id_consulta: $('#id_consulta').val(),
+      id_cita: $('#id_cita').val(),
+      cita_actualizar: true
+  };
+  
+  // Mostrar carga
+  Swal.fire({
+      title: 'Actualizando...',
+      html: 'Por favor espere',
+      allowOutsideClick: false,
+      didOpen: () => {
+          Swal.showLoading();
+      }
+  });
+  
+  $.ajax({
+      url: `${server}ajax/actualizarPaciente.php`,
+      type: 'POST',
+      dataType: 'json',
+      data: datosCita,
+      success: function(response) {
+          Swal.close();
+          
+          if(response.success) {
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Éxito',
+                  text: response.message,
+                  confirmButtonText: 'OK'
+              }).then(() => {
+                  // Recargar o actualizar la vista
+                  location.reload();
+              });
+          } else {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: response.message
+              });
+          }
+      },
+      error: function(xhr, status, error) {
+          Swal.close();
+          Swal.fire({
+              icon: 'error',
+              title: 'Error de conexión',
+              text: 'No se pudo conectar con el servidor'
+          });
+          console.error('Error:', error);
+      }
+  });
+});

@@ -64,7 +64,7 @@
 
                     <div class="col-md-3">
 
-                        <a href="<?php echo SERVERURL?>reportesDependencias">
+                        <a href="<?php echo SERVERURL?>reportesDependencia">
 
                             <div class="card bg-success p-20">
 

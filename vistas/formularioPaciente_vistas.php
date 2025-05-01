@@ -144,187 +144,73 @@
                                     <div class="tab-pane p-20" id="Discapacidad" role="tabpanel">
                                         
                                             <div class="form-group row">
-                                            
-                                                <div class="col-md-6 ">
-                                                
-                                                    <label for="discapacidades_op">POSEE ALGUNA DISCAPACIDAD</label>
-                                                     
-                                                        <div class="col-md-4"> 
-                                                        
-                                                            <label class="checkbox-label">
-                                                        
-                                                            <input type="checkbox" class="checkbox" id="discapacidad_si"/>
-                                                        
-                                                                <div class="svg-icon">
-                                                            
-                                                                    <svg
-                                                           
-                                                                     xmlns="http://www.w3.org/2000/svg"
-                                                                        
-                                                                     height="1em"
-                                                            
-                                                                     viewBox="0 0 448 512"
-                                                                    >
-                                                                    
-                                                                    <path
-                                                                     d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"
-                                                                    ></path>
-                                                                    
-                                                                    </svg>
-                                                        
+    <!-- Discapacidad -->
+                                                        <div class="col-md-6">
+                                                            <label class="form-label">POSEE ALGUNA DISCAPACIDAD</label>
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="discapacidad_op" id="discapacidad_si" value="1">
+                                                                        <label class="form-check-label" for="discapacidad_si">
+                                                                            SI
+                                                                        </label>
+                                                                    </div>
                                                                 </div>
-                                                        
-                                                                <span class=".container-checkbox "></span>
-                                                                
-                                                                    SI</label>
-                                                            
+                                                                <div class="col-md-4">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="discapacidad_op" id="discapacidad_no" value="0">
+                                                                        <label class="form-check-label" for="discapacidad_no">
+                                                                            NO
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                 
-                                                        <div class="col-md-4"> 
-                                                      
-                                                          <label class="checkbox-label">
-                                                            
-                                                          <input type="checkbox" class="checkbox" id="discapacidad_no" />
-                                                        
-                                                              <div class="svg-icon">
-                                                            
-                                                              <svg
-                                                                
-                                                              xmlns="http://www.w3.org/2000/svg"
-                                                                
-                                                              height="1em"
-                                                                
-                                                              viewBox="0 0 448 512"
-                                                            
-                                                              >
-                                                            
-                                                              <path
-                                                                d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"
-                                                            
-                                                                ></path>
-                                                            
-                                                            </svg>
-                                                        
-                                                        </div>
-                                                        
-                                                        <span class=".container-checkbox "></span>
-                                                        
-                                                        NO</label>
-                                                 
-                                                    </div>
-                                                
-                                                </div>
 
-                                                <div class="col-md-6 hiden" id="discapacidad_opcion">
-                                                  
-                                                    <label for="discapacidad">DISCAPACIDADES</label>
-                                                    
-                                                    <select name="discapacidad" id="discapacidad" class="form-control">
-                                                    
-                                                        <option value="0">---SELECIONE UNA OPCION---</option>
-                                                        
-                                                        <?php  $area->listar_discapacidad_controlador(); ?>
-                                                            
-                                                    </select>
-                                                     
-                                                </div>
-                                                  
-                                            </div>
-                                             
-                                                <div class="form-group row">
-                                                 
-                                                    <div class="col-md-6">
-                                                    
-                                                        <label for="etnia">PERTENECE A UNA ETNIA</label>
-                                                        
-                                                        <div class="col-md-4"> 
-                                                       
-                                                        <label class="checkbox-label">
-                                                        
-                                                        <input type="checkbox" class="checkbox" id="etnia_si" />
-                                                        
-                                                        <div class="svg-icon">
-                                                        
-                                                        <svg
-                                                        
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        
-                                                        height="1em"
-                                                        
-                                                        viewBox="0 0 448 512"
-                                                        
-                                                        >
-                                                        
-                                                        <path
-                                                        
-                                                        d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"
-                                                        
-                                                        ></path>
-                                                        
-                                                        </svg>
-                                                        
+                                                        <div class="col-md-6 d-none" id="discapacidad_opcion">
+                                                            <label for="discapacidad" class="form-label">DISCAPACIDADES</label>
+                                                            <select name="discapacidad" id="discapacidad" class="form-select">
+                                                                <option value="0">---SELECCIONE UNA OPCIÓN---</option>
+                                                                <?php $area->listar_discapacidad_controlador(); ?>
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                       
-                                                    <span class=".container-checkbox "></span>
-                                                    
-                                                        
-                                                    SI</label>
-                                                 
-                                                </div>
-                                                
-                                                <div class="col-md-4"> 
-                                                     
-                                                    <label class="checkbox-label">
-                                                    
-                                                    <input type="checkbox" class="checkbox" id="etnia_no"/>
-                                                        
-                                                        <div class="svg-icon">
-                                                         
-                                                        <svg
-                                                        
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        
-                                                        height="1em"
-                                                        
-                                                        viewBox="0 0 448 512"
-                                                        
-                                                        >
-                                                        
-                                                        <path
-                                                        
-                                                        d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"
-                                                        
-                                                        ></path>
-                                                        
-                                                        </svg>
-                                                        
-                                                </div>
-                                                
-                                                <span class=".container-checkbox "></span>
-                                                
-                                                NO</label>
-                                                
-                                            </div>
-                                             
-                                        </div>
-                                        
-                                        <div class="col-md-6 hiden" id="etnia_opcion">
-                                        
-                                            <label for="etnias">ETNIAS</label>
-                                            
-                                            <select name="etnias" id="etnias" class="form-control">
-                                            
-                                                <option value="0">---SELECIONE UNA OPCION---</option>
-                                                
-                                                <?php   $area->listar_etnias_controlador(); ?>
-                                                            
-                                            </select>
-                                                        
-                                        </div>
+
+                                                    <div class="form-group row mt-3">
+                                                        <!-- Etnia -->
+                                                        <div class="col-md-6">
+                                                            <label class="form-label">PERTENECE A UNA ETNIA</label>
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="etnia_op" id="etnia_si" value="1">
+                                                                        <label class="form-check-label" for="etnia_si">
+                                                                            SI
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="etnia_op" id="etnia_no" value="0">
+                                                                        <label class="form-check-label" for="etnia_no">
+                                                                            NO
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6 d-none" id="etnia_opcion">
+                                                            <label for="etnias" class="form-label">ETNIAS</label>
+                                                            <select name="etnias" id="etnias" class="form-select">
+                                                                <option value="0">---SELECCIONE UNA OPCIÓN---</option>
+                                                                <?php $area->listar_etnias_controlador(); ?>
+                                                            </select>
+                                                        </div>
                                           
-                                    </div>
+                                            </div>
                                     
-                                </div>
+                                    </div>
 
                                  
                              <div class="tab-pane p-20" id="AreaConsulta" role="tabpanel">
@@ -411,27 +297,43 @@
             
      </div>
 
-    <div class="col-lg-3">
-
-            <div class="card">
-
-                    <h4 class="card-title">Cantidad de Paciente para el dia:<p id="diaAtencion"></p> </h4>
-
-                            <div id="DisponibilidadDia">
-                                
-                                <h5 class="m-t-30">Cantidad de Paciente:<span class="pull-right" id="cantidadPacienteXDia"></span></h5>
-
-                            <div class="progress ">
-
-                            <div class="progress-bar bg-danger wow animated progress-animated" style="width: %; height:6px;" role="progressbar">
-
-
-                            </div>
-
-                            
-
-
+     <div class="col-lg-3">
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+                <i class="fas fa-calendar-day text-primary mr-2 fs-4"></i>
+                <h4 class="card-title mb-0">Cantidad de Pacientes para el día: 
+                    <span id="diaAtencion" class="text-primary font-weight-bold"></span>
+                </h4>
             </div>
-     </div>
+            
+            <div id="DisponibilidadDia" class="mt-4">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="mb-0">
+                        <i class="fas fa-users mr-2 text-secondary"></i>Cantidad de Pacientes:
+                    </h5>
+                    <span class="badge badge-primary rounded-pill px-3 py-2">
+                        <span id="cantidadPacienteXDia" class="text-white font-weight-bold">0</span>
+                    </span>
+                </div>
+                
+                <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" 
+                         id="barraProgresoPacientes"
+                         role="progressbar" 
+                         aria-valuenow="0" 
+                         aria-valuemin="0" 
+                         aria-valuemax="100"
+                         style="width: 0%">
+                    </div>
+                </div>
+                
+                <div class="mt-3 text-center small text-muted">
+                    <i class="fas fa-info-circle mr-1"></i> Capacidad diaria de atención
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </div>

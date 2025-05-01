@@ -12,36 +12,34 @@
                        ?> 
 
                 <!-- /# row -->
-                            <div class="row p-t-40 ">
                             
-                            <div class="col-lg-8">
-                                
-                                
-                                <div class="card p-20">
-                                    
-                                        <div class="media widget-ten">
-                                            
-                                            <div class="col-md-4 widget-ten p-30">
-                                            
-                                                <button class="btn btn-info" id="registarPacienteInicio" url="formularioPaciente">Registrar Paciente</button>
-                                            
-                                            </div>   
-                                            
-                                            <div id="example23_filter" class="dataTables_filter col-md-6 widget-ten m-l-50 p-t-30">
+                           <!-- Dentro de la sección del row p-t-40 -->
+<div class="row p-t-40">
+    <div class="col-lg-8">
+        <div class="p-20">
+            <div class="row"> <!-- Cambié a row para mejor disposición -->
+                <div class="col-md-6 mb-3"> <!-- Agregué mb-3 para margen inferior -->
+                    <button class="btn btn-info btn-block" id="registarPacienteInicio" url="formularioPaciente">
+                        <i class="ti-plus"></i> Registrar Paciente
+                    </button>
+                </div>   
+                
+                <div class="col-md-6">
+                    <div class="input-group"> <!-- Agregué input-group para mejor integración -->
+                        <input type="search" class="form-control" placeholder="Buscar paciente..." 
+                               aria-controls="example23" id="buscarPaciente">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="ti-search"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row" id='buscarTabla'></div>
+    </div>
 
-                                                    <label>Buscar:<input type="Buscar" class="" placeholder="" aria-controls="example23" id="buscarPaciente"></label>
-
-                                            </div>
-
-                                        </div>
-                                    
-                                </div>
-                                <div class="row card" id='buscarTabla'>
-
-                                </div>
-                                
-                            </div>
-
+    <!-- Resto de tu código... -->
                             <div class="col-lg-4 ">
 
 

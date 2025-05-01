@@ -1,6 +1,7 @@
+<?php   session_start(['name'=>'Inmufa']); ?>
 <?php   include_once "includ/link.php"; ?>
 
-<body class="hoal">
+<body class="">
                 <!-- Preloader - style you can find in spinners.css -->
 
     <?php require_once "./controlador/vistasControlador.php";
@@ -17,9 +18,7 @@
 
             require_once "./vistas/".$vistas."_vistas.php";
 
-        }else{
-
-                        session_start(['name'=>'Inmufa']);
+        }else{                    
 
                         $pagina=explode("/",$_GET['page']);
 
@@ -97,7 +96,7 @@
    
 
     <?php 
-     $listablanca2=['home'];
+     $listablanca2=['home','login'];
     if (in_array($vistas,$listablanca2)){
       
     }else{

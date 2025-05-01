@@ -258,7 +258,10 @@ class tablaControlador extends listarModelo{
 
                         <div style="margin:4px ;">
 
-                        <button type="button" class="btn btn-danger" value="<?php echo $row['id_medico']?>" id="eliminarMedico">Desabilitar</button></div>
+                        <button type="button" class="btn btn-danger btn-sm" value="<?php echo $row['id_medico']?>" id="eliminarMedico"><i class="fas fa-trash-alt"></i> Deshabilitar
+</button>
+
+                        <button class="btn btn-info btn-sm" value="<?php echo $row['id_medico']?>"  id="verMedicoModal"><i class="fa fa-eye"></i>Ver</button>
 
                         <div style="margin:4px ;">
 
@@ -299,8 +302,10 @@ class tablaControlador extends listarModelo{
 
                     <div style="margin:4px ;">
 
-                    <button type="submit" class="btn btn-danger"  value="<?php echo $row['id_usuario']?>" id="eliminarUsuario" ><i class="ti-close"></i>  Desabilitar</button>
+                    <button type="button" class="btn btn-danger btn-sm" value="<?php echo $row['id_usuario']?>" id="eliminarUsuario"><i class="fas fa-trash-alt"></i> Deshabilitar
+</button>
 
+                        <button class="btn btn-info btn-sm" value="<?php echo $row['id_usuario']?>"  id="verUsuarioBtn"><i class="fa fa-eye"></i>Ver</button>
                     </div>
 
 
@@ -467,5 +472,42 @@ public function listar_citas_cantidad_especialidad_tabla_controlador(){
 
     }
     }
+
+    public function listar_citas_cantidad_dependecias_tabla_controlador(){
+
+        $sql=listarModelo::citasdependeciasModelos();
     
+        $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+    
+            // Estructura de datos para Chart.js
+            foreach($resultados as $row){
+                ?>
+    
+                <tr>
+    
+                    <td><?php echo $row['nombre_dependencia']?></td>
+    
+                    <td><?php echo $row['numero_pacientes']?></td>
+    
+                </tr>
+                
+                <?php
+    
+        }
+        }
+    
+public function listar_citas_cantidad_dependecias_js_controlador_donus(){
+
+    $sql=listarModelo::citasdependeciasModelos();
+
+    $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+        // Procesar resultados
+        $datos = [
+            'labels' => array_column($resultados, 'nombre_dependencia'),
+            'data' => array_column($resultados, 'numero_pacientes')
+        ];
+        echo json_encode($datos);
+    }
+
 }

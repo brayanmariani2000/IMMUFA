@@ -23,6 +23,8 @@
 
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/chart-js/donaEdades.js" type="module"></script>
 
+    <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/chart-js/dependeciasDonus.js" type="module"></script>
+
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/chart-js/citasDonus.js" type="module"></script>
 
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/echart/echarts.js"></script>
@@ -57,6 +59,8 @@
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/validacion.js" type="module"></script>
 
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/pdf.js" type="module"></script>
+
+    <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/pdf2.js" type="module"></script>
 
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/peticionCantidadPaacient.js" type="module"></script>
 
