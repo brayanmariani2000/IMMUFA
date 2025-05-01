@@ -5,7 +5,7 @@
 
       <div class="card-body">
 
-        <h4 class="card-title">Citas</h4>
+        <h4 class="card-title">Citas Atendidas</h4>
 
           <h6 class="card-subtitle">Exportar datos Excel, PDF</h6>
 
@@ -56,9 +56,8 @@
 
                       <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 150.8px;">Fecha Programada</th>
 
-                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 10.8px;">Observacion</th>
+                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 10.8px;">Dependecias</th>
 
-                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 92.8px;">accion</th>
 
                     </tr>
 
@@ -73,7 +72,7 @@
 
                                                         $tabla=new citaControlador();
 
-                                                        echo $tabla->mostrar_citas();
+                                                        echo $tabla->mostrar_citas_atendidas();
 
                     ?>
 
@@ -120,121 +119,4 @@
       </div>
                         
     </div>
-                
-</div>
-                <!-- ============
-                VER INFORMACION DEL PACIENTE MODAL 
-                ==============-->
-<div class="modal fade" id="veirInfo_cita" role="dialog">
-
-  <div class="modal-dialog" role="document">
-
-    <div class="modal-content">
-
-      <div class="modal-header"style="background:#3c8dbc; color:white" >
-
-        <h5 class="modal-title">Datos del Paciente</h5>
-
-        <button type="button" class="close" data-dismiss="modal" id="cerrarIconInfo"><span aria-hidden="true">&times;</span></button>
-
-      </div>
-      <div class="modal-body">
-
-      <div class="box-body">
-
-        <div class="form-group row">
-
-            <div class="col-md-4">
-
-            <label for="nombrePaciente">Nombre</label>
-
-            <p id="nombrePaciente"></p>
-
-            </div>
-
-            <div class="col-md-4">
-
-            <label for="apellidoPaciente">apellido</label>
-
-            <p  id="apellidoPaciente"></p>
-
-            </div>
-
-            <div class="col-md-4">
-
-            <label for="cedulaPaciente">cedula</label>
-
-            <p  id="cedulaPaciente"></p>
-
-            </div>
-
-        </div>
-
-        <center><h5 class="modal-title" id="exampleModalLabel">Citas</h5></center>
-
-        <div class="form-group row" id="citasInfo">
-
-            <div class="col-md-4">
-
-            <label for="fechaAntencionPaciente">fecha de antencion</label>
-
-            <p id="fechaAntencionPaciente"></p>
-
-            </div>
-
-            <div class="col-md-4">
-
-            <label for="estadoPaciente">estado</label><br><br>
-
-            <select name="condicion" id="condicionCita" class="form-control">
-            
-              <option value="1">Agendada</option>
-
-              <option value="2">Pospuesta</option>
-              
-              <option value="3">Atendida</option>
-              
-              <option value="4">Perdida</option>
-            
-            </select>
-
-            </div>
-
-            <div class="col-md-4">
-
-            <label for="especialidad_cita_persona">area de Consulta</label>
-
-            <p  id="especialidadCitaPersona"></p>
-
-            </div>
-            
-            <div class="">
-               <input type="hidden" name="id_cita" id="id_cita">
-               <input type="hidden" name="id_consulta" id="id_consulta">
-            </div>
-
-        </div>
-
-      </div>
-
-     </div>
-
-      <div class="modal-footer">
-
-      <button type="button" class="btn btn-primary" data-dismiss="modal" id="cerrarBtnActul">Cerrar</button>
           
-      <button type="submit" class="btn btn-dark" data-dismiss="modal" id="botonAc">Actualizar</button>
-          
-
-      </div>
-
-    </div>
-
-</div>
-
-</div>
-
-
-        <!-- ============
-                ACTUALIZAR INFORMACION DEL PACIENTE MODAL 
-                ==============-->

@@ -20,11 +20,16 @@
     <link href="<?php echo SERVERURL;?>vistas/plantillas/css/helper.css" rel="stylesheet">
 
     <link href="<?php echo SERVERURL;?>vistas/plantillas/css/style.css" rel="stylesheet">
+
     <link href="<?php echo SERVERURL;?>vistas/plantillas/css/stilo.css" rel="stylesheet">
+
     <link href="<?php echo SERVERURL;?>vistas/plantillas/css/sweetalert2.min.css" rel="stylesheet">
+
     <link href="<?php echo SERVERURL;?>vistas/plantillas/css/form.css" rel="stylesheet">
-    
-    <link rel="stylesheet" type="text/css" href="<?php echo SERVERURL;?>css/all.css">
+
+    <link href="<?php echo SERVERURL;?>vistas/plantillas/icons/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Font Awesome 5 (última versión) -->
+    <link rel="stylesheet" type="text/css" href="<?php echo SERVERURL;?>vistas/plantillas/css/all.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo SERVERURL;?>css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo SERVERURL;?>css/lightbox.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo SERVERURL;?>css/flexslider.css">

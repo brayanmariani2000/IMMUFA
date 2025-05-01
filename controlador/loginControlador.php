@@ -78,75 +78,64 @@ class loginControlador extends loginModelo{
 }
 
 
-     public function listar_cita(){
-      $brayan=0;
-      $cont=0;
-      $numeroRegistro=2;
-      $posicion=2;
-      if($posicion==0){
-        $posicion=0;
-      }
-      $contador=0;
-      $list=conexionModelo::ejecutar_consulta_simple("SELECT * FROM persona INNER JOIN cita, discapacidad,parroquia,municipios,estados,etnia,consulta,especialidad WHERE
-      cita.persona_id=persona.id_persona
-      AND persona.id_discapacidad=discapacidad.id_discapacidad
-      AND persona.id_parroquia=parroquia.id_parroquia
-      AND parroquia.id_municipios=municipios.id_municipio
-      AND municipios.id_estado=estados.id_estado
-      AND persona.id_etnia=etnia.id_etnia
-      AND consulta.id_consulta=cita.id_consulta
-      AND especialidad.id_especialidad=consulta.id_especialidad
+public function listar_cita() {
+  $numeroRegistro = 2;
+  $contador = 0;
+  
+  $list = conexionModelo::ejecutar_consulta_simple("SELECT * FROM persona 
+      INNER JOIN cita ON cita.persona_id = persona.id_persona
+      INNER JOIN discapacidad ON persona.id_discapacidad = discapacidad.id_discapacidad
+      INNER JOIN parroquia ON persona.id_parroquia = parroquia.id_parroquia
+      INNER JOIN municipios ON parroquia.id_municipios = municipios.id_municipio
+      INNER JOIN estados ON municipios.id_estado = estados.id_estado
+      INNER JOIN etnia ON persona.id_etnia = etnia.id_etnia
+      INNER JOIN consulta ON consulta.id_consulta = cita.id_consulta
+      INNER JOIN especialidad ON especialidad.id_especialidad = consulta.id_especialidad
       GROUP BY cita.persona_id");
-      $datos=$list->fetchAll();
-   /*   $list=conexionModelo::ejecutar_consulta_simple("SELECT * FROM `paciente`");
-      $list=$list->fetchAll();
-      foreach($list as $key){
-        if($key['cedula_p']>0){
-          $cont++;
-        }
-      }
-      */
-      $botones=ceil($cont/$numeroRegistro);
-      foreach($datos as $row){
-       
-          # code...
-      
-        $contador++;
-       ?>
-    
-    <tr>
-    
-    <td><?php echo $contador?></td>
-              
-        <td><?php echo $row['nombre'].' '. $row['apellido']?> </td>
-        
-        <td><?php echo $row['cedula']?></td>
-        
-        <td><?php echo $row['municipio'].', '.$row['parroquias']?></td>
-        
-        <td><?php echo  $row['discapacidades']?></td>
-        
-        <td><?php echo $row['etnias']?> </td>
+  
+  $datos = $list->fetchAll();
 
-        <td><?php  echo $row['fecha_nacimiento'] ?></td>
-        
-        <td style="width: 131.8px;"><div style=" display:flex;">
-        
-        <form action="<?php echo SERVERURL."nuevaCita" ?>" method="POST"><button type="submit" class="btn btn-success"     name="Nueva_Cita"  value="<?php echo $row['id_persona']?>" style="margin:5px;">Nueva Cita</button></form> 
-        
-       <form action="<?php echo SERVERURL."datosPaciente" ?>" method="POST"><button type="submit" class="btn btn-info"   name="verHistoria"  value="<?php echo $row['id_persona']?>" style="margin:5px;">Ver Historial</button></form> 
-        
-      </div>
-      
-    </td>
-    
-    </tr>
-    
-    <?php
-      
-      }
-
-     }
+  foreach($datos as $row) {
+      $contador++;
+      // Calcular edad a partir de la fecha de nacimiento
+      $fechaNacimiento = new DateTime($row['fecha_nacimiento']);
+      $hoy = new DateTime();
+      $edad = $hoy->diff($fechaNacimiento)->y;
+      ?>
+      <tr>
+          <td><?php echo $contador; ?></td>
+          <td><?php echo htmlspecialchars($row['nombre'].' '.$row['apellido']); ?></td>
+          <td><?php echo htmlspecialchars($row['cedula']); ?></td>
+          <td><?php echo htmlspecialchars($row['municipio'].', '.$row['parroquias']); ?></td>
+          <td><?php echo htmlspecialchars($row['discapacidades']); ?></td>
+          <td><?php echo htmlspecialchars($row['etnias']); ?></td>
+          <td><?php echo $edad; ?> años</td>
+          <td>
+              <div class="btn-group" role="group">
+                  <form action="<?php echo SERVERURL."nuevaCita"; ?>" method="POST" style="display: inline;">
+                      <button type="submit" class="btn btn-success btn-sm" name="Nueva_Cita" value="<?php echo $row['id_persona']; ?>">
+                          <i class="fas fa-calendar-plus"></i> Nueva Cita
+                      </button>
+                  </form>
+                  
+                  <form action="<?php echo SERVERURL."datosPaciente"; ?>" method="POST" style="display: inline;">
+                      <button type="submit" class="btn btn-info btn-sm" name="verHistoria" value="<?php echo $row['id_persona']; ?>">
+                          <i class="fas fa-history"></i> Historial
+                      </button>
+                  </form>
+                  
+                  <!-- Botón adicional de ejemplo con otro icono -->
+                  <form action="<?php echo SERVERURL."editarPaciente"; ?>" method="POST" style="display: inline;">
+                      <button type="submit" class="btn btn-warning btn-sm" name="editarPaciente" value="<?php echo $row['id_persona']; ?>">
+                          <i class="fas fa-user-edit"></i> Editar
+                      </button>
+                  </form>
+              </div>
+          </td>
+      </tr>
+      <?php
+  }
+}
      public function tabla_area(){
      
       $list=conexionModelo::ejecutar_consulta_simple("SELECT * FROM `especialidad` ");

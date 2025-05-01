@@ -86,7 +86,7 @@
                     <h2 class="text-center mb-4">Citas por Especialidad</h2>
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="chart-container">
+                                        <div class="chart-container" style="position: relative; height: 400px; width: 100%;">
                                             <canvas id="donutChartCitas"></canvas>
                                             <div id="chartLoading" class="loading">Cargando datos...</div>
                                             <div id="chartError" class="alert alert-danger" style="display: none;"></div>

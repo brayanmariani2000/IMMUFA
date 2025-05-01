@@ -311,5 +311,86 @@ public function habilitar_area($area){
   }
 
 }
+
+public function obtener_usuario_controlador($id) {
+  $sql = usuarioModelo::listar_usuarios_modal();
+  
+  if($sql->rowCount() > 0) {
+      $lista = $sql->fetchAll();
+      $json = array();
+      
+      foreach($lista as $row) {
+          if($row['id_usuario'] == $id && $row['status'] == 1) {
+            $json[] = array(
+              'id_usuario' => $row['id_usuario'],
+              'nombres' => $row['nombre'],
+              'apellido' => $row['apellido'],
+              'cedula' => $row['cedula'],
+              'telefono' => $row['telefono'],
+              'correo' => $row['correo'],
+              'fecha_nacimiento' => $row['fecha_nacimiento'],
+              'sexo' => $row['sexo'],
+              'rol' => $row['rol'],
+              'nacionalidad' => $row['nacionalidad'],
+              'parroquia' => $row['parroquias'],
+              'municipio' => $row['municipio'],
+              'etnia' => $row['etnias'],
+              'discapacidad' => $row['discapacidades']
+          );
+      }
+  }
+  
+  echo json_encode($json);
+  exit;
+} else {
+  header('Content-Type: application/json');
+  echo json_encode(array('error' => 'No se encontraron usuarios activos'));
+  exit;
+}
+}
+public function obtener_medico_json($id) {
+  $sql = usuarioModelo::listar_medicos_modal();
+  
+  if($sql->rowCount() > 0) {
+      $lista = $sql->fetchAll();
+      $json = array();
+      
+      foreach($lista as $row) {
+          if($row['id_medico'] == $id){
+              // Calcular la edad basada en la fecha de nacimiento
+              $fechaNac = new DateTime($row['fecha_nacimiento']);
+              $hoy = new DateTime();
+              $edad = $hoy->diff($fechaNac)->y;
+              
+              $json[] = array(
+                  'id_medico' => $row['id_medico'],
+                  'nombres' => $row['nombre'],
+                  'apellido' => $row['apellido'],
+                  'cedula' => $row['cedula'],
+                  'telefono' => $row['telefono'],
+                  'correo' => $row['correo'],
+                  'fecha_nacimiento' => $row['fecha_nacimiento'],
+                  'edad' => $edad,
+                  'sexo' => ($row['sexo'] == 1) ? 'Femenino' : 'Masculino',
+                  'especialidad' => $row['especialidad'],
+                  'nacionalidad' => ($row['nacionalidad'] == 1) ? 'Venezolano' : 'Extranjero',
+                  'parroquia' => $row['parroquias'],
+                  'municipio' => $row['municipio'],
+                  'etnia' => $row['etnias'],
+                  'discapacidad' => $row['discapacidades'],
+                  'status' => ($row['status'] == 1) ? 'Activo' : 'Inactivo'
+              );
+          }
+      }
+      
+      header('Content-Type: application/json');
+      echo json_encode($json);
+      exit;
+  } else {
+      header('Content-Type: application/json');
+      echo json_encode(array('error' => 'No se encontraron médicos activos'));
+      exit;
+  }
+}
 }
 

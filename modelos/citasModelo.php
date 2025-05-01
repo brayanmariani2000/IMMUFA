@@ -81,38 +81,53 @@ return $sql;
 }
 protected static function citasEspecialidadModelos($especialidad,$fecha_Actual){
 
-    $sql=conexionModelo::conectar()->prepare("SELECT 
-        persona.id_persona,
-        CONCAT(persona.nombre, ' ', persona.apellido) AS paciente,
-        persona.cedula,
-        persona.telefono,
-        especialidad.especialidad,
-        consulta.fecha_consulta,
-        consulta.hora_consulta,
-        medico.id_medico,
-        dependencias.dependencia,
-        condicion.condicion
-    FROM 
-        cita
-    JOIN 
-        persona ON cita.persona_id = persona.id_persona
-    JOIN 
-        consulta ON cita.id_consulta = consulta.id_consulta
-    JOIN 
-        especialidad ON consulta.id_especialidad = especialidad.id_especialidad
-    JOIN 
-        medico ON consulta.id_medico = medico.id_medico
-    JOIN 
-        dependencias ON cita.dependencia_id = dependencias.id_dependencia
-    JOIN 
-        condicion ON cita.condicion_id = condicion.id_condicion
-    WHERE 
-        consulta.id_especialidad = $especialidad 
+                $sql=conexionModelo::conectar()->prepare("SELECT 
+                    cita.id_cita,
+                    persona.fecha_nacimiento,
+                    persona.id_persona,
+                    CONCAT(persona.nombre, ' ', persona.apellido) AS paciente,
+                    persona.cedula,
+                    persona.telefono,
+                    especialidad.especialidad,
+                    consulta.fecha_consulta,
+                    consulta.hora_consulta,
+                    medico.id_medico,
+                    dependencias.dependencia,
+                    condicion.condicion
+                    
+                FROM 
+                    cita
+                JOIN 
+                    persona ON cita.persona_id = persona.id_persona
+                JOIN 
+                    consulta ON cita.id_consulta = consulta.id_consulta
+                JOIN 
+                    especialidad ON consulta.id_especialidad = especialidad.id_especialidad
+                JOIN 
+                    medico ON consulta.id_medico = medico.id_medico
+                JOIN 
+                    dependencias ON cita.dependencia_id = dependencias.id_dependencia
+                JOIN 
+                    condicion ON cita.condicion_id = condicion.id_condicion
+                WHERE 
+                    consulta.id_especialidad = $especialidad 
 
-        AND consulta.fecha_consulta = $fecha_Actual
-");
-$sql->execute();
-return $sql;
+                    AND consulta.fecha_consulta = '$fecha_Actual'
+                ");
+                $sql->execute();
+             return $sql;
 
-}
-}
+        }
+
+        protected static function citas_actualizar_Modelo($nuevo_estado,$id_cita){
+
+            $sql=conexionModelo::conectar()->prepare("UPDATE cita 
+                SET condicion_id = $nuevo_estado 
+                WHERE id_cita = $id_cita 
+            ");
+        $sql->execute();
+        return $sql;
+        
+        }
+ 
+}    

@@ -22,7 +22,7 @@ $(document).ready(function(){
         let plantilla='';
 
         let parroquias=JSON.parse(response);
-
+        console.log(parroquias);
   
 
         parroquias.forEach(parroquia => {
@@ -46,42 +46,20 @@ $(document).ready(function(){
 
 })
 
-$(document).ready(function(){
- 
-  $('#discapacidad_si').click(function(e){
- 
-    console.log('hola')
- 
-    $('#discapacidad_opcion').removeClass('hiden');
-  
- 
-  })
+// Para discapacidad
+document.querySelectorAll('input[name="discapacidad_op"]').forEach(radio => {
+  radio.addEventListener('change', function() {
+      document.getElementById('discapacidad_opcion').classList.toggle('d-none', this.value === '0');
+  });
+});
 
- 
-  $('#discapacidad_no').click(function(e){
- 
-    $('#discapacidad_opcion').addClass('hiden');
-    
- 
-  })
+// Para etnia
+document.querySelectorAll('input[name="etnia_op"]').forEach(radio => {
+  radio.addEventListener('change', function() {
+      document.getElementById('etnia_opcion').classList.toggle('d-none', this.value === '0');
+  });
+});
 
- 
-  $('#etnia_si').click(function(e){
- 
-    $('#etnia_opcion').removeClass('hiden');
-    
-  
-  })
-
-  
-  $('#etnia_no').click(function(e){
-  
-    $('#etnia_opcion').addClass('hiden');
-    
-  
-  })
-  
-})
 $(document).on('click','#generarReportes',function(){ 
    
   var areaConsultar='',fechaCita='',estadoCita='',dependencia='';

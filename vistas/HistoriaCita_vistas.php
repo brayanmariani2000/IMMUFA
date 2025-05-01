@@ -22,7 +22,7 @@
 
                     </a>
 
-                    <a class="dt-button buttons-pdf buttons-html5" tabindex="1" aria-controls="example23" href="#" id="historialCita">
+                    <a class="dt-button buttons-pdf buttons-html5" tabindex="1" aria-controls="example23" href="#" id="historialCitaPDf">
 
                       <span>PDF</span>
                     
@@ -59,7 +59,7 @@
 
                       <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending">Fecha de Registro</th>
 
-                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending">Secretaria</th>
+                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending">Funcionario</th>
 
                     </tr>
 

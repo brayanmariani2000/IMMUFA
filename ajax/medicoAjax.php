@@ -26,3 +26,12 @@ if (isset($_POST['especialistaCita'])){
     }
     
 }
+if (isset($_POST['obtenerMedico'])){
+
+    if ($_POST['obtenerMedico']==true){
+         
+        $in_medico->obtener_medico_json($_POST['id']);
+        
+    }
+    
+}

@@ -395,105 +395,123 @@ class pacienteControlador extends pacienteModelo{
    }
 
 
-   public function datosPacienteActualizar($idPaciente){
+   public function datosPacienteActualizar($idPaciente) {
+    $mostrar = pacienteModelo::mostrar_paciente_modelo($idPaciente);
+    $mostrar1 = $mostrar->fetchAll();
 
-    $mostrar=pacienteModelo::mostrar_paciente_modelo($idPaciente);
-
-    $mostrar1=$mostrar->fetchAll();
-
-    foreach($mostrar1 as $row){
-        
-                        echo'<div class="form-group">
-                                          
-                                <div class="form-row">
-                                
-                                    <div class="col-md-3">                                  
-                                    <label for="nombreDatosPaciente">Nombres</label>                                        
-                                    <p id="nombre">'.$row['nombre'].'</p>                                
-                                    </div>
-
-                                    <div class="col-md-3">
-
-                                        <label for="apellidoDatosPaciente">Apellidos</label>
-                                
-                                        <p id="apellido" >'.$row['apellido'].'</p>
-                                    
-                                    </div>
-                                    <div class="col-md-3">
-
-                                        <label for="cedualDatosPaciente">Cedula</label>
-
-                                        <p id="cedula1" value="'.$row['cedula'].'">'.$row['cedula'].'</p>
-
-                                        <input type="text" name="usuario" id="cedula" value="'.$row['cedula'].'" class="hiden"> 
-
-                                    </div>                      
-
-                                    <div class="col-md-3">
-
-                                            <label for="telefonoDatosPaciente">telefono</label>
-                                
-                                            <p id="telefono" >'.$row['telefono'].'</p>
-
-                                    </div>
-                                    
-
-                                </div>
-
-                             </div>
-                              ';
-
+    foreach($mostrar1 as $row) {
+        echo '
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-user-circle mr-2"></i>Datos del Paciente</h5>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <div class="form-row">
+                        <!-- Nombre -->
+                        <div class="col-md-3 mb-3">
+                            <label class="font-weight-bold"><i class="fas fa-user mr-2"></i>Nombres</label>
+                            <div class="input-group">
+                                <p class="form-control-static">'.htmlspecialchars($row['nombre']).'</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Apellido -->
+                        <div class="col-md-3 mb-3">
+                            <label class="font-weight-bold"><i class="fas fa-user mr-2"></i>Apellidos</label>
+                            <div class="input-group">
+                                <p class="form-control-static">'.htmlspecialchars($row['apellido']).'</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Cédula -->
+                        <div class="col-md-3 mb-3">
+                            <label class="font-weight-bold"><i class="fas fa-id-card mr-2"></i>Cédula</label>
+                            <div class="input-group">
+                                <p class="form-control-static">'.htmlspecialchars($row['cedula']).'</p>
+                                <input type="hidden" name="usuario" id="cedula" value="'.htmlspecialchars($row['cedula']).'">
+                            </div>
+                        </div>
+                        
+                        <!-- Teléfono -->
+                        <div class="col-md-3 mb-3">
+                            <label class="font-weight-bold"><i class="fas fa-phone mr-2"></i>Teléfono</label>
+                            <div class="input-group">
+                                <p class="form-control-static">'.htmlspecialchars($row['telefono']).'</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>';
     }
-
-  }
-
-
-  
-  public function datosCitaActualizar($idPaciente){
-
-    $mostrar=pacienteModelo::mostrar_citas_modelo($idPaciente);
-
-    $mostrar1=$mostrar->fetchAll();
-
-    foreach($mostrar1 as $row){
-      echo ' <div class="form-group row">
-
-      <div class="col-md-3">
-
-          <label for="especialidadDatosPaciente">Especialidad</label>
-      
-          <p id="especialidadDatosPaciente">'.$row['especialidad'].'</p>
-
-      </div>
-      <div class="col-md-3">
-
-          <label for="medicoDatosPaciente">Medico</label>
-      
-          <p id="medicoDatosPaciente">'.$row['nombre'].'  '. $row['apellido'].'</p>
-
-      </div>
-      <div class="col-md-3">
-
-          <label for="estadoDatosPaciente">Estado</label>
-
-          <select id="municipio" class="form-control">'
-          ?><?php
-                               
-           require_once 'listarControlador.php'; $area=new listarControlador();$area->listar_condicion();
-
-         ?><?php echo'</select>
-
-      </div>
-      <div class="col-md-3">
-
-          <label for="fechaDatosPaciente">fecha de Consulta</label>
-
-          <p id="fechaDatosPaciente">'.$row['fecha_consulta'].'</p>
-
-      </div>
-
-  </div>
-';
-    }
-  }
 }
+
+public function datosCitaActualizar($idPaciente) {
+    $mostrar = pacienteModelo::mostrar_citas_modelo($idPaciente);
+    $mostrar1 = $mostrar->fetchAll();
+
+    foreach($mostrar1 as $row) {
+        echo '
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-calendar-check mr-2"></i>Datos de la Cita</h5>
+            </div>
+            <div class="card-body">
+                <div class="form-group row">
+                    <!-- Especialidad -->
+                    <div class="col-md-3 mb-3">
+                        <label class="font-weight-bold"><i class="fas fa-stethoscope mr-2"></i>Especialidad</label>
+                        <div class="input-group">
+                            <p class="form-control-static">'.htmlspecialchars($row['especialidad']).'</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Médico -->
+                    <div class="col-md-3 mb-3">
+                        <label class="font-weight-bold"><i class="fas fa-user-md mr-2"></i>Médico</label>
+                        <div class="input-group">
+                            <p class="form-control-static">'.htmlspecialchars($row['nombre'].' '.$row['apellido']).'</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Estado de la cita -->
+                    <div class="col-md-2 mb-3">
+                        <label class="font-weight-bold"><i class="fas fa-info-circle mr-2"></i>Estado</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            </div>
+                            <select class="form-control">
+                                                    '?><?php
+                                                  
+                              require_once 'listarControlador.php'; $area=new listarControlador();$area->listar_condicion();
+
+                            ?><?php echo'
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Fecha de Consulta -->
+                    <div class="col-md-2 mb-3">
+                        <label class="font-weight-bold"><i class="far fa-calendar-alt mr-2"></i>Fecha Consulta</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                
+                            </div>
+                            <p class="form-control-static">'.htmlspecialchars($row['fecha_consulta']).'</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Botón Guardar -->
+                    <div class="col-md-2 d-flex align-items-end mb-3">
+                        <button class="btn btn-primary btn-block" id="guardarCambiasCita" value="'.htmlspecialchars($row['id_cita']).'" title="Guardar cambios">
+                            <i class="fas fa-save mr-2"></i>Guardar cambios
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>';
+    }
+}
+}
+

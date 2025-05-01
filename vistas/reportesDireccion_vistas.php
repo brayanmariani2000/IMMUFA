@@ -5,7 +5,7 @@
 
   <div class="card-body">
 
-    <h4 class="card-title">Cantidad de Pacientes por especialidad</h4>
+    <h4 class="card-title">Cantidad de Pacientes por Municipios</h4>
 
       <h6 class="card-subtitle">Exportar datos Excel, PDF</h6>
 
@@ -40,7 +40,7 @@
 
                 <tr role="row">
 
-                  <th class=""  rowspan="1" colspan="1">Especialidad</th>
+                  <th class=""  rowspan="1" colspan="1">Municipio</th>
 
                   <th class=""  rowspan="1" colspan="1"style="width: 200px;">Cantidad</th>
                 </tr>
@@ -83,11 +83,11 @@
 <div class="card">
 
                     <div class="col-md-12">
-                    <h2 class="text-center mb-4">Citas por Especialidad</h2>
+                    <h2 class="text-center mb-4">Municipio</h2>
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="chart-container">
-                                            <canvas id="donutChartCitas"></canvas>
+                                            <canvas id="donutChartMunicios"></canvas>
                                             <div id="chartLoading" class="loading">Cargando datos...</div>
                                             <div id="chartError" class="alert alert-danger" style="display: none;"></div>
                                         </div>

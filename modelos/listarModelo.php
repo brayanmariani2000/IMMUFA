@@ -245,5 +245,24 @@ ORDER BY
     
     return $sql;
 }
+protected static function citasdependeciasModelos(){
+
+    $sql=conexionModelo::conectar()->prepare("SELECT 
+                    d.id_dependencia,
+                    d.dependencia AS nombre_dependencia,
+                    COUNT(c.persona_id) AS numero_pacientes
+                FROM 
+                    dependencias d
+                LEFT JOIN 
+                    cita c ON d.id_dependencia = c.dependencia_id
+                GROUP BY 
+                    d.id_dependencia, d.dependencia
+                ORDER BY 
+                    numero_pacientes DESC;
+    ");
+    $sql->execute();
+ return $sql;
+
+}
 
 }
