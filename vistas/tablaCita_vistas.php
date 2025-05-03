@@ -17,17 +17,10 @@
 
                   <div class="dt-buttons">
                     
-                    <a class="dt-button buttons-copy buttons-html5" tabindex="1" id="exxel_cita">
-
-                      <span>Excel</span>
-
+                  <a id="pdf_cita" href="#" class="btn btn-info position-relative text-decoration-none">
+                      <i class="fas fa-file-pdf me-2"></i>
+                      Generar PDF
                     </a>
-
-                    <button id="pdf_cita" class="btn btn-primary">
-
-                      <span>Generar PDF</span>
-                    
-                      </button>
 
                     <div id="example23_filter" class="dataTables_filter">
 
@@ -223,7 +216,7 @@
 
       <button type="button" class="btn btn-primary" data-dismiss="modal" id="cerrarBtnActul">Cerrar</button>
           
-      <button type="submit" class="btn btn-dark" data-dismiss="modal" id="botonAc">Actualizar</button>
+      <button type="submit" class="btn btn-dark" data-dismiss="modal" id="ActualizarBtnActul">Actualizar</button>
           
 
       </div>

@@ -1,6 +1,6 @@
 // assets/js/graficaDependencias.js
 $(document).ready(function() {
-    var ctx = document.getElementById("donutChartdependecias");
+    var ctx = document.getElementById("donutChartDependencias");
     var donutChart = null;
 
     // Colores estilo Donut para cada dependencia

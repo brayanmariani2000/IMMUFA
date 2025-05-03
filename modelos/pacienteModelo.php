@@ -148,7 +148,8 @@ class pacienteModelo extends conexionModelo{
 
   protected static function buscar_Paciente_Modelo($buscar){
     
-    $sql=conexionModelo::conectar()->prepare("SELECT * FROM persona WHERE cedula LIKE'$buscar%'");
+    $sql=conexionModelo::conectar()->prepare("SELECT * FROM persona WHERE cedula LIKE'$buscar%' 
+    LIMIT 5");
 
     $sql->execute();
     

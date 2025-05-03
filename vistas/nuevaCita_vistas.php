@@ -12,8 +12,18 @@
                 <div class="col-12">
            
                     <div class="card-body m-t-10">
-                       
-                        <form  method="POST" class=" form-bordered" id="paciente_cita">
+                    <form  method="POST" class=" form-bordered" id="paciente_cita">
+
+                            <div class="card mb-4 border-primary">
+                        <div class="card-header bg-primary text-white py-2">
+                   <h5 class="mb-0">
+                    <i class="fas fa-user-tag mr-2"></i>INFORMACIÓN PERSONAL
+                </h5>
+                     </div>
+                         <div class="card-body">
+                     <div class="row">
+
+              
                         
                         <?php
                     
@@ -29,6 +39,12 @@
                          }
                     
                         ?>
+                    
+                </div>
+            </div>
+        </div>
+                       
+
                       
                       <div class="card-header m-b-10"><h5 class="m-b-0 ">NUEVA CITA</h5></div>
                         
@@ -92,18 +108,13 @@
                             
                             <div class="form-group row">
                              
-                                <input type="text" name="usuario" id="usuarioRegistro" value="<?php  echo $_SESSION['Usuario']?>" class="hiden"> 
-                                <input type="text" name="usuario" id="sexo" value="0" class="hiden"> 
-                                <input type="text" name="usuario" id="fecha_naci" value="0" class="hiden"> 
-                                <input type="text" name="usuario" id="discapacidad" value="0" class="hiden">
-                                <input type="text" name="usuario" id="Parroquia" value="0" class="hiden">
-                                <input type="text" name="usuario" id="etnias" value="0" class="hiden">   
+                                <input type="text" name="usuario" id="usuarioRegistro" value="<?php  echo $_SESSION['Usuario']?>" class="d-none">  
                                 
                             </div>
 
                             <div class="offset-sm-3 col-md-9">
                         
-                               <button type="submit" class="btn btn-primary" id="botonP"><i class="fa fa-check"></i> Registrar</button>
+                               <button type="submit" class="btn btn-primary" id="paciente_cita"><i class="fa fa-check"></i> Registrar</button>
                         
                             </div>
 

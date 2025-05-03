@@ -4,30 +4,23 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Data Export</h4>
-                                <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF &amp; Print</h6>
+                                <h4 class="card-title">Citas por especialidad</h4>
+                                <h6 class="card-subtitle">Exportar PDF &amp;</h6>
                                 <div class="table-responsive m-t-40">
                                     <div id="example23_wrapper" class="dataTables_wrapper">
                                         <div id="example23_wrapper" class="dataTables_wrapper">
                                             <div class="dt-buttons">
-                                                <a class="dt-button buttons-copy buttons-html5" tabindex="1" href="#">
-                                            <span>Copy</span>
-                                                </a>
-                                                <a class="dt-button buttons-csv buttons-html5" tabindex="1" aria-controls="example23" href="#">
-                                            <span>CSV</span>
-                                                </a>
-                                                <a class="dt-button buttons-excel buttons-html5" tabindex="1" aria-controls="example23" href="#">
-                                            <span>Excel</span>
-                                                 </a><a class="dt-button buttons-pdf buttons-html5" tabindex="1" aria-controls="example23" href="#">
-                                            <span>PDF</span></a><a class="dt-button buttons-print" tabindex="0" aria-controls="example23" href="#">
-                                            <span>Print</span></a>
+                                            <a id="expotarPDFCitaEspecialidad" href="#" class="btn btn-info position-relative text-decoration-none">
+                                            <i class="fas fa-file-pdf me-2"></i>
+                                                Generar PDF
+                                            </a>
                                         </div>
                                             <div id="example23_filter" class="dataTables_filter">
                                             <label>Search:<input type="search" class="" placeholder="" aria-controls="example23"></label></div>
                                         <div>
 
                                         </div>
-                                        <table id="example23" class="table table-hover table-responsive" cellspacing="0" width="100%" role="grid" aria-describedby="example23_info" style="width: 100%;">
+                                        <table id="especialidad" class="table table-hover table-responsive" cellspacing="0" width="100%" role="grid" aria-describedby="example23_info" style="width: 100%;">
                                         <thead>
                                             <tr role="row">
                                             <th class=""  rowspan="1" colspan="1"style="width: 8px;">N°</th>

@@ -1,98 +1,55 @@
 <div class="row">
-<div class="col-lg-5 mb-40">
-
-<div class="card">
-
-  <div class="card-body">
-
-    <h4 class="card-title">Cantidad de Pacientes por Municipios</h4>
-
-      <h6 class="card-subtitle">Exportar datos Excel, PDF</h6>
-
-        <div class="table-responsive m-t-40">
-
-          <div id="example23_wrapper" class="dataTables_wrapper">
-
-            <div id="example23_wrapper" class="dataTables_wrapper">
-
-              <div class="dt-buttons">
+    <!-- Columna izquierda: Tabla de pacientes por municipio -->
+    <div class="col-lg-5 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <!-- Encabezado de la tarjeta -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h4 class="card-title mb-1">Pacientes por Municipio</h4>
+                        <h6 class="card-subtitle text-muted">Exportar datos a Excel o PDF</h6>
+                    </div>
+                    <!-- Botones de exportación -->
+                    <div class="dt-buttons btn-group">
+                        <button id="excel_municipios" class="btn btn-success btn-sm">
+                            <i class="fas fa-file-excel mr-1"></i> Excel
+                        </button>
+                        <button id="pdf_municipios" class="btn btn-danger btn-sm ml-2">
+                            <i class="fas fa-file-pdf mr-1"></i> PDF
+                        </button>
+                    </div>
+                </div>
                 
-                <a class="dt-button buttons-copy buttons-html5" tabindex="1" id="exxel_cita">
-
-                  <span>Excel</span>
-
-                </a>
-
-                <a class="dt-button  buttons-html5" tabindex="1" aria-controls="example23" id="pdf_cita" href="#">
-
-                  <span>PDF</span>
-                
-                </a>
-
-              <div>
-
-
+                <!-- Tabla responsive -->
+                <div class="table-responsive">
+                    <?php 
+                    require_once "controlador/listarControlador.php";
+                    $controlador = new tablaControlador();
+                    echo $controlador->listarPacientesPorMunicipioTablaControlador();
+                    ?>
+                </div>
             </div>
-
-            <table  class="table table-hover table-responsive" cellspacing="0" width="100%" role="grid" aria-describedby="example23_info" style="width: 100%;" id="tablaCita">
-
-              <thead>
-
-                <tr role="row">
-
-                  <th class=""  rowspan="1" colspan="1">Municipio</th>
-
-                  <th class=""  rowspan="1" colspan="1"style="width: 200px;">Cantidad</th>
-                </tr>
-
-              </thead>
-
-              <tbody>
-
-                <?php /// aqui va la cabezera 
-                                                    
-                                                    require_once "controlador/listarControlador.php";
-
-                                                    $in_mini_paciente=new tablaControlador();
-
-                                                    echo $in_mini_paciente->listar_citas_cantidad_especialidad_tabla_controlador();
-                                             
-
-                ?>
-
-              </tbody>
-
-            </table>
-
-          </div>
-
-
         </div>
-
-      </div>
-
     </div>
 
-  </div>
-                    
-</div>
-            
-</div>
-<div class="col-lg-7">
-    
-<div class="card">
-
-                    <div class="col-md-12">
-                    <h2 class="text-center mb-4">Municipio</h2>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="chart-container">
-                                            <canvas id="donutChartMunicios"></canvas>
-                                            <div id="chartLoading" class="loading">Cargando datos...</div>
-                                            <div id="chartError" class="alert alert-danger" style="display: none;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-</div>
+    <!-- Columna derecha: Gráfico donut -->
+    <div class="col-lg-7">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="text-center mb-4">Distribución por Municipio</h2>
+                <div class="chart-container" style="position: relative; height: 400px;">
+                    <canvas id="donutChartMunicipios"></canvas>
+                    <div id="chartLoading" class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Cargando datos...</span>
+                        </div>
+                        <p class="mt-2">Cargando gráfico...</p>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <small class="text-muted">Haz clic en los segmentos para más detalles</small>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

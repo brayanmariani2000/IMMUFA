@@ -25,6 +25,8 @@
 
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/chart-js/dependeciasDonus.js" type="module"></script>
 
+    <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/chart-js/direccionesDonus.js" type="module"></script>
+
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/chart-js/citasDonus.js" type="module"></script>
 
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/echart/echarts.js"></script>
@@ -57,6 +59,8 @@
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/buscaPaciente.js" type="module"></script>
 
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/validacion.js" type="module"></script>
+
+    <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/pacientesDiarios.js" type="module"></script>
 
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/pdf.js" type="module"></script>
 

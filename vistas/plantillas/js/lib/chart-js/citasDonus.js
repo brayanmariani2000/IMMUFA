@@ -50,11 +50,6 @@ $(document).ready(function() {
                 // Opcional: Procesar también la vista de lista como en tu ejemplo
                 processListData(response);
             },
-            error: function(xhr, status, error) {
-                $('#chartLoading').hide();
-                $('#chartError').text('Error al cargar datos: ' + error).show();
-                console.error("Error en AJAX:", error);
-            },
             complete: function() {
                 $('#refreshBtn').prop('disabled', false);
             }

@@ -278,9 +278,6 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     <i class="fas fa-times mr-2"></i>Cerrar
                 </button>
-                <button type="button" class="btn btn-primary">
-                    <i class="fas fa-print mr-2"></i>Imprimir
-                </button>
             </div>
         </div>
     </div>

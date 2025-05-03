@@ -87,7 +87,7 @@ $(document).ready(function() {
                                 confirmButtonText: 'OK',      
                             }).then((result) => {
                                 if(result.value) { 
-                                    window.location.href = `${server}/formulario`;
+                                    location.reload();
                                 }
                             });
                         } else {
