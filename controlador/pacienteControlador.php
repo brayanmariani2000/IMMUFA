@@ -115,7 +115,64 @@ class pacienteControlador extends pacienteModelo{
   } 
   
   
+ public function agregar_cita_controlador(){
 
+    $estado_consulta=1;
+
+    $hora_consulta='9:00am hasta 12:00pm';
+    
+    $condicion='1';
+    
+    $area_consulta=$_POST['area_consultar'];
+
+    $fecha_consulta=$_POST['fecha_consulta'];
+
+    date_default_timezone_set('America/Caracas');
+
+    $fecha_registro = date('Y-m-d H:i:s');
+
+    $id_usuario=$_POST['usuario'];
+    
+    $dependencia=$_POST['dependencia'];
+
+    $especialista=$_POST['especialista'];
+
+    $cedula=conexionModelo::limpiar_texto($_POST['cedula']);
+
+
+    $validadcion_consulta=pacienteModelo::validacion_consulta($area_consulta,$especialista,$fecha_consulta,$hora_consulta,$estado_consulta);
+
+    if($validadcion_consulta->rowCount()>0)
+    {
+      $row=$validadcion_consulta->fetch();
+
+      $idConsulta=$row['id_consulta'];
+
+    }else
+    {
+      $agregarConsulta=pacienteModelo::registrar_consulta_modelo($area_consulta,$especialista,$fecha_consulta,$hora_consulta);
+    
+      $validadcion_consulta2=pacienteModelo::validacion_consulta($area_consulta,$especialista,$fecha_consulta,$hora_consulta,$estado_consulta);
+
+      $row=$validadcion_consulta2->fetch();
+    
+      $idConsulta=$row['id_consulta']; 
+    }
+
+
+    $validadcion=pacienteModelo::validacion($cedula);
+        
+    if ($validadcion->rowCount()>0)
+    {
+      $row=$validadcion->fetch();
+
+      $idPersona=$row['id_persona'];      
+
+      $agregar_cita=pacienteModelo::agregar_paciente_cita($idPersona,$fecha_registro,$condicion,$dependencia,$id_usuario,$idConsulta);
+
+      echo 1;
+ }
+}
 
 
   public function eliminar_controlador($cedula_p){
@@ -401,49 +458,84 @@ class pacienteControlador extends pacienteModelo{
 
     foreach($mostrar1 as $row) {
         echo '
-        <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0"><i class="fas fa-user-circle mr-2"></i>Datos del Paciente</h5>
-            </div>
-            <div class="card-body">
-                <div class="form-group">
-                    <div class="form-row">
-                        <!-- Nombre -->
-                        <div class="col-md-3 mb-3">
-                            <label class="font-weight-bold"><i class="fas fa-user mr-2"></i>Nombres</label>
+
+           <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold text-primary"><i class="fas fa-signature mr-2"></i>Nombres</label>
                             <div class="input-group">
-                                <p class="form-control-static">'.htmlspecialchars($row['nombre']).'</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Apellido -->
-                        <div class="col-md-3 mb-3">
-                            <label class="font-weight-bold"><i class="fas fa-user mr-2"></i>Apellidos</label>
-                            <div class="input-group">
-                                <p class="form-control-static">'.htmlspecialchars($row['apellido']).'</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Cédula -->
-                        <div class="col-md-3 mb-3">
-                            <label class="font-weight-bold"><i class="fas fa-id-card mr-2"></i>Cédula</label>
-                            <div class="input-group">
-                                <p class="form-control-static">'.htmlspecialchars($row['cedula']).'</p>
-                                <input type="hidden" name="usuario" id="cedula" value="'.htmlspecialchars($row['cedula']).'">
-                            </div>
-                        </div>
-                        
-                        <!-- Teléfono -->
-                        <div class="col-md-3 mb-3">
-                            <label class="font-weight-bold"><i class="fas fa-phone mr-2"></i>Teléfono</label>
-                            <div class="input-group">
-                                <p class="form-control-static">'.htmlspecialchars($row['telefono']).'</p>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light"><i class="fas fa-user text-primary"></i></span>
+                                </div>
+                                <p class="form-control bg-light">'.htmlspecialchars($row['nombre']).'</p>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>';
+                    
+                    <!-- Apellido -->
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold text-primary"><i class="fas fa-signature mr-2"></i>Apellidos</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light"><i class="fas fa-user text-primary"></i></span>
+                                </div>
+                                <p class="form-control bg-light">'.htmlspecialchars($row['apellido']).'</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cédula -->
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold text-primary"><i class="fas fa-id-card mr-2"></i>Cédula</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light"><i class="fas fa-address-card text-primary"></i></span>
+                                </div>
+                                        <p class="form-control bg-light">'.htmlspecialchars($row['cedula']).'</p>
+                                <input type="hidden" name="usuario" id="cedula" value="'.htmlspecialchars($row['cedula']).'">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Teléfono -->
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold text-primary"><i class="fas fa-mobile-alt mr-2"></i>Teléfono</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light"><i class="fas fa-phone text-primary"></i></span>
+                                </div>
+                                <p class="form-control bg-light">'.htmlspecialchars($row['telefono']).'</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Fecha Nacimiento -->
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold text-primary"><i class="fas fa-birthday-cake mr-2"></i>Fecha Nacimiento</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light"><i class="far fa-calendar text-primary"></i></span>
+                                </div>
+                                <p class="form-control bg-light">15/03/1985</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Edad -->
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold text-primary"><i class="fas fa-user-clock mr-2"></i>Edad</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light"><i class="fas fa-calendar-alt text-primary"></i></span>
+                                </div>
+                                <p class="form-control bg-light">39 años</p>
+                            </div>
+                        </div>
+                    </div>';
     }
 }
 
@@ -453,64 +545,83 @@ public function datosCitaActualizar($idPaciente) {
 
     foreach($mostrar1 as $row) {
         echo '
-        <div class="card mb-4">
-            <div class="card-header bg-info text-white">
-                <h5 class="mb-0"><i class="fas fa-calendar-check mr-2"></i>Datos de la Cita</h5>
-            </div>
-            <div class="card-body">
-                <div class="form-group row">
-                    <!-- Especialidad -->
-                    <div class="col-md-3 mb-3">
-                        <label class="font-weight-bold"><i class="fas fa-stethoscope mr-2"></i>Especialidad</label>
-                        <div class="input-group">
-                            <p class="form-control-static">'.htmlspecialchars($row['especialidad']).'</p>
+        <div class="col-md-3 mb-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold text-info"><i class="fas fa-stethoscope mr-2"></i>Especialidad</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light"><i class="fas fa-medal text-info"></i></span>
+                                </div>
+                                <p class="form-control bg-light">'.htmlspecialchars($row['especialidad']).'</p>
+                            </div>
                         </div>
                     </div>
                     
                     <!-- Médico -->
                     <div class="col-md-3 mb-3">
-                        <label class="font-weight-bold"><i class="fas fa-user-md mr-2"></i>Médico</label>
-                        <div class="input-group">
-                            <p class="form-control-static">'.htmlspecialchars($row['nombre'].' '.$row['apellido']).'</p>
+                        <div class="form-group">
+                            <label class="font-weight-bold text-info"><i class="fas fa-user-md mr-2"></i>Médico</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light"><i class="fas fa-user-tie text-info"></i></span>
+                                </div>
+                                <p class="form-control bg-light">'.htmlspecialchars($row['nombre'].' '.$row['apellido']).'</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <!-- Estado de la cita -->
+                    <!-- Estado -->
                     <div class="col-md-2 mb-3">
-                        <label class="font-weight-bold"><i class="fas fa-info-circle mr-2"></i>Estado</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                            </div>
-                            <select class="form-control">
-                                                    '?><?php
-                                                  
-                              require_once 'listarControlador.php'; $area=new listarControlador();$area->listar_condicion();
+                        <div class="form-group">
+                            <label class="font-weight-bold text-info"><i class="fas fa-clipboard-check mr-2"></i>Estado</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light"><i class="fas fa-tasks text-info"></i></span>
+                                </div>'?><?php if ($row['id_condicion']==3){
 
-                            ?><?php echo'
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <!-- Fecha de Consulta -->
-                    <div class="col-md-2 mb-3">
-                        <label class="font-weight-bold"><i class="far fa-calendar-alt mr-2"></i>Fecha Consulta</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
+                                     echo '<p class="form-control bg-info rounded-pill px-3 py-2">'.htmlspecialchars($row['condicion']).'</p>';
+                                          
                                 
+                                }elseif($row['id_condicion']==4){
+                                
+                                    echo '<p class="form-control bg-danger">'.htmlspecialchars($row['condicion']).'</p>' ;
+                                
+                                }else{
+                                    echo ' 
+                                    <select class="form-control">
+                                      <option value="5" selected>---SELECCIONE---</option>
+                                        <option value="1">AGENDADA</option>
+                                        <option value="2">POSPUESTA</option>
+                                        <option value="3">ATENDIDA</option>
+                                        <option value="4">PERDIDA</option>
+                                      
+                                    </select>';
+
+                                }?>
+                                <?php echo'
                             </div>
-                            <p class="form-control-static">'.htmlspecialchars($row['fecha_consulta']).'</p>
                         </div>
                     </div>
                     
-                    <!-- Botón Guardar -->
-                    <div class="col-md-2 d-flex align-items-end mb-3">
-                        <button class="btn btn-primary btn-block" id="guardarCambiasCita" value="'.htmlspecialchars($row['id_cita']).'" title="Guardar cambios">
-                            <i class="fas fa-save mr-2"></i>Guardar cambios
-                        </button>
+                    <!-- Fecha Consulta -->
+                    <div class="col-md-2 mb-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold text-info"><i class="far fa-calendar-alt mr-2"></i>Fecha Consulta</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light"><i class="fas fa-clock text-info"></i></span>
+                                </div>
+                                <p class="form-control bg-light">'.htmlspecialchars($row['fecha_consulta']).'</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>';
+                    
+                    <!-- Acciones -->
+                    <div class="col-md-2 d-flex align-items-end mb-3">
+                        <button class="btn btn-info btn-block" id="ActualizarBtnActul" value="'.htmlspecialchars($row['id_cita']).'">
+                            <i class="fas fa-save mr-2"></i>Guardar
+                        </button>
+                    </div>';
     }
 }
 }

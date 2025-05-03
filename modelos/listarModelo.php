@@ -264,5 +264,51 @@ protected static function citasdependeciasModelos(){
  return $sql;
 
 }
+protected static function pacientesPorMunicipioModelo() {
+    $sql = conexionModelo::conectar()->prepare("SELECT 
+                m.id_municipio,
+                m.municipio AS nombre_municipio,
+                COUNT(p.id_persona) AS numero_pacientes
+            FROM 
+                municipios m
+            JOIN 
+                parroquia pa ON m.id_municipio = pa.id_municipios
+            LEFT JOIN 
+                persona p ON pa.id_parroquia = p.id_parroquia
+            LEFT JOIN
+                cita c ON p.id_persona = c.persona_id
+            GROUP BY 
+                m.id_municipio, m.municipio
+            ORDER BY 
+                numero_pacientes DESC");
+    
+    $sql->execute();
+    return $sql;
+}
+
+public static function listar_citas_diarias_especialidad_modelo($fecha) {
+    $sql = conexionModelo::conectar()->prepare("SELECT 
+            e.especialidad,
+            COUNT(c.id_cita) AS cantidad_citas
+        FROM 
+            cita c
+        JOIN 
+            consulta co ON c.id_consulta = co.id_consulta
+        JOIN 
+            especialidad e ON co.id_especialidad = e.id_especialidad
+        WHERE 
+            DATE(co.fecha_consulta) = :fecha
+            AND c.condicion_id = 1  -- Solo citas agendadas (opcional)
+        GROUP BY 
+            e.especialidad
+        ORDER BY 
+            cantidad_citas DESC
+    ");
+    
+    $sql->bindParam(':fecha', $fecha);
+    $sql->execute();
+    
+    return $sql;
+}
 
 }

@@ -67,7 +67,7 @@
                     confirmButtonText:'OK',      
                 }).then((result)=>{
                   if(result.value){ 
-                window.location.href = `${server}nuevaDependencia`;}})
+                    location.reload();}})
                 }else{
                   Swal.fire(
                     'ERROR',
@@ -99,7 +99,7 @@ $(document).on('click','#habilitarDependencia',function(){
      console.log(dependencia)
     $.ajax({
        type:'POST',
-       url:`${server1}/ajax/dependenciasAjax.php`,
+       url:`${server}/ajax/dependenciasAjax.php`,
        data:{
              'habilitarDependencia':true,
              'idDependencias':dependencia,
@@ -114,7 +114,7 @@ $(document).on('click','#habilitarDependencia',function(){
                    confirmButtonText:'OK',      
                }).then((result)=>{
                  if(result.value){ 
-               window.location.href = `${server}nuevaDependencia`;}})
+             location.reload();}})
                }else{
                  Swal.fire(
                    'ERROR',

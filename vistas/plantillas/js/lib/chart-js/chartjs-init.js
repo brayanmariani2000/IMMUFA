@@ -14,10 +14,6 @@
             success: function(response) {
                 $('.chart-loading').remove();
                 
-                if (response.error) {
-                    $(ctx).after('<div class="chart-error">Error: ' + response.error + '</div>');
-                    return;
-                }
                 
                 if (!response.labels || !response.data) {
                     $(ctx).after('<div class="chart-error">Formato de datos incorrecto</div>');
@@ -88,10 +84,6 @@
                     }
                 });
             },
-            error: function(xhr, status, error) {
-                $('.chart-loading').remove();
-                $(ctx).after('<div class="chart-error">Error al cargar datos: ' + error + '</div>');
-            }
         });
     });
     

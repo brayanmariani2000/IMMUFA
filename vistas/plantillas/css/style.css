@@ -6906,3 +6906,29 @@ tbody tr td:last-child {
     display: inline-block !important;
   }
 }
+/* Estilos para la tabla de municipios */
+.table-responsive {
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.progress {
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+}
+
+/* Colores para las barras de progreso */
+.bg-success { background-color: #28a745 !important; }
+.bg-primary { background-color: #007bff !important; }
+.bg-info { background-color: #17a2b8 !important; }
+.bg-warning { background-color: #ffc107 !important; color: #212529; }
+.bg-danger { background-color: #dc3545 !important; }

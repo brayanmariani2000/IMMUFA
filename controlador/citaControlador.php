@@ -187,7 +187,23 @@ class citaControlador extends citaModelo{
         
         <td><?php echo  $row['fecha_nacimiento']?></td>
 
-        <td><?php echo  $row['condicion']?></td>
+        <td><?php if($row['id_condicion']==1){
+           echo  '<span class="badge badge-info rounded-pill px-3 py-2">
+                        <span class="text-white font-weight-bold">'.$row['condicion'].'</span>
+                    </span>'  ;
+           }elseif($row['id_condicion']==2){
+            echo '<span class="badge bg-warning rounded-pill px-3 py-2">
+                        <span class="text-white font-weight-bold">'.$row['condicion'].'</span>
+                    </span>';
+           }elseif($row['id_condicion']==3){
+            echo '<span class="badge bg-class  rounded-pill px-3 py-2">
+                        <span class="text-white font-weight-bold">'.$row['condicion'].'</span>
+                    </span>';
+           }elseif($row['id_condicion']==4){
+            echo'<span class="badge badge-danger rounded-pill px-3 py-2">
+                        <span class="text-white font-weight-bold">'.$row['condicion'].'</span>
+                    </span>';
+           }?></td>
         
         <td>
     

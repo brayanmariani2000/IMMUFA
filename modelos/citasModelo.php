@@ -93,7 +93,8 @@ protected static function citasEspecialidadModelos($especialidad,$fecha_Actual){
                     consulta.hora_consulta,
                     medico.id_medico,
                     dependencias.dependencia,
-                    condicion.condicion
+                    condicion.condicion,
+                    condicion.id_condicion
                     
                 FROM 
                     cita

@@ -2,20 +2,14 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Data Export</h4>
+                                <h4 class="card-title">Citas por espacialidad</h4>
                                 <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF &amp; Print</h6>
                                 <div class="table-responsive m-t-40">
                                     <div id="example23_wrapper" class="dataTables_wrapper">
                                         <div id="example23_wrapper" class="dataTables_wrapper">
-                                            <div class="dt-buttons"><a class="dt-button buttons-copy buttons-html5" tabindex="1" href="#">
-                                            <span>Copy</span></a><a class="dt-button buttons-csv buttons-html5" tabindex="1" aria-controls="example23" href="#">
-                                            <span>CSV</span></a><a class="dt-button buttons-excel buttons-html5" tabindex="1" aria-controls="example23" href="#">
-                                            <span>Excel</span></a><a class="dt-button buttons-pdf buttons-html5" tabindex="1" aria-controls="example23" href="#">
-                                            <span>PDF</span></a><a class="dt-button buttons-print" tabindex="0" aria-controls="example23" href="#">
-                                            <span>Print</span></a>
                                         </div>
                                             <div id="example23_filter" class="dataTables_filter">
-                                            <label>Search:<input type="search" class="" placeholder="" aria-controls="example23"></label></div>
+                                            <label>Buscar:<input type="search" class="" placeholder="" aria-controls="example23"></label></div>
                                         <div>
 
                                         </div>

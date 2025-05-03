@@ -17,17 +17,6 @@
 
                   <div class="dt-buttons">
                     
-                    <a class="dt-button buttons-copy buttons-html5" tabindex="1" href="#">
-
-                      <span>Excel</span>
-
-                    </a>
-
-                    <a class="dt-button buttons-pdf buttons-html5" tabindex="1" aria-controls="example23" href="#">
-
-                      <span>PDF</span>
-                    
-                    </a>
 
                     <div id="example23_filter" class="dataTables_filter">
 

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var ctx = document.getElementById("donutChart");
+    var ctx = document.getElementById("donutChartEdades");
     var donutChart = null;
     
     // Colores estilo Dunus para cada grupo de edad

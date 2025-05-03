@@ -124,7 +124,6 @@
           */
 
   $(document).on('click','#eliminarArea',function(){
-    const server1='http://localhost/ubv/proyecto2/'
 
     Swal.fire({        
 
@@ -150,7 +149,7 @@
 
           type:'POST',
 
-          url:`${server1}ajax/areaAjax.php`,
+          url:`${server}ajax/areaAjax.php`,
 
           data:{
 
@@ -180,7 +179,7 @@
 
                 if(result.value){ 
 
-                  window.location.href = `${server1}/nuevaArea`;}})
+                   location.reload();}})
 
                 }else{
 
@@ -210,7 +209,6 @@
         })   
 
         $(document).on('click','#habilitarArea',function(){
-          const server1='http://localhost/ubv/proyecto2/'
       
           Swal.fire({        
       
@@ -235,7 +233,7 @@
       
                 type:'POST',
       
-                url:`${server1}ajax/areaAjax.php`,
+                url:`${server}ajax/areaAjax.php`,
       
                 data:{
       
@@ -265,7 +263,7 @@
       
                       if(result.value){ 
       
-                        window.location.href = `${server}/nuevaArea`;}})
+                       location.reload();}})
       
                       }else{
       

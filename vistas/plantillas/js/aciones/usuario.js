@@ -38,6 +38,7 @@ function registrarUsuario(e) {
                     text: 'Se ha registrado exitosamente',
                 }).then(() => {
                     $('#registrarUsuario')[0].reset();
+                    location.reload();
                 });
             } else {
                 mostrarError('Por favor verifique los datos');

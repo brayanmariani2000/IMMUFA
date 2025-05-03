@@ -11,7 +11,7 @@
                     
                     <!-- Inicio -->
                     <li> 
-                        <a class="" href="<?php echo SERVERURL?>inicio">
+                        <a class="" href="<?php echo SERVERURL?>inicio2">
                             <i class="fas fa-home fa-fw"></i>
                             <span class="hide-menu">Inicio</span>
                         </a>
@@ -67,20 +67,13 @@
 
                     <!-- Reportes -->
                     <li> 
-                        <a class="" href="<?php echo SERVERURL?>Reportes">
+                        <a class="" href="<?php echo SERVERURL?>reportes">
                             <i class="fas fa-chart-bar fa-fw"></i>
                             <span class="hide-menu">Reportes y Estadísticas</span>
                         </a>
                     </li>
 
                     <!-- Configuración (opcional) -->
-                    <li class="nav-label">Configuración</li>
-                    <li> 
-                        <a class="" href="#">
-                            <i class="fas fa-cog fa-fw"></i>
-                            <span class="hide-menu">Configuración</span>
-                        </a>
-                    </li>
                 </ul>
             </nav>
             <!-- End Sidebar navigation -->
