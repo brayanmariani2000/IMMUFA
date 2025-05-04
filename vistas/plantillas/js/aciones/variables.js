@@ -1,2 +1,2 @@
 
-export const server="http://localhost/ubv/proyecto2/";
+export const server="";

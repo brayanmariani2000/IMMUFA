@@ -1,441 +1,296 @@
-
-<div class="col-12 mb-40" id="tabla_t">
-
-    <div class="card">
-
-      <div class="card-body">
-
-        <h4 class="card-title">Citas</h4>
-
-          <h6 class="card-subtitle">Exportar datos Excel, PDF</h6>
-
-            <div class="table-responsive m-t-40">
-
-              <div id="example23_wrapper" class="dataTables_wrapper">
-
-                <div id="example23_wrapper" class="dataTables_wrapper">
-
-                  <div class="dt-buttons">
-                    
-
-                    <div id="example23_filter" class="dataTables_filter">
+<div class="col-12 mb-4">
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="card-title mb-0">Citas</h4>
+                <small class="card-subtitle">Pacientes registrados</small>
+            </div>
+            <div id="example23_filter" class="dataTables_filter">
 
                       <label>Buscar:<input type="Buscar" class="" placeholder="" aria-controls="example23"></label>
 
                     </div>
-
-                  <div>
-
-
-                </div>
-
-                <table  class="table table-hover table-responsive" cellspacing="0" width="100%" role="grid" aria-describedby="example23_info" style="width: 100%;">
-
-                  <thead>
-
-                    <tr role="row">
-
-                      <th class=""  rowspan="1" colspan="1">N°</th>
-
-                      <th class=""  rowspan="1" colspan="1"style="width: 131.8px;">Nombre y Apellido</th>
-
-                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" >Cedula</th>
-
-                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" >Direccion</th>
-
-                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" >Discapacidad</th>
-
-                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" >Etnia</th>
-
-                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" >Edad</th>
-
-                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" >Accion</th>
-
-                    </tr>
-
-                  </thead>
-
-                  <tbody>
-                 
-                    <?php /// aqui va la cabezera 
-                                     
-                    
-                       require_once 'controlador/loginControlador.php';
-                    
-                       $tabla=new loginControlador();
-                    
-                       echo $tabla->listar_cita();
-                    
-                                     
-                    ?>
-
-                  </tbody>
-
-                </table>
-
-              </div>
-
-              <div class="dataTables_info" id="example23_info" role="status" aria-live="polite">Showing 1 to 10 of 10 entries
-
-                <div class="dataTables_paginate paging_simple_numbers" id="example23_paginate">
-
-                      
-                <a class="paginate_button previous disabled" aria-controls="example23" data-dt-idx="0" tabindex="0" id="example23_previous">Previous</a>
-                
-                <span>
-                  <a class="paginate_button current" aria-controls="example23" data-dt-idx="1" tabindex="0">1</a>
-                      
-                  <a class="paginate_button " aria-controls="example23" data-dt-idx="2" tabindex="0">2</a>
-                  
-                  <a class="paginate_button " aria-controls="example23" data-dt-idx="3" tabindex="0">3</a>
-                  
-                  <a class="paginate_button " aria-controls="example23" data-dt-idx="4" tabindex="0">4</a>
-                  
-                  <a class="paginate_button " aria-controls="example23" data-dt-idx="5" tabindex="0">5</a>
-                  
-                  <a class="paginate_button " aria-controls="example23" data-dt-idx="6" tabindex="0">6</a>
-                
-                </span>
-                  
-                  <a class="paginate_button next" aria-controls="example23" data-dt-idx="7" tabindex="0" id="example23_next">Next</a>
-                
-                </div>
-              
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-                        
-    </div>
-                
-</div>
-                <!-- ============
-                VER INFORMACION DEL PACIENTE MODAL 
-                ==============-->
-<div class="modal fade" id="veirInfoPaciente" role="dialog">
-
-  <div class="modal-dialog" role="document">
-
-    <div class="modal-content">
-
-      <div class="modal-header"style="background:#3c8dbc;padding-button:0px " >
-
-        <h5 class="modal-title" style="color:white; padding-top:0px">Datos del Paciente</h5>
-
-        <button type="button" class="close" data-dismiss="modal" id="cerrarIconInfo"><span aria-hidden="true">&times;</span></button>
-
-      </div>
-      <div class="modal-body">
-
-      <div class="box-body">
-
-        <div class="form-group row">
-
-            <div class="col-md-4">
-
-            <label for="nombrePaciente">Nombre</label>
-
-            <p id="nombrePaciente"></p>
-
-            </div>
-
-            <div class="col-md-4">
-
-            <label for="apellidoPaciente">apellido</label>
-
-            <p  id="apellidoPaciente"></p>
-
-            </div>
-
-            <div class="col-md-4">
-
-            <label for="cedulaPaciente">cedula</label>
-
-            <p  id="cedulaPaciente"></p>
-
-            </div>
-
-        </div>
-
-        <div class="form-group row">
-
-            <div class="col-md-4">
-
-            <label for="fechaNaciPaciente">fecha de Nacimiento</label>
-
-            <p id="fechaNaciPaciente"></p>
-
-            </div>
-
-            <div class="col-md-4">
-
-            <label for="edadPaciente">edad</label>
-
-            <p  id="edadPaciente"></p>
-
-            </div>
-
-            <div class="col-md-4">
-
-            <label for="sexoPaciente">sexo</label>
-
-            <p  id="sexoPaciente"></p>
-
-            </div>
-
-        </div>
-
-        <div class="form-group row">
-
-            <div class="col-md-4">
-
-            <label for="discapacidadPaciente">discapacidad</label>
-
-            <p id="discapacidadPaciente"></p>
-
-            </div>
-
-            <div class="col-md-4">
-
-            <label for="etniaPaciente">etnia</label>
-
-            <p  id="etniaPaciente"></p>
-
-            </div>
-
-            <div class="col-md-4">
-
-            <label for="telefonoPaciente">telefono</label>
-
-            <p  id="telefonoPaciente"></p>
-
-            </div>
-
-        </div>
-
-        <center><h5 class="modal-title" id="exampleModalLabel">Direccion</h5></center>
-
-        <div class="form-group row">
-
-            <div class="col-md-4">
-
-            <label for="municipioPaciente">Municipio</label>
-
-            <p id="municipioPaciente"></p>
-
-            </div>
-
-            <div class="col-md-4">
-
-            <label for="parroquiaPaciente">Parroquia</label>
-
-            <p  id="parroquiaPaciente"></p>
-
-            </div>
-
-            <div class="col-md-4">
-
-            <label for="sectorPaciente">Sector</label>
-
-            <p  id="sectorPaciente"></p>
-
-            </div>
-
-        </div>
-
-
-      </div>
-
-     </div>
-
-      <div class="modal-footer">
-
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="cerrarBtnInfo">Cerrar</button>
-
-      </div>
-
-    </div>
-
-</div>
-
-</div>
-
-
-        <!-- ============
-                ACTUALIZAR INFORMACION DEL PACIENTE MODAL 
-                ==============-->
-
-<div class="modal fade" id="actualizarPaciente" tabindex="-1" role="dialog" aria-labelledby="ActualizarPacienteModal" aria-hidden="true">
-
-  <div class="modal-dialog" role="document">
-
-      <div class="modal-content">
-
-        <div class="modal-header">
-
-          <h5 class="modal-title" id="ActualizarPacienteModal">Datos del Paciente</h5>
-
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cerrarIconActul"><span aria-hidden="true">&times;</span></button>
-
-        </div>
-
-        <div class="modal-body">
-
-          <form id="actualizarPacienteFormulario" method="POST">
-
-          <div class="form-group row">
-
-              <div class="col-md-4">
-
-              <label for="nombrePacienteActualizar">Nombre</label>
-
-              <input type="text" id="nombrePacienteActualizar" name="nombreActul" class="col-md-11">
-
-              </div>
-
-              <div class="col-md-4">
-
-              <label for="apellidoPacienteActualizar">apellido</label>
-
-              <input type="text" id="apellidoPacienteActualizar" name="apellidoActul" class="col-md-11">
-
-              </div>
-
-              <div class="col-md-4">
-
-              <label for="cedulaPacienteActualizar">cedula</label>
-
-              <input type="text" id="cedulaPacienteActualizar"name="cedulaActul" class="col-md-11">
-
-              </div>
-
-          </div>
-
-          <div class="form-group row">
-
-              <div class="col-md-4">
-
-              <label for="fechaNaciPacienteActualizar">fecha de Nacimiento</label>
-
-              <input type="text" id="fechaNaciPacienteActualizar"class="col-md-11" name="fechaNaciActul">
-
-              </div>
-
-              <div class="col-md-4">
-
-              <label for="edadPacienteActualizar">edad</label>
-
-              <input type="text"  id="edadPacienteActualizar" class="col-md-11" name="edadActul">
-
-              </div>
-
-              <div class="col-md-4">
-
-              <label for="sexoPacienteActualizar">sexo</label>
-
-              <select name="sexoActul" id="sexoPacienteActualizar" class="p-1">
-
-                <option value="1">FEMENINO</option>
-
-                <option value="2">MASCULINO</option>
-
-              </select>
-
-              </div>
-
-          </div>
-
-          <div class="form-group row">
-
-              <div class="col-md-4">
-
-              <label for="discapacidadPacienteActualizar">discapacidad</label>
-
-              <select name="discapacidadActul" id="discapacidadPacienteActualizar" class="p-1 col-md-11" >
-
-               <option value="1">MOTORA</option>
-
-               <option value="2">AUDITIVA</option>
-
-               <option value="3">VISUAL</option>
-
-               <option value="4">MENTAL</option>
-
-
-              </select>
-
-              </div>
-
-              <div class="col-md-4">
-
-              <label for="etniaPacienteActualizar">etnia</label>
-
-              <select name="etniaActul" id="etniaPacienteActualizar" class="p-1">
-
-            <?php  require_once './controlador/listarControlador.php'; $area=new listarControlador(); $area->listar_etnias_controlador(); ?>
-
-            </select>
-            
-              </div>
-              
-              <div class="col-md-4">
-                
-              <label for="telefonoPacienteActualizar">telefono</label>
-              
-              <input type="text"  id="telefonoPacienteActualizar" class="col-md-12" name="telefonoActul">
-              
-              </div>
-              
-          </div>
-          
-          <center><h5 class="modal-title" id="exampleModalLabel">Direccion</h5></center>
-          
-          <div class="form-group row">
-            
-              <div class="col-md-6">
-                
-              <label for="municipioPacienteActualizar">Municipio</label>
-              
-              <select name="municipioActul" id="municipioPacienteActualizar" class=" p-1">
-                
-              <?php $area->listar_municipio_controlador();?>
-              
-              </select>
-              
-              </div>
-              
-              <div class="col-md-5">
-                
-              <label for="parroquiaPacienteActualizar">Parroquia</label>
-              
-              <select id="parroquiaPacienteActualizar" class="col-md-12 p-1" name="parroquiaActul"></select>
-              
-              </div>
-              
-          </div>
-          
         </div>
         
-        <div class="modal-footer">
-          
-          <button type="button" class="btn btn-primary" data-dismiss="modal" id="cerrarBtnActul">Cerrar</button>
-          
-          <button type="submit" class="btn btn-dark" data-dismiss="modal" id="botonAc">Actualizar</button>
-          
-         
-          </div>
-          
-          </form>
-          
-      </div>
-      
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="tablaCitas" class="table table-hover table-striped align-middle" style="width:100%">
+                    <thead class="">
+                        <tr>
+                            <th width="5%">N°</th>
+                            <th width="20%">Nombre y Apellido</th>
+                            <th width="10%">Cédula</th>
+                            <th width="15%">Dirección</th>
+                            <th width="10%">Discapacidad</th>
+                            <th width="10%">Etnia</th>
+                            <th width="5%">Edad</th>
+                            <th width="15%" class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                            require_once 'controlador/loginControlador.php';
+                            $tabla = new loginControlador();
+                            echo $tabla->listar_cita();
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Paginación mejorada -->
+            <nav aria-label="Paginación de citas" class="mt-3">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                </ul>
+                <p class="text-center text-muted small">Mostrando 1 a 10 de 10 registros</p>
+            </nav>
+        </div>
     </div>
-    
 </div>
 
-<!-- Button trigger modal -->   
+<!-- Modal para ver información del paciente -->
+<div class="modal fade" id="veirInfoPaciente" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-user-circle me-2"></i>Datos del Paciente
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <p class="form-control-plaintext border-bottom" id="nombrePaciente"></p>
+                            <label>Nombre</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <p class="form-control-plaintext border-bottom" id="apellidoPaciente"></p>
+                            <label>Apellido</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <p class="form-control-plaintext border-bottom" id="cedulaPaciente"></p>
+                            <label>Cédula</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <p class="form-control-plaintext border-bottom" id="fechaNaciPaciente"></p>
+                            <label>Fecha de Nacimiento</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <p class="form-control-plaintext border-bottom" id="edadPaciente"></p>
+                            <label>Edad</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <p class="form-control-plaintext border-bottom" id="sexoPaciente"></p>
+                            <label>Sexo</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <p class="form-control-plaintext border-bottom" id="discapacidadPaciente"></p>
+                            <label>Discapacidad</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <p class="form-control-plaintext border-bottom" id="etniaPaciente"></p>
+                            <label>Etnia</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <p class="form-control-plaintext border-bottom" id="telefonoPaciente"></p>
+                            <label>Teléfono</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <h5 class="text-center mb-3 border-top border-bottom py-2 bg-light">
+                    <i class="fas fa-map-marker-alt me-2"></i>Dirección
+                </h5>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <p class="form-control-plaintext border-bottom" id="municipioPaciente"></p>
+                            <label>Municipio</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <p class="form-control-plaintext border-bottom" id="parroquiaPaciente"></p>
+                            <label>Parroquia</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <p class="form-control-plaintext border-bottom" id="sectorPaciente"></p>
+                            <label>Sector</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para actualizar información del paciente -->
+<div class="modal fade" id="actualizarPaciente" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-user-edit me-2"></i>Actualizar Datos del Paciente
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <form id="actualizarPacienteFormulario" method="POST">
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="nombrePacienteActualizar" name="nombreActul" placeholder="Nombre">
+                                <label for="nombrePacienteActualizar">Nombre</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="apellidoPacienteActualizar" name="apellidoActul" placeholder="Apellido">
+                                <label for="apellidoPacienteActualizar">Apellido</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="cedulaPacienteActualizar" name="cedulaActul" placeholder="Cédula">
+                                <label for="cedulaPacienteActualizar">Cédula</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="date" class="form-control" id="fechaNaciPacienteActualizar" name="fechaNaciActul">
+                                <label for="fechaNaciPacienteActualizar">Fecha de Nacimiento</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="edadPacienteActualizar" name="edadActul" placeholder="Edad">
+                                <label for="edadPacienteActualizar">Edad</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <select class="form-select" id="sexoPacienteActualizar" name="sexoActul">
+                                    <option value="1">Femenino</option>
+                                    <option value="2">Masculino</option>
+                                </select>
+                                <label for="sexoPacienteActualizar">Sexo</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <select class="form-select" id="discapacidadPacienteActualizar" name="discapacidadActul">
+                                    <option value="1">Motora</option>
+                                    <option value="2">Auditiva</option>
+                                    <option value="3">Visual</option>
+                                    <option value="4">Mental</option>
+                                </select>
+                                <label for="discapacidadPacienteActualizar">Discapacidad</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <select class="form-select" id="etniaPacienteActualizar" name="etniaActul">
+                                    <?php require_once './controlador/listarControlador.php'; 
+                                    $area = new listarControlador(); 
+                                    $area->listar_etnias_controlador(); ?>
+                                </select>
+                                <label for="etniaPacienteActualizar">Etnia</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="tel" class="form-control" id="telefonoPacienteActualizar" name="telefonoActul" placeholder="Teléfono">
+                                <label for="telefonoPacienteActualizar">Teléfono</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h5 class="text-center mb-3 border-top border-bottom py-2 bg-light">
+                        <i class="fas fa-map-marker-alt me-2"></i>Dirección
+                    </h5>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select class="form-select" id="municipioPacienteActualizar" name="municipioActul">
+                                    <?php $area->listar_municipio_controlador(); ?>
+                                </select>
+                                <label for="municipioPacienteActualizar">Municipio</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select class="form-select" id="parroquiaPacienteActualizar" name="parroquiaActul">
+                                    <option value="">Seleccione una parroquia</option>
+                                </select>
+                                <label for="parroquiaPacienteActualizar">Parroquia</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cerrar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -169,7 +169,7 @@
 
                                                         <div class="col-md-6 d-none" id="discapacidad_opcion">
                                                             <label for="discapacidad" class="form-label">DISCAPACIDADES</label>
-                                                            <select name="discapacidad" id="discapacidad" class="form-select">
+                                                            <select name="discapacidad" id="discapacidad" class="form-control">
                                                                 <option value="0">---SELECCIONE UNA OPCIÓN---</option>
                                                                 <?php $area->listar_discapacidad_controlador(); ?>
                                                             </select>
@@ -202,7 +202,7 @@
 
                                                         <div class="col-md-6 d-none" id="etnia_opcion">
                                                             <label for="etnias" class="form-label">ETNIAS</label>
-                                                            <select name="etnias" id="etnias" class="form-select">
+                                                            <select name="etnias" id="etnias" class="form-control">
                                                                 <option value="0">---SELECCIONE UNA OPCIÓN---</option>
                                                                 <?php $area->listar_etnias_controlador(); ?>
                                                             </select>

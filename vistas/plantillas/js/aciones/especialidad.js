@@ -49,10 +49,10 @@
                   });
               }
               
-              $('#especialidadCitaJs').html(html);
+              $('#especialidadCitaJs2').html(html);
           },
           error: function(xhr, status, error) {
-              $('#especialidadCitaJs').html(`
+              $('#especialidadCitaJs2').html(`
                   <div class="alert alert-danger">
                       Error al cargar datos: ${error}
                   </div>

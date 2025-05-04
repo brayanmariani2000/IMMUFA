@@ -39,7 +39,7 @@
            * **********************************************
           */
    $(document).on('click','#eliminarDependencia',function(){
-   const server1='http://localhost/ubv/proyecto2/'
+   const server1=''
     Swal.fire({        
       type: 'info',
       title: 'DESABILITAR',

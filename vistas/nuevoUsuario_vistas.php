@@ -119,7 +119,7 @@
                             <div class="card-body">
                                 <h4 class="card-title">Usuarios</h4>
                                 <div class="table-responsive">
-                                    <table class="display nowrap table table-hover table-striped table-bordered dataTable">
+                                    <table class="display nowrap table table-hover table-striped ">
                                         <thead>
                                             <tr role="row">
                                                 <th>Nombre y Apellido</th>

@@ -127,12 +127,6 @@ class citaControlador extends citaModelo{
 
                 <td><?php echo  $row['Nombre_Registrador'] .' '. $row['Apellido_Registrador']?></td>
 
-
-                
-                <td>
-            
-                  
-              </td>
             </tr><?php
     
             }
