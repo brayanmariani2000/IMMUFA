@@ -45,9 +45,6 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="forgot-password">
-                                <a href="#!">¿Olvidaste tu contraseña?</a>
-                            </div>
                         </form>
                     </div>
                 </div>
