@@ -36,4 +36,12 @@ if (isset($_POST['ver_paciente'])){
 
     }
 
+}elseif(isset($_POST['action'])){ 
+
+    require_once "../controlador/pacienteControlador.php";
+               
+    $buscar=new pacienteControlador();
+
+    echo $buscar->buscar_Paciente_historia_controlador($_POST['buscar']);
+
 }

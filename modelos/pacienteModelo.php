@@ -183,4 +183,47 @@ class pacienteModelo extends conexionModelo{
 
   }
 
+  protected static function buscar_historial_citas_modelo($buscar) {
+    $sql = conexionModelo::conectar()->prepare("SELECT 
+                p.nombre AS Nombre_Paciente,
+                p.apellido AS Apellido_Paciente,
+                p.cedula AS Cedula_Paciente,
+                e.especialidad AS Especialidad,
+                m.nombre AS Nombre_Medico,
+                m.apellido AS Apellido_Medico,
+                c.fecha_consulta AS Fecha_Atencion,
+                c.hora_consulta AS Hora_Atencion,
+                ci.fecha_registro AS Fecha_Registro,
+                up.nombre AS Nombre_Registrador,
+                up.apellido AS Apellido_Registrador
+            FROM 
+                cita ci
+            JOIN 
+                persona p ON ci.persona_id = p.id_persona
+            JOIN 
+                consulta c ON ci.id_consulta = c.id_consulta
+            JOIN 
+                especialidad e ON c.id_especialidad = e.id_especialidad
+            JOIN 
+                medico me ON c.id_medico = me.id_medico
+            JOIN 
+                persona m ON me.id_persona = m.id_persona
+            JOIN 
+                usuario u ON ci.id_usuario = u.id_usuario
+            JOIN 
+                persona up ON u.persona_id = up.id_persona
+            WHERE 
+                p.cedula LIKE :buscar
+            ORDER BY 
+                ci.fecha_registro DESC
+            LIMIT 100");
+
+    $buscarParam = "$buscar%";
+    
+    $sql->bindParam(':buscar', $buscarParam, PDO::PARAM_STR);
+    
+    $sql->execute();
+    
+    return $sql;
+}
 }

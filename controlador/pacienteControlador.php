@@ -624,5 +624,28 @@ public function datosCitaActualizar($idPaciente) {
                     </div>';
     }
 }
+public function buscar_Paciente_historia_controlador($busca) {
+  $buscar = pacienteModelo::buscar_historial_citas_modelo($busca);
+  $buscarHistorial = $buscar->fetchAll();
+
+  $datos = array();
+
+  foreach($buscarHistorial as $row) {
+    $datos[] = array(
+      'nombre' => $row['Nombre_Paciente'],
+      'apellido' => $row['Apellido_Paciente'],
+      'cedula' => $row['Cedula_Paciente'],
+      'especialidad' => $row['Especialidad'],
+      'medico_nombre' => $row['Nombre_Medico'],
+      'medico_apellido' => $row['Apellido_Medico'],
+      'fecha_consulta' => $row['Fecha_Atencion'],
+      'hora_consulta' => $row['Hora_Atencion'],
+      'fecha_registro_formateada' => date('d/m/Y H:i', strtotime($row['Fecha_Registro'])),
+      'usuario' => $row['Nombre_Registrador'] . ' ' . $row['Apellido_Registrador']
+  );
+  }
+
+  echo json_encode($datos);
+}
 }
 

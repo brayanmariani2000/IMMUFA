@@ -124,12 +124,6 @@ public function listar_cita() {
                       </button>
                   </form>
                   
-                  <!-- Botón adicional de ejemplo con otro icono -->
-                  <form action="<?php echo SERVERURL."editarPaciente"; ?>" method="POST" style="display: inline;">
-                      <button type="submit" class="btn btn-warning btn-sm" name="editarPaciente" value="<?php echo $row['id_persona']; ?>">
-                          <i class="fas fa-user-edit"></i> Editar
-                      </button>
-                  </form>
               </div>
           </td>
       </tr>

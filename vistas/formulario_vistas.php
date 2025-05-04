@@ -94,7 +94,7 @@
                             <div class="">
                                 <h4 class="card-title">Medicos</h4>
                                 <div class="tabla-responsive">
-                                    <table class="display nowrap table table-hover table-striped table-bordered dataTable">
+                                    <table class="display nowrap table table-hover table-striped ">
                                         <thead>
                                             <tr role="row">
                                                 <th>Nombre y Apellido</th>

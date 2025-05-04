@@ -179,7 +179,7 @@
                             <div class="card">
                                     <div class="col-md-12">
                                         <h4 class="card-title">Citas Por Área de Consulta o Especialidad</h4>
-                                        <div id="especialidadCitaJs">
+                                        <div id="especialidadCitaJs2">
                                             <!-- Mensaje de carga -->
                                             <div class="text-center p-4">
                                                 <div class="spinner-border text-primary" role="status">

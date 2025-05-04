@@ -374,23 +374,65 @@ class tablaControlador extends listarModelo{
         echo json_encode($datos);
 
     }
-    public function listar_citas_cantidad_especialidad_json_controlador(){
-
-        $sql=listarModelo::listar_citas_especialidad_json_modelo();
-
+    public function listar_citas_cantidad_especialidad_json_controlador() {
+        $sql = listarModelo::listar_citas_especialidad_json_modelo();
         $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
-
+    
+        // Paleta de 20 colores Bootstrap para las especialidades
+        $colores = [
+            'bg-primary',
+            'bg-secondary',
+            'bg-success',
+            'bg-danger',
+            'bg-warning',
+            'bg-info',
+            'bg-dark',
+            'bg-light',
+            'bg-indigo',
+            'bg-navy',
+            'bg-purple',
+            'bg-fuchsia',
+            'bg-pink',
+            'bg-maroon',
+            'bg-orange',
+            'bg-lime',
+            'bg-teal',
+            'bg-olive',
+            'bg-cyan',
+            'bg-gray'
+        ];
+        
+        // Si necesitas colores específicos para algunas especialidades conocidas
+        $coloresEspeciales = [
+            'CARDIOLOGÍA' => 'bg-danger',
+            'PEDIATRÍA' => 'bg-info',
+            'TRAUMATOLOGÍA' => 'bg-warning',
+            'DERMATOLOGÍA' => 'bg-success',
+            'GINECOLOGÍA' => 'bg-pink',
+            // Agrega más mapeos específicos si es necesario
+        ];
         
         $datos = [];
+        $indiceColor = 0;
+        
         foreach ($resultados as $fila) {
+            // Verifica si la especialidad tiene un color asignado específicamente
+            if (isset($coloresEspeciales[$fila['especialidad']])) {
+                $color = $coloresEspeciales[$fila['especialidad']];
+            } else {
+                // Asigna un color de la paleta general de forma circular
+                $color = $colores[$indiceColor % count($colores)];
+                $indiceColor++;
+            }
+            
             $datos[] = [
                 'especialidad' => $fila['especialidad'],
                 'cantidad' => $fila['cantidad_citas'],
+                'color' => $color
             ];
         }
         
         echo json_encode($datos);
-
     }
     public function listar_citas_cantidad_dependencia_json_controlador(){
 
@@ -450,7 +492,7 @@ class tablaControlador extends listarModelo{
                                 <div class="progress" style="height: 25px;">
                                     <div class="progress-bar <?php echo $color; ?>" 
                                          role="progressbar" 
-                                         style="width: <?php echo $porcentaje; ?>%; font-weight: bold;"
+                                         style="width: 100%; font-weight: bold;"
                                          aria-valuenow="<?php echo $porcentaje; ?>" 
                                          aria-valuemin="0" 
                                          aria-valuemax="100">
@@ -505,7 +547,7 @@ class tablaControlador extends listarModelo{
                                 <div class="progress" style="height: 25px;">
                                     <div class="progress-bar <?php echo $color; ?>" 
                                          role="progressbar" 
-                                         style="width: <?php echo $porcentaje; ?>%; font-weight: bold;"
+                                         style="width: 100%; font-weight: bold;"
                                          aria-valuenow="<?php echo $porcentaje; ?>" 
                                          aria-valuemin="0" 
                                          aria-valuemax="100">
@@ -561,7 +603,7 @@ class tablaControlador extends listarModelo{
                                 <div class="progress" style="height: 25px;">
                                     <div class="progress-bar <?php echo $color; ?>" 
                                          role="progressbar" 
-                                         style="width: <?php echo $porcentaje; ?>%; font-weight: bold;"
+                                         style="width: 100%; font-weight: bold;"
                                          aria-valuenow="<?php echo $porcentaje; ?>" 
                                          aria-valuemin="0" 
                                          aria-valuemax="100">
@@ -626,12 +668,12 @@ public function listar_citas_cantidad_dependecias_js_controlador_donus(){
                         ?>
                         <tr>
                             <td class="font-weight-bold"><?php echo htmlspecialchars($row['nombre_municipio']); ?></td>
-                            <td class="text-center"><?php echo number_format($row['numero_pacientes'], 0); ?></td>
+                            <td class="text-center text-dark"><?php echo number_format($row['numero_pacientes'], 0); ?></td>
                             <td>
                                 <div class="progress" style="height: 25px;">
                                     <div class="progress-bar <?php echo $color; ?>" 
                                          role="progressbar" 
-                                         style="width: <?php echo $porcentaje; ?>%; font-weight: bold;"
+                                         style="width: 100%; font-weight: bold;"
                                          aria-valuenow="<?php echo $porcentaje; ?>" 
                                          aria-valuemin="0" 
                                          aria-valuemax="100">
