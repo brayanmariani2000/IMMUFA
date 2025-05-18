@@ -22,8 +22,28 @@
                     </div>
                 </div>
                 
+                <!-- Filtro por fechas -->
+                <div class="mb-3 p-3">
+                    <form id="filtroFechasEspecialidad" method="post" class="row g-2">
+                        <div class="col-md-5">
+                            <label for="fechaInicioEspecialidad" class="form-label small text-muted">Fecha Inicio</label>
+                            <input type="date" class="form-control form-control-sm" id="fechaInicioEspecialidad" name="fechaInicio">
+                        </div>
+                        <div class="col-md-5">
+                            <label for="fechaFinEspecialidad" class="form-label small text-muted">Fecha Fin</label>
+                            <input type="date" class="form-control form-control-sm" id="fechaFinEspecialidad" name="fechaFin">
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary btn-sm ">
+                                <i class="fas fa-filter mr-1"></i> Filtrar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <!-- Fin Filtro por fechas -->
+                
                 <!-- Contenedor de la tabla -->
-                <div class="table-responsive flex-grow-1">
+                <div class="table-responsive flex-grow-1" id="contenedorTablaEspecialidad">
                     <?php 
                     require_once "controlador/listarControlador.php";
                     $controlador = new tablaControlador();
@@ -38,8 +58,6 @@
             </div>
         </div>
     </div>
-    
-            
     
     <!-- Columna derecha: Gráfico donut -->
     <div class="col-lg-7">

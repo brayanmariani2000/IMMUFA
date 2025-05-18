@@ -12,14 +12,16 @@
       }
       console.log(dependencia)
       
-     $.post(`${server}ajax/dependenciasAjax.php`,dependencia,function(repuesta){
+     $.post(`ajax/dependenciasAjax.php`,dependencia,function(repuesta){
         console.log(repuesta);
         if(repuesta=="1"){
           Swal.fire({        
             type: 'success',
             title: 'Éxito',
             text: 'Se ha registrado Exitosamente',        
-        });
+        });then((result)=>{
+          if(result.value){ 
+            location.reload();}})
         }else{
           Swal.fire({
             type: 'error',
@@ -52,7 +54,7 @@
       console.log(dependencia)
      $.ajax({
         type:'POST',
-        url:`${server1}/ajax/dependenciasAjax.php`,
+        url:`ajax/dependenciasAjax.php`,
         data:{
               'eliminarDependencia':true,
               'idDependencias':dependencia,
@@ -99,7 +101,7 @@ $(document).on('click','#habilitarDependencia',function(){
      console.log(dependencia)
     $.ajax({
        type:'POST',
-       url:`${server}/ajax/dependenciasAjax.php`,
+       url:`ajax/dependenciasAjax.php`,
        data:{
              'habilitarDependencia':true,
              'idDependencias':dependencia,

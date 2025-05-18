@@ -37,7 +37,7 @@ $('#paciente_cita').submit(function(e){
   
     fecha_consulta:$('#fecha_consulta').val(),
 
-    regsitrar_Paciente:true
+    datosCompletoPaciente:true
   
   }
   console.log(paciente)

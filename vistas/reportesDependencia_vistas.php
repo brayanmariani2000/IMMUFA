@@ -20,10 +20,28 @@
                             <i class="fas fa-file-pdf mr-1"></i> PDF
                         </button>
                     </div>
+                    
+                </div>
+                <div class="mb-3 p-3">
+                    <form id="filtroFechasDependencias" method="post" class="row g-2">
+                        <div class="col-md-5">
+                            <label for="fechaInicio" class="form-label small text-muted">Fecha Inicio</label>
+                            <input type="date" class="form-control form-control-sm" id="fechaInicio" name="fechaInicio">
+                        </div>
+                        <div class="col-md-5">
+                            <label for="fechaFin" class="form-label small text-muted">Fecha Fin</label>
+                            <input type="date" class="form-control form-control-sm" id="fechaFin" name="fechaFin">
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary btn-sm ">
+                                <i class="fas fa-filter mr-1"></i> Filtrar
+                            </button>
+                        </div>
+                    </form>
                 </div>
                 
                 <!-- Contenedor de la tabla -->
-                <div class="table-responsive flex-grow-1">
+                <div class="table-responsive flex-grow-1" id="contenedorTablaDependencias">
                     <?php 
                     require_once "controlador/listarControlador.php";
                     $controlador = new tablaControlador();

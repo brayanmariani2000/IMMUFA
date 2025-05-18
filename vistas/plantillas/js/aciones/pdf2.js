@@ -21,6 +21,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('pdf_municipios')?.addEventListener('click', function() {
         exportToPDF('#tablaPacientesPorMunicipioPDF', 'Reporte por municipios', 'municipios');
     });
+    document.getElementById('exportPDFDiscapacidades')?.addEventListener('click', function() {
+        exportToPDF('#tablaPacientesPorDiscapacidadPDF', 'Reporte por discapacidades', 'discapacidad');
+    });
+    document.getElementById('exportPDFEtnias')?.addEventListener('click', function() {
+        exportToPDF('#tablaPacientesPorEtniaPDF', 'Reporte por Etnias', 'etnias');
+    });
 });
 function exportToPDF(tableId, title, type) {
     // Mostrar loader

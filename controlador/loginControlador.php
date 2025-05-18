@@ -130,86 +130,105 @@ public function listar_cita() {
       <?php
   }
 }
-     public function tabla_area(){
-     
-      $list=conexionModelo::ejecutar_consulta_simple("SELECT * FROM `especialidad` ");
-      $datos=$list->fetchAll();
-      foreach($datos as $row){
-        ?><tr>
-        <td><?php echo $row['id_especialidad'] ?></td>
-
-        <td><?php echo $row['especialidad'] ?></td>
-
-        <td>
-          <div style=" display: flex;">
-
-            <div style="margin:4px ;">
-
-            <?php if($row['status']==1){?>
-              
-            <button type="submit" class="btn btn-danger btn " id="eliminarArea" value="<?php echo $row['id_especialidad'] ?>"><i class="ti-close"></i>Desabilitar</button>
-              
-            <?php  } else { ?>
-
-              
-            <button type="submit" class="btn btn-success btn " id="habilitarArea" value="<?php echo $row['id_especialidad'] ?>">Habilitar</button>
-              
-            <?php } ?>
-
-
-            </div>
-         
-            </div>
-
-            </td>
-    </tr>
-
-    <?php
-    }
-     
+public function tabla_area() {
+  try {
+      $sql = "SELECT id_especialidad, especialidad, status FROM especialidad ORDER BY especialidad ASC";
+      $stmt = conexionModelo::ejecutar_consulta_simple($sql);
+      
+      if ($stmt->rowCount() > 0) {
+          $areas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+          
+          foreach ($areas as $area) {
+              $this->renderAreaRow($area);
+          }
+      } else {
+          echo '<tr><td colspan="3" class="text-center">No hay áreas registradas</td></tr>';
+      }
+  } catch (PDOException $e) {
+      error_log("Error al listar áreas: " . $e->getMessage());
+      echo '<tr><td colspan="3" class="text-center text-danger">Error al cargar las áreas</td></tr>';
   }
+}
 
-
-     public function listar_dependencia(){
-     
-      $list=conexionModelo::ejecutar_consulta_simple("SELECT * FROM `dependencias` ");
-     
-      $datos=$list->fetchAll();
-     
-      foreach($datos as $row){
-        ?><tr>
-        <td><?php echo $row['id_dependencia'] ?></td>
-
-        <td><?php echo $row['dependencia'] ?></td>
-
-            <td>
-              <div style=" display: flex;">
-
-              <div style="margin:4px ;">
-               
-              <?php if($row['status']==1){?>
-               
-              
-              <button type="submit" class="btn btn-danger btn " id="eliminarDependencia" value="<?php echo $row['id_dependencia'] ?>"><i class="ti-close"></i>Desabilitar</button>
-               
-              
-              <?php  } else { ?>
-
-              <button type="submit" class="btn btn-success btn " id="habilitarDependencia" value="<?php echo $row['id_dependencia'] ?>">Habilitar</button>
-              
-              <?php } ?>
-
-               </div>
-
-             </div>
-
-            </td>
-
-    </tr>
-    <?php  
-    }
-     }
+private function renderAreaRow($area) {
+    $id = htmlspecialchars($area['id_especialidad'], ENT_QUOTES, 'UTF-8');
+    $nombre = htmlspecialchars($area['especialidad'], ENT_QUOTES, 'UTF-8');
+    $status = (int)$area['status'];
     
+    // Botón de estado (habilitar/deshabilitar)
+    $btnEstado = $status === 1 
+        ? '<button type="button" class="btn btn-danger btn-sm btn-estado" value="'.$id.'" title="Deshabilitar área">
+              <i class="ti-close"></i> Deshabilitar
+           </button>'
+        : '<button type="button" class="btn btn-success btn-sm btn-estado" value="'.$id.'" title="Habilitar área">
+              <i class="ti-check"></i> Habilitar
+           </button>';
+    
+    // Botón de editar
+    $btnEditar = '<button type="button" class="btn btn-warning btn-sm btn-editar" value="'.$id.'" title="Editar área">
+                     <i class="ti-pencil"></i> Editar
+                  </button>';
+
+    echo <<<HTML
+    <tr>
+        <td>{$id}</td>
+        <td>{$nombre}</td>
+        <td>
+            <div class="d-flex justify-content-start">
+                <div class="mx-1">
+                    {$btnEditar}
+                </div>
+                <div class="mx-1">
+                    {$btnEstado}
+                </div>
+            </div>
+        </td>
+    </tr>
+    HTML;
+}
+
+  public function listar_dependencia() {
+    try {
+        $sql = "SELECT id_dependencia, dependencia, status FROM dependencias ORDER BY dependencia ASC";
+        $stmt = conexionModelo::ejecutar_consulta_simple($sql);
+        
+        if ($stmt->rowCount() > 0) {
+            $datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            foreach ($datos as $row) {
+                $this->renderDependenciaRow($row);
+            }
+        } else {
+            echo '<tr><td colspan="3" class="text-center">No hay dependencias registradas</td></tr>';
+        }
+    } catch (PDOException $e) {
+        error_log("Error al listar dependencias: " . $e->getMessage());
+        echo '<tr><td colspan="3" class="text-center text-danger">Error al cargar las dependencias</td></tr>';
+    }
+}
+
+private function renderDependenciaRow($row) {
+    $id = htmlspecialchars($row['id_dependencia'], ENT_QUOTES, 'UTF-8');
+    $nombre = htmlspecialchars($row['dependencia'], ENT_QUOTES, 'UTF-8');
+    
+    $btnEstado = $row['status'] == 1
+        ? '<button class="btn btn-danger btn-sm" value="'.$id.'" title="Deshabilitar">
+             <i class="fas fa-ban"></i> Deshabilitar
+           </button>'
+        : '<button class="btn btn-success btn-sm" value="'.$id.'" title="Habilitar">
+             <i class="fas fa-check"></i> Habilitar
+           </button>';
+    
+    $btnEditar = '<button class="btn btn-warning btn-sm" value="'.$id.'" title="Editar">
+                    <i class="fas fa-edit"></i> Editar
+                 </button>';
+
+    echo '<tr>
+            <td>'.$id.'</td>
+            <td>'.$nombre.'</td>
+            <td>'.$btnEditar.'  '. $btnEstado.'</td>
+          </tr>';
+}  
 
 /*---------contolador cerrar sesion------*/
      public function cerrar_sesion_controlador(){

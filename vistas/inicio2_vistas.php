@@ -23,11 +23,11 @@
                                             
                                             <h2 class="color-white"> 
                                                 
-                                                <?php require_once "controlador/pacienteControlador.php";
-                                                
-                                                $contador=new pacienteControlador();
-                                                
-                                                echo $contador->contar_discapcidad_controlador();?>
+                                                <?php  require_once "controlador/citaControlador.php";
+
+                                                        $contador=new citaControlador();
+                                                                                                        
+                                                echo $contador->contar_cita_Pedidas_controlador();?>
                                                 
                                             </h2>
                                             
@@ -128,7 +128,7 @@
 
                                     <h2 class="color-white">
 
-                                        <?php echo $contador->contar_paciente();?>
+                                        <?php echo $contador->contar_pacientes_controlador_total();?>
 
                                     </h2>
 

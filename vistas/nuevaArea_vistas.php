@@ -33,11 +33,11 @@
                  <div class="tab-pane p-20" id="areaConsulta" role="tabpanel">
 
                  <div class="">
-                    <div class="col-lg-7">
+                    <div class="col-lg-12">
             <div class="">
                 <h4 class="card-title">Area De Consulta</h4>
                 <div class="tabla-responsive">
-                    <table class="display nowrap table table-hover table-striped table-bordered dataTable">
+                    <table class=" table table-hover table-striped dataTable">
                         <thead>
                             <tr role="row">
                             <th class=""  rowspan="1" colspan="1" style="width:8%;">N°</th>

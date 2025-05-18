@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    
     // Función para validar el formulario
     function validarFormulario() {
         let valido = true;

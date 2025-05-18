@@ -43,7 +43,7 @@
                     <?php 
                     require_once "controlador/listarControlador.php";
                     $controlador = new tablaControlador();
-                    echo $controlador->listarPacientesPorMunicipioTablaControlador();
+                    echo $controlador->listarPacientesPorParroquiaTablaControladorRecibir();
                     ?>
                 </div>
             </div>

@@ -466,7 +466,7 @@ class pacienteControlador extends pacienteModelo{
                                 <div class="input-group-prepend">
                                     <span class="input-group-text bg-light"><i class="fas fa-user text-primary"></i></span>
                                 </div>
-                                <p class="form-control bg-light">'.htmlspecialchars($row['nombre']).'</p>
+                                <p class="form-control bg-light" >'.htmlspecialchars($row['nombre']).'</p>
                             </div>
                         </div>
                     </div>
@@ -479,7 +479,7 @@ class pacienteControlador extends pacienteModelo{
                                 <div class="input-group-prepend">
                                     <span class="input-group-text bg-light"><i class="fas fa-user text-primary"></i></span>
                                 </div>
-                                <p class="form-control bg-light">'.htmlspecialchars($row['apellido']).'</p>
+                                <p class="form-control bg-light" >'.htmlspecialchars($row['apellido']).'</p>
                             </div>
                         </div>
                     </div>
@@ -493,7 +493,7 @@ class pacienteControlador extends pacienteModelo{
                                     <span class="input-group-text bg-light"><i class="fas fa-address-card text-primary"></i></span>
                                 </div>
                                         <p class="form-control bg-light">'.htmlspecialchars($row['cedula']).'</p>
-                                <input type="hidden" name="usuario" id="cedula" value="'.htmlspecialchars($row['cedula']).'">
+                                <input type="hidden" value="'.htmlspecialchars($row['cedula']).'">
                             </div>
                         </div>
                     </div>
@@ -506,7 +506,7 @@ class pacienteControlador extends pacienteModelo{
                                 <div class="input-group-prepend">
                                     <span class="input-group-text bg-light"><i class="fas fa-phone text-primary"></i></span>
                                 </div>
-                                <p class="form-control bg-light">'.htmlspecialchars($row['telefono']).'</p>
+                                <p class="form-control bg-light" >'.htmlspecialchars($row['telefono']).'</p>
                             </div>
                         </div>
                     </div>
@@ -616,12 +616,14 @@ public function datosCitaActualizar($idPaciente) {
                         </div>
                     </div>
                     
-                    <!-- Acciones -->
-                    <div class="col-md-2 d-flex align-items-end mb-3">
-                        <button class="btn btn-info btn-block" id="ActualizarBtnActul" value="'.htmlspecialchars($row['id_cita']).'">
-                            <i class="fas fa-save mr-2"></i>Guardar
-                        </button>
-                    </div>';
+                   <!-- Acciones -->
+                  <div class="col-md-2 d-flex align-items-end mb-3">'?>
+                      <?php if ($row['id_condicion'] != 3 && $row['id_condicion'] != 4): ?>
+                          <button class="btn btn-info btn-sm" id="ActualizarBtnActul" value="'.htmlspecialchars($row['id_cita']).'">
+                              <i class="fas fa-save mr-2"></i>Guardar
+                          </button>
+                      <?php endif; ?>
+               <?php echo'   </div>';
     }
 }
 public function buscar_Paciente_historia_controlador($busca) {
