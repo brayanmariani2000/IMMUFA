@@ -9,55 +9,54 @@
         </ul>
                 
                     <div class="tab-content">
-                    <div class="tab-pane active" id="nuevaDependencias" role="tabpanel">
-                    <form id="nuevaDependecias" class="form-bordered form-group">
-                    <div class="form-group ">
-                        <div class="">
-                            <div class="col-11">
-                        <h4 class="card-title">Nueva Dependencias</h4>
-                                        <div class="form-row">
-                                        <div class="col-md-6">
-                                            <label for="depedencia" >Dependencia</label>
-                                            <input type="text" class="form-control" id="nuevaDependencia" name="dependencia" placeholder="Nombre">
+                        <div class="tab-pane active" id="nuevaDependencias" role="tabpanel">
+                            <form id="nuevaDependecias" class="form-bordered form-group">
+                                <div class="form-group ">
+                                    <div class="">
+                                        <div class="col-11">
+                                            <h4 class="card-title">Nueva Dependencias</h4>
+                                                    <div class="form-row">
+                                                        <div class="col-md-6">
+                                                            <label for="depedencia" >Dependencia</label>
+                                                            <input type="text" class="form-control" id="nuevaDependencia" name="dependencia" placeholder="Nombre">
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label for="d" class="text-white">hola</label>
+                                                            <button type="submit" class="btn btn-info " id="dependenciaBT" >Registrar</button>
+                                                        </div>
+                                                    </div>
+                                            </div>
                                         </div>
-                                        <div class="col-md-2">
-                                        <label for="d" class="text-white">hola</label>
-                                        <button type="submit" class="btn btn-info " id="dependenciaBT" >Registrar</button>
-                                        </div>
-                                        </div>
-                                        </div>
-                                        </div>
-                                        </div>
-                    </form>
-                 </div>
+                                    </div>
+                            </form>
+                    </div>
                  <div class="tab-pane p-20" id="tablaHorarios" role="tabpanel">
-
-                 <div class="">
-                    <div class="col-7">
-            <div class="card-body">
-                <h4 class="card-title">Dependencias</h4>
-                <div class="tabla-responsive">
-                    <table class="display nowrap table table-hover table-striped table-bordered dataTable">
-                        <thead>
-                            <tr role="row">
-                            <th class=""  rowspan="1" colspan="1" style="width:8%;">N°</th>
-                            <th>Dependencias</th>
-                            <th><center>Acciones</center> </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php 
-                       require_once 'controlador/loginControlador.php';
-                       $list= new loginControlador();
-                       echo $list->listar_dependencia();
-                       ?>
-                        </tbody>
-                    </table>
+                    <div class="">
+                        <div class="col-lg-12">
+                            <div class="card-body">
+                                <h4 class="card-title">Dependencias</h4>
+                                    <div class="tabla-responsive">
+                                        <table class=" table table-hover table-striped  ">
+                                            <thead>
+                                                <tr role="row">
+                                                <th class=""  rowspan="1" colspan="1" style="width:8%;">N°</th>
+                                                <th>Dependencias</th>
+                                                <th><center>Acciones</center> </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php 
+                                        require_once 'controlador/loginControlador.php';
+                                        $list= new loginControlador();
+                                        echo $list->listar_dependencia();
+                                        ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            </div>
-        </div>
-                 </div>
 
                 </div>
                 

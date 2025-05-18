@@ -39,6 +39,12 @@ class PDF extends FPDF {
             case 'especialidades':
                 $subtitle = 'Distribución de citas por especialidad médica';
                 break;
+            case 'etnias':
+                $subtitle = 'Distribución de pacientes por etnias';
+                break;
+            case 'discapacidad':
+                    $subtitle = 'Distribución de pacientes por discapacidad';
+                break;
         }
         $this->Cell(0, 10, utf8_decode($subtitle), 0, 1, 'C');
         
@@ -119,6 +125,13 @@ switch($data['type']) {
     case 'especialidades':
         $header = array('Especialidad', 'Citas', 'Porcentaje');
         break;
+    case 'etnias':
+        $header = array('Etnias', 'Pacientes', 'Porcentaje');
+        break;
+    case 'discapacidad':
+        $header = array('Discapacidades', 'Pacientes', 'Porcentaje');
+        break;          
+
 }
 
 // Crear PDF

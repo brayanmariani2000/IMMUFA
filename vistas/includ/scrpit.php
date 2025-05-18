@@ -29,6 +29,10 @@
 
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/chart-js/citasDonus.js" type="module"></script>
 
+    <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/chart-js/chartDiscapacidad.js" type="module"></script>
+
+    <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/chart-js/chartEtnias.js" type="module"></script>
+
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/echart/echarts.js"></script>
 
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/lib/echart/edades.js"></script>
@@ -53,6 +57,8 @@
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/dependencia.js" type="module"></script>
     
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/especialidad.js" type="module"></script>
+
+    <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/actualizarPorFehas.js" type="module"></script>
     
     <script src="<?php echo SERVERURL?>vistas/plantillas/js/aciones/medico.js" type="module"></script>
     

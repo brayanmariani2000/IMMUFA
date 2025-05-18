@@ -238,83 +238,62 @@ public function listar_condicion(){
 
 class tablaControlador extends listarModelo{
 
-    public function tabla_medico_controlador(){
-
-        $sql=listarModelo::listar_medico();
-
-        if($sql->rowCount()>0){
-
-            $lista=$sql->fetchAll();
-
-            foreach($lista as $row){
-
-                    ?><tr>
-
-                        <td><?php echo $row['nombre'].' '.$row['apellido']?></td>
-
-                        <td><?php echo $row['especialidad']?></td>
-
-                        <td><div style=" display: flex;">
-
-                        <div style="margin:4px ;">
-
-                        <button type="button" class="btn btn-danger btn-sm" value="<?php echo $row['id_medico']?>" id="eliminarMedico"><i class="fas fa-trash-alt"></i> Deshabilitar
-</button>
-
-                        <button class="btn btn-info btn-sm" value="<?php echo $row['id_medico']?>"  id="verMedicoModal"><i class="fa fa-eye"></i>Ver</button>
-
-                        <div style="margin:4px ;">
-
-
-                        </td>
-
-                    </tr><?php
-                        
-
-                    }
-    
-                }
-   
-            }
-
-   
-            public function tabla_usuario_controlador(){
-   
-                $sql=listarModelo::tabla_usuario();
-   
-                if($sql->rowCount()>0){
-   
-                    $lista=$sql->fetchAll();
-   
-                    foreach($lista as $row){
+    public function tabla_medico_controlador() {
+        $sql = listarModelo::listar_medico();
+        
+        if($sql->rowCount() > 0) {
+            $lista = $sql->fetchAll();
+            foreach($lista as $row) {
                 ?>
-
                 <tr>
+                    <td><?php echo htmlspecialchars($row['nombre'].' '.$row['apellido']); ?></td>
+                    <td><?php echo htmlspecialchars($row['especialidad']); ?></td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-info btn-sm" value="<?php echo $row['id_medico']; ?>" id="verMedicoModal">
+                                <i class="fa fa-eye"></i> Ver
+                            </button>
+                            <button type="button" class="btn btn-warning btn-sm" value="<?php echo $row['id_medico']; ?>" id="actualizarMedico">
+                                <i class="fas fa-edit"></i> Actualizar
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" value="<?php echo $row['id_medico']; ?>" id="eliminarMedico">
+                                <i class="fas fa-trash-alt"></i> Deshabilitar
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <?php
+            }
+        }
+    }
 
    
-                    <td><?php echo $row['nombre'].' '.$row['apellido']?></td>
-
-                    <td><?php echo $row['usuario']?></td>
-
-                    <td><?php echo $row['roles']?></td>
-
-                    <td><div style=" display: flex;">
-
-                    <div style="margin:4px ;">
-
-                    <button type="button" class="btn btn-danger btn-sm" value="<?php echo $row['id_usuario']?>" id="eliminarUsuario"><i class="fas fa-trash-alt"></i> Deshabilitar
-</button>
-
-                        <button class="btn btn-info btn-sm" value="<?php echo $row['id_usuario']?>"  id="verUsuarioBtn"><i class="fa fa-eye"></i>Ver</button>
-                    </div>
-
-
+    public function tabla_usuario_controlador() {
+        $sql = listarModelo::tabla_usuario();
+        
+        if($sql->rowCount() > 0) {
+            $lista = $sql->fetchAll();
+            foreach($lista as $row) {
+                ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($row['nombre'].' '.$row['apellido']); ?></td>
+                    <td><?php echo htmlspecialchars($row['usuario']); ?></td>
+                    <td><?php echo htmlspecialchars($row['roles']); ?></td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="User actions">
+                            <button type="button" class="btn btn-info btn-sm" value="<?php echo $row['id_usuario']; ?>" id="verUsuarioBtn">
+                                <i class="fas fa-eye mr-1"></i> Ver
+                            </button>
+                            <button type="button" class="btn btn-warning btn-sm" value="<?php echo $row['id_usuario']; ?>" id="actualizarUsuarioBtn">
+                                <i class="fas fa-edit mr-1"></i> Actualizar
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" value="<?php echo $row['id_usuario']; ?>" id="eliminarUsuario">
+                                <i class="fas fa-trash-alt mr-1"></i> Deshabilitar
+                            </button>
+                        </div>
                     </td>
-
                 </tr>
-                
                 <?php
-    
             }
         }
     }
@@ -628,18 +607,18 @@ class tablaControlador extends listarModelo{
     
     // Función auxiliar para asignar colores según el porcentaje (la misma que antes)
     
-public function listar_citas_cantidad_dependecias_js_controlador_donus(){
+    public function listar_citas_cantidad_dependecias_js_controlador_donus(){
 
-    $sql=listarModelo::citasdependeciasModelos();
+        $sql=listarModelo::citasdependeciasModelos();
 
-    $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+        $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
 
-        // Procesar resultados
-        $datos = [
-            'labels' => array_column($resultados, 'nombre_dependencia'),
-            'data' => array_column($resultados, 'numero_pacientes')
-        ];
-        echo json_encode($datos);
+            // Procesar resultados
+            $datos = [
+                'labels' => array_column($resultados, 'nombre_dependencia'),
+                'data' => array_column($resultados, 'numero_pacientes')
+            ];
+            echo json_encode($datos);
     }
 
     public function listarPacientesPorMunicipioTablaControlador() {
@@ -658,6 +637,7 @@ public function listar_citas_cantidad_dependecias_js_controlador_donus(){
                         <th class="text-center">Municipio</th>
                         <th class="text-center">Pacientes Atendidos</th>
                         <th class="text-center" style="width: 40%;">Distribución</th>
+                        <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -681,6 +661,15 @@ public function listar_citas_cantidad_dependecias_js_controlador_donus(){
                                     </div>
                                 </div>
                             </td>
+                            <td class="text-center">
+    <!-- Formulario para enviar por POST -->
+                                <form action="Reporetesmunicipio" method="post" style="display: inline;">
+                                    <input type="hidden" name="id_municipio" value="<?php echo $row['id_municipio']; ?>">
+                                    <button type="submit" class="btn btn-info btn-sm" title="Ver detalles del municipio">
+                                        <i class="fa fa-eye"></i> Ver
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                         <?php
                     }
@@ -689,6 +678,7 @@ public function listar_citas_cantidad_dependecias_js_controlador_donus(){
                         <td class="font-weight-bold text-right">Total:</td>
                         <td class="text-center font-weight-bold"><?php echo number_format($total, 0); ?></td>
                         <td class="font-weight-bold text-center">100%</td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
@@ -801,4 +791,778 @@ public function listar_citas_cantidad_dependecias_js_controlador_donus(){
         ]);
     }
 
-}
+    public function listarPacientesPorEtniaTablaControlador() {
+        $sql = listarModelo::pacientesPorEtniaModelo();
+        $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Calcular total para porcentajes
+        $total = array_sum(array_column($resultados, 'numero_pacientes'));
+        
+        // Estructura de la tabla con estilos mejorados
+        ?>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="tablaPacientesPorEtniaPDF">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-center">Etnia</th>
+                        <th class="text-center">Pacientes Atendidos</th>
+                        <th class="text-center" style="width: 40%;">Distribución</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach($resultados as $row) {
+                        $porcentaje = ($total > 0) ? round(($row['numero_pacientes'] / $total) * 100, 2) : 0;
+                        $color = $this->getColorForPercentage($porcentaje);
+                        ?>
+                        <tr>
+                            <td class="font-weight-bold"><?php echo htmlspecialchars($row['nombre_etnia']); ?></td>
+                            <td class="text-center text-dark"><?php echo number_format($row['numero_pacientes'], 0); ?></td>
+                            <td>
+                                <div class="progress" style="height: 25px;">
+                                    <div class="progress-bar <?php echo $color; ?>" 
+                                         role="progressbar" 
+                                         style="width: <?php echo $porcentaje; ?>%; font-weight: bold;"
+                                         aria-valuenow="<?php echo $porcentaje; ?>" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        <?php echo $porcentaje; ?>%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                    <tr class="table-info">
+                        <td class="font-weight-bold text-right">Total:</td>
+                        <td class="text-center font-weight-bold"><?php echo number_format($total, 0); ?></td>
+                        <td class="font-weight-bold text-center">100%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+
+    public function listarPacientesPorDiscapacidadTablaControlador() {
+        $sql = listarModelo::pacientesPorDiscapacidadModelo();
+        $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Calcular total para porcentajes
+        $total = array_sum(array_column($resultados, 'numero_pacientes'));
+        
+        // Estructura de la tabla con estilos mejorados
+        ?>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="tablaPacientesPorDiscapacidadPDF">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-center">Tipo de Discapacidad</th>
+                        <th class="text-center">Pacientes Atendidos</th>
+                        <th class="text-center" style="width: 40%;">Distribución</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach($resultados as $row) {
+                        $porcentaje = ($total > 0) ? round(($row['numero_pacientes'] / $total) * 100, 2) : 0;
+                        $color = $this->getColorForPercentage($porcentaje);
+                        ?>
+                        <tr>
+                            <td class="font-weight-bold"><?php echo htmlspecialchars($row['tipo_discapacidad']); ?></td>
+                            <td class="text-center text-dark"><?php echo number_format($row['numero_pacientes'], 0); ?></td>
+                            <td>
+                                <div class="progress" style="height: 25px;">
+                                    <div class="progress-bar <?php echo $color; ?>" 
+                                         role="progressbar" 
+                                         style="width: <?php echo $porcentaje; ?>%; font-weight: bold;"
+                                         aria-valuenow="<?php echo $porcentaje; ?>" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        <?php echo $porcentaje; ?>%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                    <tr class="table-info">
+                        <td class="font-weight-bold text-right">Total:</td>
+                        <td class="text-center font-weight-bold"><?php echo number_format($total, 0); ?></td>
+                        <td class="font-weight-bold text-center">100%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+    public function generarJsonDiscapacidadDonutControlador() {
+        $sql = listarModelo::pacientesPorDiscapacidadModelo();
+        $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+        
+        $datosGrafico = [
+            'labels' => [],
+            'datasets' => [
+                [
+                    'data' => [],
+                    'backgroundColor' => [],
+                    'hoverBackgroundColor' => [],
+                    'borderWidth' => 1,
+                    'borderColor' => '#fff'
+                ]
+            ]
+        ];
+        
+        // Colores consistentes con los de Bootstrap
+        $colores = [
+            '#28a745', // verde (success)
+            '#007bff', // azul (primary)
+            '#17a2b8', // cyan (info)
+            '#ffc107', // amarillo (warning)
+            '#dc3545', // rojo (danger)
+            '#6c757d', // gris (secondary)
+            '#6610f2', // morado (indigo)
+            '#fd7e14', // naranja
+            '#20c997', // verde agua (teal)
+            '#e83e8c'  // rosa (pink)
+        ];
+        
+        foreach($resultados as $index => $row) {
+            $datosGrafico['labels'][] = $row['tipo_discapacidad'] . ' ('.$row['numero_pacientes'].')';
+            $datosGrafico['datasets'][0]['data'][] = $row['numero_pacientes'];
+            
+            // Asignar color consistente
+            $colorIndex = $index % count($colores);
+            $datosGrafico['datasets'][0]['backgroundColor'][] = $colores[$colorIndex];
+            $datosGrafico['datasets'][0]['hoverBackgroundColor'][] = $this->adjustBrightness($colores[$colorIndex], -20);
+        }
+        
+        // Agregar opciones para tooltips
+        $datosGrafico['options'] = [
+            'responsive' => true,
+            'maintainAspectRatio' => false,
+            'plugins' => [
+                'legend' => [
+                    'position' => 'right',
+                    'labels' => [
+                        'boxWidth' => 15,
+                        'padding' => 15,
+                        'usePointStyle' => true
+                    ]
+                ],
+                'tooltip' => [
+                    'callbacks' => [
+                        'label' => 'function(context) {
+                            let label = context.label || "";
+                            let value = context.raw || 0;
+                            let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            let percentage = Math.round((value / total) * 100);
+                            return label + ": " + value + " (" + percentage + "%)";
+                        }'
+                    ]
+                ]
+            ],
+            'cutout' => '70%'
+        ];
+        
+        // Devolver JSON
+        header('Content-Type: application/json');
+        echo json_encode($datosGrafico);
+        exit();
+    }
+    public function generarJsonEtniaDonutControlador() {
+        $sql = listarModelo::pacientesPorEtniaModelo();
+        $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+        
+        $datosGrafico = [
+            'labels' => [],
+            'datasets' => [
+                [
+                    'data' => [],
+                    'backgroundColor' => [],
+                    'hoverBackgroundColor' => [],
+                    'borderWidth' => 1,
+                    'borderColor' => '#fff'
+                ]
+            ]
+        ];
+        
+        // Paleta de colores para etnias (puedes personalizarla)
+        $colores = [
+            '#4e73df', // azul
+            '#1cc88a', // verde
+            '#36b9cc', // turquesa
+            '#f6c23e', // amarillo
+            '#e74a3b', // rojo
+            '#858796', // gris
+            '#5a5c69', // gris oscuro
+            '#3a3b45', // gris más oscuro
+            '#2e59d9', // azul oscuro
+            '#17a673', // verde oscuro
+            '#2c9faf', // azul-verde
+            '#dda20a'  // amarillo oscuro
+        ];
+        
+        foreach($resultados as $index => $row) {
+            $datosGrafico['labels'][] = $row['nombre_etnia'] . ' ('.$row['numero_pacientes'].')';
+            $datosGrafico['datasets'][0]['data'][] = $row['numero_pacientes'];
+            
+            // Asignar color consistente
+            $colorIndex = $index % count($colores);
+            $datosGrafico['datasets'][0]['backgroundColor'][] = $colores[$colorIndex];
+            $datosGrafico['datasets'][0]['hoverBackgroundColor'][] = $this->adjustBrightness($colores[$colorIndex], -20);
+        }
+        
+        // Configuración del gráfico
+        $datosGrafico['options'] = [
+            'responsive' => true,
+            'maintainAspectRatio' => false,
+            'plugins' => [
+                'legend' => [
+                    'position' => 'right',
+                    'labels' => [
+                        'boxWidth' => 15,
+                        'padding' => 15,
+                        'usePointStyle' => true,
+                        'font' => [
+                            'size' => 12
+                        ]
+                    ]
+                ],
+                'tooltip' => [
+                    'callbacks' => [
+                        'label' => 'function(context) {
+                            let label = context.label.split(" (")[0] || "";
+                            let value = context.raw || 0;
+                            let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            let percentage = Math.round((value / total) * 100);
+                            return `${label}: ${value} pacientes (${percentage}%)`;
+                        }'
+                    ]
+                ]
+            ],
+            'cutout' => '65%',
+            'animation' => [
+                'animateScale' => true,
+                'animateRotate' => true
+            ]
+        ];
+        
+        // Devolver JSON
+        header('Content-Type: application/json');
+        echo json_encode($datosGrafico);
+        exit();
+    }
+
+    public function listar_citas_cantidad_dependecias_tabla_controlador_fechas() {
+        // Obtener fechas del filtro si existen
+        $fechaInicio = isset($_POST['fechaInicio']) ? $_POST['fechaInicio'] : null;
+        $fechaFin = isset($_POST['fechaFin']) ? $_POST['fechaFin'] : null;
+        
+        // Llamar al modelo con las fechas
+        $sql = listarModelo::citasdependeciasModelosFechas($fechaInicio, $fechaFin);
+        $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Calcular total para porcentajes
+        $total = array_sum(array_column($resultados, 'pacientes_atendidos'));
+        
+        // Estructura de la tabla con estilos mejorados
+        ?>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="tablaDependenciasPDF">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-center">Dependencia</th>
+                        <th class="text-center">Pacientes Atendidos</th>
+                        <th class="text-center" style="width: 40%;">Distribución</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach($resultados as $row) {
+                        $porcentaje = ($total > 0) ? round(($row['pacientes_atendidos'] / $total) * 100, 2) : 0;
+                        $color = $this->getColorForPercentage($porcentaje);
+                        ?>
+                        <tr>
+                            <td class="font-weight-bold"><?php echo htmlspecialchars($row['dependencia']); ?></td>
+                            <td class="text-center"><?php echo number_format($row['pacientes_atendidos'], 0); ?></td>
+                            <td>
+                                <div class="progress" style="height: 25px;">
+                                    <div class="progress-bar <?php echo $color; ?>" 
+                                         role="progressbar" 
+                                         style="width: <?php echo $porcentaje; ?>%; font-weight: bold;"
+                                         aria-valuenow="<?php echo $porcentaje; ?>" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        <?php echo $porcentaje; ?>%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                    <tr class="table-info">
+                        <td class="font-weight-bold text-right">Total:</td>
+                        <td class="text-center font-weight-bold"><?php echo number_format($total, 0); ?></td>
+                        <td class="font-weight-bold text-center">100%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+    public function listarPacientesDiscapacidadTablaControlador_fechas() {
+        // Obtener fechas del filtro si existen
+        $fechaInicio = isset($_POST['fechaInicio']) ? $_POST['fechaInicio'] : null;
+        $fechaFin = isset($_POST['fechaFin']) ? $_POST['fechaFin'] : null;
+        
+        // Llamar al modelo con las fechas
+        $sql = listarModelo::pacientesDiscapacidadModeloFechas($fechaInicio, $fechaFin);
+        $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Calcular total para porcentajes
+        $total = array_sum(array_column($resultados, 'pacientes_atendidos'));
+        
+        // Estructura de la tabla con estilos mejorados
+        ?>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="tablaDiscapacidadPDF">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-center">Tipo de Discapacidad</th>
+                        <th class="text-center">Pacientes Atendidos</th>
+                        <th class="text-center" style="width: 40%;">Distribución</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach($resultados as $row) {
+                        $porcentaje = ($total > 0) ? round(($row['pacientes_atendidos'] / $total) * 100, 2) : 0;
+                        $color = $this->getColorForPercentage($porcentaje);
+                        ?>
+                        <tr>
+                            <td class="font-weight-bold"><?php echo htmlspecialchars($row['tipo_discapacidad']); ?></td>
+                            <td class="text-center"><?php echo number_format($row['pacientes_atendidos'], 0); ?></td>
+                            <td>
+                                <div class="progress" style="height: 25px;">
+                                    <div class="progress-bar <?php echo $color; ?>" 
+                                         role="progressbar" 
+                                         style="width: <?php echo $porcentaje; ?>%; font-weight: bold;"
+                                         aria-valuenow="<?php echo $porcentaje; ?>" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        <?php echo $porcentaje; ?>%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                    <tr class="table-info">
+                        <td class="font-weight-bold text-right">Total:</td>
+                        <td class="text-center font-weight-bold"><?php echo number_format($total, 0); ?></td>
+                        <td class="font-weight-bold text-center">100%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+    public function listarPacientesEtniaTablaControlador_fechas() {
+        // Obtener fechas del filtro si existen
+        $fechaInicio = isset($_POST['fechaInicio']) ? $_POST['fechaInicio'] : null;
+        $fechaFin = isset($_POST['fechaFin']) ? $_POST['fechaFin'] : null;
+        
+        // Llamar al modelo con las fechas
+        $sql = listarModelo::pacientesEtniaModeloFechas($fechaInicio, $fechaFin);
+        $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Calcular total para porcentajes
+        $total = array_sum(array_column($resultados, 'pacientes_atendidos'));
+        
+        // Estructura de la tabla con estilos mejorados
+        ?>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="tablaEtniaPDF">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-center">Grupo Étnico</th>
+                        <th class="text-center">Pacientes Atendidos</th>
+                        <th class="text-center" style="width: 40%;">Distribución</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach($resultados as $row) {
+                        $porcentaje = ($total > 0) ? round(($row['pacientes_atendidos'] / $total) * 100, 2) : 0;
+                        $color = $this->getColorForPercentage($porcentaje);
+                        ?>
+                        <tr>
+                            <td class="font-weight-bold"><?php echo htmlspecialchars($row['tipo_etnia']); ?></td>
+                            <td class="text-center"><?php echo number_format($row['pacientes_atendidos'], 0); ?></td>
+                            <td>
+                                <div class="progress" style="height: 25px;">
+                                    <div class="progress-bar <?php echo $color; ?>" 
+                                         role="progressbar" 
+                                         style="width: <?php echo $porcentaje; ?>%; font-weight: bold;"
+                                         aria-valuenow="<?php echo $porcentaje; ?>" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        <?php echo $porcentaje; ?>%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                    <tr class="table-info">
+                        <td class="font-weight-bold text-right">Total:</td>
+                        <td class="text-center font-weight-bold"><?php echo number_format($total, 0); ?></td>
+                        <td class="font-weight-bold text-center">100%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+    public function listarPacientesEdadTablaControlador_fechas() {
+        // Obtener fechas del filtro si existen
+        $fechaInicio = isset($_POST['fechaInicio']) ? $_POST['fechaInicio'] : null;
+        $fechaFin = isset($_POST['fechaFin']) ? $_POST['fechaFin'] : null;
+        
+        // Llamar al modelo con las fechas
+        $sql = listarModelo::pacientesEdadModeloFechas($fechaInicio, $fechaFin);
+        $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Calcular total para porcentajes
+        $total = array_sum(array_column($resultados, 'pacientes_atendidos'));
+        
+        // Estructura de la tabla con estilos mejorados
+        ?>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="tablaEdadPDF">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-center">Grupo de Edad</th>
+                        <th class="text-center">Pacientes Atendidos</th>
+                        <th class="text-center" style="width: 40%;">Distribución</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach($resultados as $row) {
+                        $porcentaje = ($total > 0) ? round(($row['pacientes_atendidos'] / $total) * 100, 2) : 0;
+                        $color = $this->getColorForPercentage($porcentaje);
+                        ?>
+                        <tr>
+                            <td class="font-weight-bold"><?php echo htmlspecialchars($row['grupo_edad']); ?></td>
+                            <td class="text-center"><?php echo number_format($row['pacientes_atendidos'], 0); ?></td>
+                            <td>
+                                <div class="progress" style="height: 25px;">
+                                    <div class="progress-bar <?php echo $color; ?>" 
+                                         role="progressbar" 
+                                         style="width: <?php echo $porcentaje; ?>%; font-weight: bold;"
+                                         aria-valuenow="<?php echo $porcentaje; ?>" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        <?php echo $porcentaje; ?>%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                    <tr class="table-info">
+                        <td class="font-weight-bold text-right">Total:</td>
+                        <td class="text-center font-weight-bold"><?php echo number_format($total, 0); ?></td>
+                        <td class="font-weight-bold text-center">100%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+    public function listarPacientesEspecialidadTablaControlador_fechas() {
+        // Obtener fechas del filtro si existen
+        $fechaInicio = isset($_POST['fechaInicio']) ? $_POST['fechaInicio'] : null;
+        $fechaFin = isset($_POST['fechaFin']) ? $_POST['fechaFin'] : null;
+        
+        // Llamar al modelo con las fechas
+        $sql = listarModelo::pacientesEspecialidadModeloFechas($fechaInicio, $fechaFin);
+        $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Calcular total para porcentajes
+        $total = array_sum(array_column($resultados, 'pacientes_atendidos'));
+        
+        // Estructura de la tabla con estilos mejorados
+        ?>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="tablaEspecialidadPDF">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-center">Especialidad Médica</th>
+                        <th class="text-center">Pacientes Atendidos</th>
+                        <th class="text-center" style="width: 40%;">Distribución</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach($resultados as $row) {
+                        $porcentaje = ($total > 0) ? round(($row['pacientes_atendidos'] / $total) * 100, 2) : 0;
+                        $color = $this->getColorForPercentage($porcentaje);
+                        ?>
+                        <tr>
+                            <td class="font-weight-bold"><?php echo htmlspecialchars($row['nombre_especialidad']); ?></td>
+                            <td class="text-center"><?php echo number_format($row['pacientes_atendidos'], 0); ?></td>
+                            <td>
+                                <div class="progress" style="height: 25px;">
+                                    <div class="progress-bar <?php echo $color; ?>" 
+                                         role="progressbar" 
+                                         style="width: <?php echo $porcentaje; ?>%; font-weight: bold;"
+                                         aria-valuenow="<?php echo $porcentaje; ?>" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        <?php echo $porcentaje; ?>%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                    <tr class="table-info">
+                        <td class="font-weight-bold text-right">Total:</td>
+                        <td class="text-center font-weight-bold"><?php echo number_format($total, 0); ?></td>
+                        <td class="font-weight-bold text-center">100%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+    public function listarPacientesMunicipioTablaControlador_fechas() {
+        // Obtener fechas del filtro si existen
+        $fechaInicio = isset($_POST['fechaInicio']) ? $_POST['fechaInicio'] : null;
+        $fechaFin = isset($_POST['fechaFin']) ? $_POST['fechaFin'] : null;
+        
+        // Llamar al modelo con las fechas
+        $sql = listarModelo::pacientesMunicipioModeloFechas($fechaInicio, $fechaFin);
+        $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Calcular total para porcentajes
+        $total = array_sum(array_column($resultados, 'pacientes_atendidos'));
+        
+        // Estructura de la tabla con estilos mejorados
+        ?>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="tablaMunicipioPDF">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-center">Municipio</th>
+                        <th class="text-center">Pacientes Atendidos</th>
+                        <th class="text-center" style="width: 40%;">Distribución</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach($resultados as $row) {
+                        $porcentaje = ($total > 0) ? round(($row['pacientes_atendidos'] / $total) * 100, 2) : 0;
+                        $color = $this->getColorForPercentage($porcentaje);
+                        ?>
+                        <tr>
+                            <td class="font-weight-bold"><?php echo htmlspecialchars($row['nombre_municipio']); ?></td>
+                            <td class="text-center"><?php echo number_format($row['pacientes_atendidos'], 0); ?></td>
+                            <td>
+                                <div class="progress" style="height: 25px;">
+                                    <div class="progress-bar <?php echo $color; ?>" 
+                                         role="progressbar" 
+                                         style="width: <?php echo $porcentaje; ?>%; font-weight: bold;"
+                                         aria-valuenow="<?php echo $porcentaje; ?>" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        <?php echo $porcentaje; ?>%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                    <tr class="table-info">
+                        <td class="font-weight-bold text-right">Total:</td>
+                        <td class="text-center font-weight-bold"><?php echo number_format($total, 0); ?></td>
+                        <td class="font-weight-bold text-center">100%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+    public function listarPacientesParroquiaTablaControlador_fechas() {
+        // Obtener fechas del filtro si existen
+        $fechaInicio = isset($_POST['fechaInicio']) ? $_POST['fechaInicio'] : null;
+        $fechaFin = isset($_POST['fechaFin']) ? $_POST['fechaFin'] : null;
+        
+        // Llamar al modelo con las fechas
+        $sql = listarModelo::pacientesParroquiaModeloFechas($fechaInicio, $fechaFin);
+        $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Calcular total para porcentajes
+        $total = array_sum(array_column($resultados, 'pacientes_atendidos'));
+        
+        // Agrupar por municipio para mejor visualización
+        $datosAgrupados = [];
+        foreach($resultados as $row) {
+            $datosAgrupados[$row['nombre_municipio']][] = $row;
+        }
+        
+        // Estructura de la tabla con estilos mejorados
+        ?>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="tablaParroquiaPDF">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-center">Municipio</th>
+                        <th class="text-center">Parroquia</th>
+                        <th class="text-center">Pacientes Atendidos</th>
+                        <th class="text-center" style="width: 30%;">Distribución</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach($datosAgrupados as $municipio => $parroquias) {
+                        $rowspan = count($parroquias);
+                        $firstRow = true;
+                        
+                        foreach($parroquias as $index => $row) {
+                            $porcentaje = ($total > 0) ? round(($row['pacientes_atendidos'] / $total) * 100, 2) : 0;
+                            $color = $this->getColorForPercentage($porcentaje);
+                            ?>
+                            <tr>
+                                <?php if($firstRow): ?>
+                                    <td class="font-weight-bold align-middle" rowspan="<?php echo $rowspan; ?>">
+                                        <?php echo htmlspecialchars($municipio); ?>
+                                    </td>
+                                <?php endif; ?>
+                                <td class="font-weight-bold"><?php echo htmlspecialchars($row['nombre_parroquia']); ?></td>
+                                <td class="text-center"><?php echo number_format($row['pacientes_atendidos'], 0); ?></td>
+                                <td>
+                                    <div class="progress" style="height: 25px;">
+                                        <div class="progress-bar <?php echo $color; ?>" 
+                                             role="progressbar" 
+                                             style="width: <?php echo $porcentaje; ?>%; font-weight: bold;"
+                                             aria-valuenow="<?php echo $porcentaje; ?>" 
+                                             aria-valuemin="0" 
+                                             aria-valuemax="100">
+                                            <?php echo $porcentaje; ?>%
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php
+                            $firstRow = false;
+                        }
+                    }
+                    ?>
+                    <tr class="table-info">
+                        <td class="font-weight-bold text-right" colspan="2">Total:</td>
+                        <td class="text-center font-weight-bold"><?php echo number_format($total, 0); ?></td>
+                        <td class="font-weight-bold text-center">100%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+
+    public function listarPacientesPorParroquiaTablaControladorRecibir() {
+        // Obtener el ID del municipio desde POST
+        $id_municipio = isset($_POST['id_municipio']) ? $_POST['id_municipio'] : null;
+        
+        if(!$id_municipio) {
+            echo '<div class="alert alert-danger">No se ha especificado un municipio</div>';
+            return;
+        }
+        
+        // Obtener el nombre del municipio para el título
+        $sql_municipio = conexionModelo::conectar()->prepare("SELECT municipio FROM municipios WHERE id_municipio = :id_municipio");
+        $sql_municipio->bindParam(":id_municipio", $id_municipio, PDO::PARAM_INT);
+        $sql_municipio->execute();
+        $nombre_municipio = $sql_municipio->fetchColumn();
+        
+        // Consultar pacientes por parroquia
+        $sql = listarModelo::pacientesPorParroquiaModelo($id_municipio);
+        $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Calcular total para porcentajes
+        $total = array_sum(array_column($resultados, 'numero_pacientes'));
+        
+        // Estructura de la tabla con estilos mejorados
+        ?>
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-map-marker-alt mr-2"></i>
+                    Distribución de Pacientes por Parroquias - <?php echo htmlspecialchars($nombre_municipio); ?>
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered" id="tablaPacientesPorParroquiaPDF">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Parroquia</th>
+                                <th class="text-center">Pacientes Atendidos</th>
+                                <th class="text-center" style="width: 40%;">Distribución</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach($resultados as $row) {
+                                $porcentaje = ($total > 0) ? round(($row['numero_pacientes'] / $total) * 100, 2) : 0;
+                                $color = $this->getColorForPercentage($porcentaje);
+                                ?>
+                                <tr>
+                                    <td class="font-weight-bold"><?php echo htmlspecialchars($row['nombre_parroquia']); ?></td>
+                                    <td class="text-center text-dark"><?php echo number_format($row['numero_pacientes'], 0); ?></td>
+                                    <td>
+                                        <div class="progress" style="height: 25px;">
+                                            <div class="progress-bar <?php echo $color; ?>" 
+                                                 role="progressbar" 
+                                                 style="width: <?php echo $porcentaje; ?>%; font-weight: bold;"
+                                                 aria-valuenow="<?php echo $porcentaje; ?>" 
+                                                 aria-valuemin="0" 
+                                                 aria-valuemax="100">
+                                                <?php echo $porcentaje; ?>%
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                            <tr class="table-info">
+                                <td class="font-weight-bold text-right">Total:</td>
+                                <td class="text-center font-weight-bold"><?php echo number_format($total, 0); ?></td>
+                                <td class="font-weight-bold text-center">100%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <a href="javascript:window.print()" class="btn btn-outline-secondary">
+                    <i class="fas fa-print mr-2"></i> Imprimir Reporte
+                </a>
+            </div>
+        </div>
+        <?php
+    }
+    
+    }

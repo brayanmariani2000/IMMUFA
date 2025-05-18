@@ -43,9 +43,9 @@ class usuarioModelo extends conexionModelo{
 
     protected static function nuevo_usuario($rol,$idPersona,$NombreUsuario,$clave){
         
-        $sql=conexionModelo::conectar()->prepare("INSERT INTO usuario(rol,persona_id,usuario,clave) 
+        $sql=conexionModelo::conectar()->prepare("INSERT INTO usuario(rol,persona_id,usuario,clave,status) 
         
-        VALUES('$rol','$idPersona','$NombreUsuario','$clave')");
+        VALUES('$rol','$idPersona','$NombreUsuario','$clave','1')");
         
         $sql->execute();
         

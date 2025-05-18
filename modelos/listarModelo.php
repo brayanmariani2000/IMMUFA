@@ -310,5 +310,293 @@ public static function listar_citas_diarias_especialidad_modelo($fecha) {
     
     return $sql;
 }
+protected static function pacientesPorEtniaModelo() {
+    $sql = conexionModelo::conectar()->prepare("SELECT 
+                e.id_etnia,
+                e.etnias AS nombre_etnia,
+                COUNT(p.id_persona) AS numero_pacientes
+            FROM 
+                etnia e
+            LEFT JOIN 
+                persona p ON e.id_etnia = p.id_etnia
+            LEFT JOIN
+                cita c ON p.id_persona = c.persona_id
+            GROUP BY 
+                e.id_etnia, e.etnias
+            ORDER BY 
+                numero_pacientes DESC");
+    
+    $sql->execute();
+    return $sql;
+}
+protected static function pacientesPorDiscapacidadModelo() {
+    $sql = conexionModelo::conectar()->prepare("SELECT 
+                d.id_discapacidad,
+                d.discapacidades AS tipo_discapacidad,
+                COUNT(p.id_persona) AS numero_pacientes
+            FROM 
+                discapacidad d
+            LEFT JOIN 
+                persona p ON d.id_discapacidad = p.id_discapacidad
+            LEFT JOIN
+                cita c ON p.id_persona = c.persona_id
+            GROUP BY 
+                d.id_discapacidad, d.discapacidades
+            ORDER BY 
+                numero_pacientes DESC");
+    
+    $sql->execute();
+    return $sql;
+}
+public static function citasdependeciasModelosFechas($fechaInicio = null, $fechaFin = null) {
+    $sql = conexionModelo::conectar()->prepare("SELECT 
+    d.id_dependencia,
+    d.dependencia,
+    COUNT(cita.id_cita) AS pacientes_atendidos
+FROM 
+    dependencias d
+LEFT JOIN 
+    cita ON d.id_dependencia = cita.dependencia_id
+LEFT JOIN 
+    consulta ON cita.id_consulta = consulta.id_consulta
+LEFT JOIN 
+    condicion ON cita.condicion_id = condicion.id_condicion
+WHERE 
+    condicion.condicion = 'ATENDIDA'
+    AND consulta.fecha_consulta BETWEEN '$fechaInicio' AND '$fechaFin'  -- Rango de fechas (ajustable)
+GROUP BY 
+    d.id_dependencia, d.dependencia
+ORDER BY 
+    pacientes_atendidos DESC;");
+    $sql->execute();
+    return $sql;
+}
+public static function pacientesDiscapacidadModeloFechas($fechaInicio = null, $fechaFin = null) {
+    $sql = conexionModelo::conectar()->prepare("SELECT 
+                d.id_discapacidad,
+                d.discapacidades AS tipo_discapacidad,
+                COUNT(p.id_persona) AS pacientes_atendidos
+            FROM 
+                discapacidad d
+            LEFT JOIN 
+                persona p ON d.id_discapacidad = p.id_discapacidad
+            LEFT JOIN
+                cita c ON p.id_persona = c.persona_id
+            LEFT JOIN
+                condicion co ON c.condicion_id = co.id_condicion
+            LEFT JOIN
+                consulta con ON c.id_consulta = con.id_consulta
+            WHERE 
+                co.condicion = 'ATENDIDA'
+                AND (:fechaInicio IS NULL OR con.fecha_consulta >= :fechaInicio)
+                AND (:fechaFin IS NULL OR con.fecha_consulta <= :fechaFin)
+            GROUP BY 
+                d.id_discapacidad, d.discapacidades
+            ORDER BY 
+                pacientes_atendidos DESC");
+    
+    // Asignar valores a los parámetros
+    $sql->bindValue(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+    $sql->bindValue(":fechaFin", $fechaFin, PDO::PARAM_STR);
+    
+    $sql->execute();
+    return $sql;
+}
+public static function pacientesEtniaModeloFechas($fechaInicio = null, $fechaFin = null) {
+    $sql = conexionModelo::conectar()->prepare("SELECT 
+                e.id_etnia,
+                e.etnias AS tipo_etnia,
+                COUNT(p.id_persona) AS pacientes_atendidos
+            FROM 
+                etnia e
+            LEFT JOIN 
+                persona p ON e.id_etnia = p.id_etnia
+            LEFT JOIN
+                cita c ON p.id_persona = c.persona_id
+            LEFT JOIN
+                condicion co ON c.condicion_id = co.id_condicion
+            LEFT JOIN
+                consulta con ON c.id_consulta = con.id_consulta
+            WHERE 
+                co.condicion = 'ATENDIDA'
+                AND (:fechaInicio IS NULL OR con.fecha_consulta >= :fechaInicio)
+                AND (:fechaFin IS NULL OR con.fecha_consulta <= :fechaFin)
+            GROUP BY 
+                e.id_etnia, e.etnias
+            ORDER BY 
+                pacientes_atendidos DESC");
+    
+    // Asignar valores a los parámetros
+    $sql->bindValue(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+    $sql->bindValue(":fechaFin", $fechaFin, PDO::PARAM_STR);
+    
+    $sql->execute();
+    return $sql;
+}
+public static function pacientesEdadModeloFechas($fechaInicio = null, $fechaFin = null) {
+    $sql = conexionModelo::conectar()->prepare("SELECT 
+                CASE
+                    WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 0 AND 12 THEN '0-12 años'
+                    WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 13 AND 18 THEN '13-18 años'
+                    WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 19 AND 30 THEN '19-30 años'
+                    WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 31 AND 50 THEN '31-50 años'
+                    WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 51 AND 65 THEN '51-65 años'
+                    ELSE '65+ años'
+                END AS grupo_edad,
+                COUNT(p.id_persona) AS pacientes_atendidos
+            FROM 
+                persona p
+            JOIN
+                cita c ON p.id_persona = c.persona_id
+            JOIN
+                condicion co ON c.condicion_id = co.id_condicion
+            JOIN
+                consulta con ON c.id_consulta = con.id_consulta
+            WHERE 
+                co.condicion = 'ATENDIDA'
+                AND (:fechaInicio IS NULL OR con.fecha_consulta >= :fechaInicio)
+                AND (:fechaFin IS NULL OR con.fecha_consulta <= :fechaFin)
+            GROUP BY 
+                grupo_edad
+            ORDER BY
+                CASE grupo_edad
+                    WHEN '0-12 años' THEN 1
+                    WHEN '13-18 años' THEN 2
+                    WHEN '19-30 años' THEN 3
+                    WHEN '31-50 años' THEN 4
+                    WHEN '51-65 años' THEN 5
+                    ELSE 6
+                END");
+    
+    // Asignar valores a los parámetros
+    $sql->bindValue(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+    $sql->bindValue(":fechaFin", $fechaFin, PDO::PARAM_STR);
+    
+    $sql->execute();
+    return $sql;
+}
+public static function pacientesEspecialidadModeloFechas($fechaInicio = null, $fechaFin = null) {
+    $sql = conexionModelo::conectar()->prepare("SELECT 
+                e.id_especialidad,
+                e.especialidad AS nombre_especialidad,
+                COUNT(cita.id_cita) AS pacientes_atendidos
+            FROM 
+                especialidad e
+            LEFT JOIN 
+                consulta con ON e.id_especialidad = con.id_especialidad
+            LEFT JOIN
+                cita ON con.id_consulta = cita.id_consulta
+            LEFT JOIN
+                condicion co ON cita.condicion_id = co.id_condicion
+            WHERE 
+                co.condicion = 'ATENDIDA'
+                AND (:fechaInicio IS NULL OR con.fecha_consulta >= :fechaInicio)
+                AND (:fechaFin IS NULL OR con.fecha_consulta <= :fechaFin)
+            GROUP BY 
+                e.id_especialidad, e.especialidad
+            ORDER BY 
+                pacientes_atendidos DESC");
+    
+    // Asignar valores a los parámetros
+    $sql->bindValue(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+    $sql->bindValue(":fechaFin", $fechaFin, PDO::PARAM_STR);
+    
+    $sql->execute();
+    return $sql;
+}
+public static function pacientesMunicipioModeloFechas($fechaInicio = null, $fechaFin = null) {
+    $sql = conexionModelo::conectar()->prepare("SELECT 
+                m.id_municipio,
+                m.municipio AS nombre_municipio,
+                COUNT(p.id_persona) AS pacientes_atendidos
+            FROM 
+                municipios m
+            LEFT JOIN 
+                parroquia pr ON m.id_municipio = pr.id_municipios
+            LEFT JOIN
+                persona p ON pr.id_parroquia = p.id_parroquia
+            LEFT JOIN
+                cita c ON p.id_persona = c.persona_id
+            LEFT JOIN
+                condicion co ON c.condicion_id = co.id_condicion
+            LEFT JOIN
+                consulta con ON c.id_consulta = con.id_consulta
+            WHERE 
+                co.condicion = 'ATENDIDA'
+                AND (:fechaInicio IS NULL OR con.fecha_consulta >= :fechaInicio)
+                AND (:fechaFin IS NULL OR con.fecha_consulta <= :fechaFin)
+            GROUP BY 
+                m.id_municipio, m.municipio
+            ORDER BY 
+                pacientes_atendidos DESC");
+    
+    // Asignar valores a los parámetros
+    $sql->bindValue(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+    $sql->bindValue(":fechaFin", $fechaFin, PDO::PARAM_STR);
+    
+    $sql->execute();
+    return $sql;
+}
+public static function pacientesParroquiaModeloFechas($fechaInicio = null, $fechaFin = null) {
+    $sql = conexionModelo::conectar()->prepare("SELECT 
+                pr.id_parroquia,
+                pr.parroquias AS nombre_parroquia,
+                m.municipio AS nombre_municipio,
+                COUNT(p.id_persona) AS pacientes_atendidos
+            FROM 
+                parroquia pr
+            JOIN
+                municipios m ON pr.id_municipios = m.id_municipio
+            LEFT JOIN
+                persona p ON pr.id_parroquia = p.id_parroquia
+            LEFT JOIN
+                cita c ON p.id_persona = c.persona_id
+            LEFT JOIN
+                condicion co ON c.condicion_id = co.id_condicion
+            LEFT JOIN
+                consulta con ON c.id_consulta = con.id_consulta
+            WHERE 
+                co.condicion = 'ATENDIDA'
+                AND (:fechaInicio IS NULL OR con.fecha_consulta >= :fechaInicio)
+                AND (:fechaFin IS NULL OR con.fecha_consulta <= :fechaFin)
+            GROUP BY 
+                pr.id_parroquia, pr.parroquias, m.municipio
+            ORDER BY 
+                m.municipio, pacientes_atendidos DESC");
+    
+    // Asignar valores a los parámetros
+    $sql->bindValue(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+    $sql->bindValue(":fechaFin", $fechaFin, PDO::PARAM_STR);
+    
+    $sql->execute();
+    return $sql;
+}
+public static function pacientesPorParroquiaModelo($id_municipio) {
+    $sql = conexionModelo::conectar()->prepare("SELECT 
+                pr.id_parroquia,
+                pr.parroquias AS nombre_parroquia,
+                COUNT(p.id_persona) AS numero_pacientes
+            FROM 
+                parroquia pr
+            LEFT JOIN 
+                persona p ON pr.id_parroquia = p.id_parroquia
+            LEFT JOIN
+                cita c ON p.id_persona = c.persona_id
+            LEFT JOIN
+                condicion co ON c.condicion_id = co.id_condicion
+            LEFT JOIN
+                consulta con ON c.id_consulta = con.id_consulta
+            WHERE 
+                co.condicion = 'ATENDIDA'
+                AND pr.id_municipios = :id_municipio
+            GROUP BY 
+                pr.id_parroquia, pr.parroquias
+            ORDER BY 
+                numero_pacientes DESC");
+    
+    $sql->bindParam(":id_municipio", $id_municipio, PDO::PARAM_INT);
+    $sql->execute();
+    return $sql;
+}
 
 }

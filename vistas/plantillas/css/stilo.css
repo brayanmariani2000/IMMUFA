@@ -219,3 +219,26 @@
 .bg-info { background-color: #17a2b8 !important; }
 .bg-warning { background-color: #ffc107 !important; color: #212529; }
 .bg-danger { background-color: #dc3545 !important; }
+/* Gradientes personalizados */
+.bg-gradient-primary { background: linear-gradient(135deg, #4e73df 0%, #224abe 100%); }
+.bg-gradient-success { background: linear-gradient(135deg, #1cc88a 0%, #13855c 100%); }
+.bg-gradient-info { background: linear-gradient(135deg, #36b9cc 0%, #258391 100%); }
+.bg-gradient-warning { background: linear-gradient(135deg, #f6c23e 0%, #dda20a 100%); }
+.bg-gradient-danger { background: linear-gradient(135deg, #e74a3b 0%, #be2617 100%); }
+.bg-gradient-secondary { background: linear-gradient(135deg, #858796 0%, #60616f 100%); }
+.bg-gradient-purple { background: linear-gradient(135deg, #6f42c1 0%, #4a2d83 100%); }
+.bg-gradient-teal { background: linear-gradient(135deg, #20c9a6 0%, #188f76 100%); }
+
+/* Colores para footers */
+.bg-primary-dark { background-color: #224abe; }
+.bg-success-dark { background-color: #13855c; }
+.bg-info-dark { background-color: #258391; }
+.bg-warning-dark { background-color: #dda20a; }
+.bg-danger-dark { background-color: #be2617; }
+.bg-secondary-dark { background-color: #60616f; }
+.bg-purple-dark { background-color: #4a2d83; }
+.bg-teal-dark { background-color: #188f76; }
+
+/* Efecto hover para las tarjetas */
+.card-link:hover { text-decoration: none; transform: translateY(-5px); transition: all 0.3s ease; }
+.card-link:hover .card { box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15); }

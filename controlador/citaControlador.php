@@ -30,6 +30,24 @@ class citaControlador extends citaModelo{
         }
     return $cont;
     }
+
+    public function contar_cita_Pedidas_controlador(){
+      $cont=0;
+      $contar=citaModelo::contar_cita_modelo();
+      if ($contar->rowCount()>0) {
+          $contador=$contar->fetchAll();
+          foreach($contador as $row){
+           if ($row['condicion_id']==4) {
+              $cont=$cont+1;
+           }   
+          }
+      }
+  return $cont;
+  }
+  public function contar_pacientes_controlador_total() {
+    $resultado = citaModelo::contar_pacientes_modelo();
+    return $resultado['total'];
+}
     public function mostrar_citas(){
         $brayan=0;
         $mostar=citaModelo::mostrar_cita_modelo();

@@ -130,5 +130,11 @@ protected static function citasEspecialidadModelos($especialidad,$fecha_Actual){
         return $sql;
         
         }
+
+        public static function contar_pacientes_modelo() {
+            $sql = conexionModelo::conectar()->prepare("SELECT COUNT(*) AS total FROM persona");
+            $sql->execute();
+            return $sql->fetch(PDO::FETCH_ASSOC);
+        }
  
 }    
