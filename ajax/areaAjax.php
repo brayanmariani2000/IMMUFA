@@ -39,3 +39,12 @@ if (isset($_POST['habilitarArea'])) {
         
     }
 }
+
+if (isset($_POST['editarArea'])) {
+   
+    if ($_POST['editarArea']==true){
+   
+        $in_area->actualizar_especialidad_controlador($_POST['idArea'],$_POST['nombreArea']);
+        
+    }
+}

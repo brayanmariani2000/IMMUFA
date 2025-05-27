@@ -20,3 +20,9 @@ if(isset($_POST['habilitarDependencia'])){
         $in_dependencia->habilitar_dependencia($_POST['idDependencias']);
     }
 }
+
+if(isset($_POST['editarDependencia'])){
+    if($_POST['editarDependencia']==true){
+        $in_dependencia->actualizar_dependencias_controlador($_POST['idDependencias'],$_POST['nombreDependencias']);
+    }
+}

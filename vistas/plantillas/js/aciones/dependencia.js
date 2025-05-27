@@ -1,10 +1,5 @@
-   /**    ********REGISTRO DE DEPENDENCIA************  
-           *     ************************************
-           * *********************************************
-           * **********************************************
-          */
-   import { server } from "./variables.js";
-   $(document).on('click','#dependenciaBT',function(){
+import { server } from "./variables.js";
+$(document).on('click','#dependenciaBT',function(){
     $('#nuevaDependencias').submit(function(e){
       e.preventDefault();
       const dependencia={
@@ -35,12 +30,7 @@
        })
 
 })   
-   /**    ********ELIMINAR DE DEPENDENCIA************  
-           *     ************************************
-           * *********************************************
-           * **********************************************
-          */
-   $(document).on('click','#eliminarDependencia',function(){
+$(document).on('click','#eliminarDependencia',function(){
    const server1=''
     Swal.fire({        
       type: 'info',
@@ -86,7 +76,54 @@
   });
 
 }) 
+$(document).on('click', '.btn-editar-Dependencia', function(){
+  const id = $(this).data('id');
+  const nombre = $(this).data('nombre');
+  
+  $('#editarIdDependencia').val(id);
+  $('#editarNombreDependencia').val(nombre);
+  $('#modalEditarDependencia').modal('show');
+});
+$('#formEditarDependencia').on('submit', function(event) {
+  event.preventDefault(); // Prevenir el envío tradicional del formulario
+  const datos = {
+    editarDependencia: true,
+    idDependencias: $('#editarIdDependencia').val(),
+    nombreDependencias: $('#editarNombreDependencia').val()
+} // Obtener los datos del formulario
 
+  $.ajax({
+      url: 'ajax/dependenciasAjax.php', // La URL de tu script PHP que procesa la actualización
+      type: 'POST',
+      data: datos,
+      success: function(respuesta){
+        console.log(respuesta);
+        if(respuesta == "1"){
+            Swal.fire({
+                type: 'success',
+                title: 'Éxito',
+                text: 'dependencias actualizada correctamente'
+            }).then(() => {
+                $('#modalEditarDependencia').modal('hide');
+                location.reload();
+            });
+        }else{
+            Swal.fire({
+                type: 'error',
+                title: 'Error',
+                text: 'No se pudo actualizar el área'
+            });
+        }
+    },
+    error: function(xhr, status, error){
+        Swal.fire({
+            type: 'error',
+            title: 'Error',
+            text: 'Error en la conexión: ' + error
+        });
+    }
+  });
+});
 $(document).on('click','#habilitarDependencia',function(){
   const server1=''
    Swal.fire({        

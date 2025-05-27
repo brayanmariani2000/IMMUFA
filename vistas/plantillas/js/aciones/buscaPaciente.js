@@ -8,7 +8,6 @@ $(document).ready(function() {
     $('#buscarPaciente').keyup(handlePatientSearch);
     
     // Evento para registro de paciente
-    $('#registarPacienteInicio').click(handlePatientRegister);
     
     // Evento para actualización de paciente
     $('#Actualizar_p_inicio').click(handlePatientUpdate);
@@ -32,11 +31,6 @@ $(document).ready(function() {
             },
             error: handleSearchError
         });
-    }
-
-    // Manejador de registro de paciente
-    function handlePatientRegister(e) {
-        window.location.href = `${serverPath}formularioPaciente`;
     }
 
     // Manejador de actualización de paciente

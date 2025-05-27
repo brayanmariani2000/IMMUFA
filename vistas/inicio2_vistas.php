@@ -151,9 +151,9 @@
         <div class="p-20">
             <div class="row"> <!-- Cambié a row para mejor disposición -->
                 <div class="col-md-6 mb-3"> <!-- Agregué mb-3 para margen inferior -->
-                    <button class="btn btn-info btn-block" id="registarPacienteInicio" url="formularioPaciente">
+                    <a class="btn btn-info btn-block"  href="formularioPaciente">
                         <i class="ti-plus"></i> Registrar Paciente
-                    </button>
+        </a>
                 </div>   
                 
                 <div class="col-md-6">

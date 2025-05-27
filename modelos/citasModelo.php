@@ -136,5 +136,38 @@ protected static function citasEspecialidadModelos($especialidad,$fecha_Actual){
             $sql->execute();
             return $sql->fetch(PDO::FETCH_ASSOC);
         }
- 
+        public static function registrar_nueva_cita_modelo($datos) {
+            $sql = conexionModelo::conectar()->prepare(
+                "INSERT INTO cita (persona_id, id_consulta, fecha_consulta, id_condicion, usuario_id) 
+                 VALUES (:persona_id, :consulta_id, :fecha_consulta, :condicion, :usuario_id)"
+            );
+            
+            $sql->bindParam(":persona_id", $datos['persona_id'], PDO::PARAM_INT);
+            $sql->bindParam(":consulta_id", $datos['consulta_id'], PDO::PARAM_INT);
+            $sql->bindParam(":fecha_consulta", $datos['fecha_consulta'], PDO::PARAM_STR);
+            $sql->bindParam(":condicion", $datos['condicion'], PDO::PARAM_INT);
+            $sql->bindParam(":usuario_id", $datos['usuario_id'], PDO::PARAM_INT);
+            
+            if($sql->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        // Método para verificar disponibilidad de cita
+        public static function verificar_disponibilidad_modelo($especialista_id, $fecha) {
+            $sql = conexionModelo::conectar()->prepare(
+                "SELECT COUNT(*) as total FROM cita 
+                 INNER JOIN consulta ON cita.id_consulta = consulta.id_consulta
+                 WHERE consulta.id_especialista = :especialista_id 
+                 AND cita.fecha_consulta = :fecha"
+            );
+            
+            $sql->bindParam(":especialista_id", $especialista_id, PDO::PARAM_INT);
+            $sql->bindParam(":fecha", $fecha, PDO::PARAM_STR);
+            $sql->execute();
+            
+            return $sql->fetch(PDO::FETCH_ASSOC)['total'];
+        }
 }    

@@ -190,5 +190,26 @@ class usuarioModelo extends conexionModelo{
        
         return $sql;
     }  
+    protected static function actualizar_especialidad_modelo($id, $nombre) {
+        $sql = conexionModelo::conectar()->prepare("UPDATE `especialidad` SET `especialidad` = :nombre WHERE `id_especialidad` = :id");
+        
+        $sql->bindParam(":nombre", $nombre);
+        $sql->bindParam(":id", $id);
+        
+        $sql->execute();
+        
+        return $sql;
+    }
 
+    protected static function actualizar_dependencias_modelo($id, $nombre) {
+        $sql = conexionModelo::conectar()->prepare("UPDATE `dependencias` SET `dependencia` = :nombre WHERE `id_dependencia` = :id");
+        
+        $sql->bindParam(":nombre", $nombre);
+        $sql->bindParam(":id", $id);
+        
+        $sql->execute();
+        
+        return $sql;
+    }
+    
 }

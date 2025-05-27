@@ -2,7 +2,9 @@
 $peticionesAjax=true;
 require_once "../config/App.php";
 require_once "../controlador/citaControlador.php";
+require_once "../controlador/pacienteControlador.php";
 $in_cita=new citaControlador();
+$in_paciente=new pacienteControlador();
 if (isset($_POST['motivo'])) {
    
         $in_cita->agendar_cita_controlador();  
@@ -25,4 +27,10 @@ if(isset($_POST['cantidadPacienteXDia'])){
     
     }
 
+}
+
+if(isset($_POST['citaNueva'])){
+
+    echo $in_paciente->agregar_cita_controlador();
+    
 }

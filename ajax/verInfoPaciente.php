@@ -10,7 +10,7 @@ if (isset($_POST['ver_paciente'])){
     
     $in_paciente=new pacienteControlador();
     
-    $in_paciente->datos_paciente($_POST['cedula_p']);
+    $in_paciente->datos_paciente($_POST['id_persona']);
 
 }elseif(isset($_POST['BuscarPaciente'])){
  
@@ -43,5 +43,13 @@ if (isset($_POST['ver_paciente'])){
     $buscar=new pacienteControlador();
 
     echo $buscar->buscar_Paciente_historia_controlador($_POST['buscar']);
+
+}elseif(isset($_POST['actualizarDatosPaciente'])){
+
+    require_once "../controlador/pacienteControlador.php";
+               
+    $buscar=new pacienteControlador();
+
+    echo $buscar->actualizar_paciente_controlador();
 
 }
