@@ -137,7 +137,7 @@ class pacienteControlador extends pacienteModelo{
 
     $especialista=$_POST['especialista'];
 
-    $cedula=conexionModelo::limpiar_texto($_POST['cedula']);
+    $idPersona=conexionModelo::limpiar_texto($_POST['id_paciente']);
 
 
     $validadcion_consulta=pacienteModelo::validacion_consulta($area_consulta,$especialista,$fecha_consulta,$hora_consulta,$estado_consulta);
@@ -159,19 +159,9 @@ class pacienteControlador extends pacienteModelo{
       $idConsulta=$row['id_consulta']; 
     }
 
+     $agregar_cita=pacienteModelo::agregar_paciente_cita($idPersona,$fecha_registro,$condicion,$dependencia,$id_usuario,$idConsulta);
 
-    $validadcion=pacienteModelo::validacion($cedula);
-        
-    if ($validadcion->rowCount()>0)
-    {
-      $row=$validadcion->fetch();
-
-      $idPersona=$row['id_persona'];      
-
-      $agregar_cita=pacienteModelo::agregar_paciente_cita($idPersona,$fecha_registro,$condicion,$dependencia,$id_usuario,$idConsulta);
-
-      echo 1;
- }
+      echo '1';
 }
 
 
@@ -309,104 +299,104 @@ class pacienteControlador extends pacienteModelo{
     LO CONVERTI EN UN JSON LO RESIVO EN UN ARCHIVO JAVASCRIPT
     Y LO MUESTRO VER EN VISTA/PLANTILLA/JS/ACCIONES/PACIENTE.JS
     =============================================================*/
-   public function datos_paciente($cedula){
-
-        $mostrar=pacienteModelo::mostrar_paciente_modelo($cedula);
-
-        $mostrar1=$mostrar->fetchAll();
-
-        $datos=array();
-
-        foreach($mostrar1 as $row){
-
-          if($row['sexo']==1){
-
-            $sexo='FEMENINO';
-
-          }else {
-
-            $sexo='MASCULINO';
-
-          }
-          $datos[]=array(
-            'nombre'  => $row['nombre'],
-
-            'apellido'=>$row['apellido'],
-
-            'cedula'  =>$row['cedula'],
-
-            'tipo_discapacidad'=>$row['discapacidades'],
-
-            'municipiosN'=>$row['municipio'],
-
-            'parroquias'=>$row['parroquias'],
-
-            'etnias'=>$row['etnias'],
-
-            'fechaNaci'=>$row['fecha_nacimiento'],
-
-            'telefono'=>"+58".$row['telefono'],
-
-            'sexo'=>$sexo,
-
-            'sexoID'=>$row['sexo'],
-
-            'idMunicipio'=>$row['id_municipio'],
-
-            'idParroquia'=>$row['id_parroquia'],
-
-          
-
-          );
-
-        }
-        $jason=json_encode($datos);
-
-        echo $jason;
-   
-}
+    public function datos_paciente($idPersona) {
+      // Validar el ID recibido
+      if(!is_numeric($idPersona)) {
+          echo json_encode(['error' => 'ID de paciente no válido']);
+          return;
+      }
+  
+      $resultado = pacienteModelo::mostrar_paciente_modelo($idPersona);
+      $datosPaciente = $resultado->fetch(PDO::FETCH_ASSOC);
+  
+      if(!$datosPaciente) {
+          echo json_encode(['error' => 'Paciente no encontrado']);
+          return;
+      }
+  
+      // Procesar los datos
+      $datos = [
+          'id_persona' => $datosPaciente['id_persona'],
+          'nombre' => $datosPaciente['nombre'],
+          'apellido' => $datosPaciente['apellido'],
+          'cedula' => $datosPaciente['cedula'],
+          'telefono' => "+58" . $datosPaciente['telefono'],
+          'correo' => $datosPaciente['correo'] ?? 'No registrado',
+          'tipo_discapacidad' => $datosPaciente['discapacidades'] ?? 'Ninguna',
+          'municipiosN' => $datosPaciente['municipio'],
+          'idMunicipio' => $datosPaciente['id_municipio'],
+          'parroquias' => $datosPaciente['parroquias'],
+          'idParroquia' => $datosPaciente['id_parroquia'],
+          'etnias' => $datosPaciente['etnias'] ?? 'No especificado',
+          'fechaNaci' => $datosPaciente['fecha_nacimiento'],
+          'sexo' => $datosPaciente['sexo'] == 1 ? 'FEMENINO' : 'MASCULINO',
+          'sexoID' => $datosPaciente['sexo'],
+          'nacionalidad' => $datosPaciente['nacionalidad'] == 1 ? 'Venezolano' : 'Extranjero',
+          'veces_atendido' => $datosPaciente['veces_atendido'],
+          'especialidades_atendidas' => $datosPaciente['especialidades_atendidas'] ?? 'No registra atenciones',
+          'ultima_atencion' => $datosPaciente['ultima_atencion'] ?? 'No registra atenciones',
+          'estado' => $datosPaciente['estado']
+      ];
+  
+      // Configurar cabeceras y enviar JSON
+      header('Content-Type: application/json');
+      echo json_encode($datos, JSON_UNESCAPED_UNICODE);
+  }
   
        /*===========================================================
     ACTUALIZAR EN LA BASE DE DATOS LOS DATOS DEL PACIENTE
     =============================================================*/
-   public function actualizar_paciente_controlador(){
-
-    $nombre=conexionModelo::limpiar_texto($_POST['nombre']);
-
-    $apellido=conexionModelo::limpiar_texto($_POST['apellido']);
-
-    $cedula=conexionModelo::limpiar_texto($_POST['cedula']);
-
-    $telefono=conexionModelo::limpiar_texto($_POST['telefono']);
-
-    $fecha_naci=conexionModelo::limpiar_texto($_POST['fechaNaci']);
-
-    $sexo=conexionModelo::limpiar_texto($_POST['sexo']);
-
-    $edad=conexionModelo::limpiar_texto($_POST['edad']);
-
-    $parroquia=conexionModelo::limpiar_texto($_POST['parroquia']);
-
-    $municipio=conexionModelo::limpiar_texto($_POST['municipio']);
-
-    $etnia=conexionModelo::limpiar_texto($_POST['etnia']);
-
-    $discapacidad_p=conexionModelo::limpiar_texto($_POST['discapacidad']);
-
-    $actualizarPaciente=pacienteModelo::actualizar_paciente($nombre,$apellido,$cedula,$fecha_naci,$telefono,$sexo,$edad,$cedula,$etnia,$discapacidad_p);
-
-    $actualizarDireccion=pacienteModelo::actualizar_direccion($cedula,$municipio,$parroquia);
-
-    if ($actualizarPaciente->rowCount()>0) {
-
-      echo '1';
-
-   }else{
-
-    echo 2;
-   }
-
-   }
+    public function actualizar_paciente_controlador() {
+        // Obtener y limpiar datos del formulario
+        $idPersona = conexionModelo::limpiar_texto($_POST['id_persona']);
+        $nombre = conexionModelo::limpiar_texto($_POST['nombreActul']);
+        $apellido = conexionModelo::limpiar_texto($_POST['apellidoActul']);
+        $cedula = conexionModelo::limpiar_texto($_POST['cedulaActul']);
+        $telefono = conexionModelo::limpiar_texto($_POST['telefonoActul']);
+        $fecha_naci = conexionModelo::limpiar_texto($_POST['fechaNaciActul']);
+        $sexo = conexionModelo::limpiar_texto($_POST['sexoActul']);
+        $etnia = conexionModelo::limpiar_texto($_POST['etniaActul']);
+        $discapacidad = conexionModelo::limpiar_texto($_POST['discapacidadActul']);
+        $parroquia = conexionModelo::limpiar_texto($_POST['parroquiaActul']);
+        
+        // Validar datos obligatorios
+        if(empty($nombre) || empty($apellido) || empty($cedula) || empty($fecha_naci)) {
+            echo json_encode(['success' => false, 'message' => 'Los campos nombre, apellido, cédula y fecha de nacimiento son obligatorios']);
+            return;
+        }
+        
+        // Validar formato de cédula (solo números)
+        if(!is_numeric($cedula)) {
+            echo json_encode(['success' => false, 'message' => 'La cédula debe contener solo números']);
+            return;
+        }
+        
+        // Validar formato de teléfono
+        if(!empty($telefono) && !is_numeric($telefono)) {
+            echo json_encode(['success' => false, 'message' => 'El teléfono debe contener solo números']);
+            return;
+        }
+        
+        // Actualizar datos del paciente
+        $actualizarPaciente = pacienteModelo::actualizar_paciente(
+            $nombre, 
+            $apellido, 
+            $cedula, 
+            $fecha_naci, 
+            $telefono, 
+            $sexo, 
+            $etnia, 
+            $discapacidad, 
+            $parroquia, 
+            $idPersona
+        );
+        
+        if($actualizarPaciente->rowCount() > 0) {
+            echo json_encode(['success' => true, 'message' => 'Datos del paciente actualizados correctamente']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'No se realizaron cambios o ocurrió un error']);
+        }
+    }
 
 
 
@@ -466,7 +456,7 @@ class pacienteControlador extends pacienteModelo{
                                 <div class="input-group-prepend">
                                     <span class="input-group-text bg-light"><i class="fas fa-user text-primary"></i></span>
                                 </div>
-                                <p class="form-control bg-light" >'.htmlspecialchars($row['nombre']).'</p>
+                                <p class="form-control bg-light" id="nombreNuevaCita" >'.htmlspecialchars($row['nombre']).'</p>
                             </div>
                         </div>
                     </div>
@@ -479,7 +469,7 @@ class pacienteControlador extends pacienteModelo{
                                 <div class="input-group-prepend">
                                     <span class="input-group-text bg-light"><i class="fas fa-user text-primary"></i></span>
                                 </div>
-                                <p class="form-control bg-light" >'.htmlspecialchars($row['apellido']).'</p>
+                                <p class="form-control bg-light" id="apellidoNuevaCita">'.htmlspecialchars($row['apellido']).'</p>
                             </div>
                         </div>
                     </div>
@@ -492,7 +482,7 @@ class pacienteControlador extends pacienteModelo{
                                 <div class="input-group-prepend">
                                     <span class="input-group-text bg-light"><i class="fas fa-address-card text-primary"></i></span>
                                 </div>
-                                        <p class="form-control bg-light">'.htmlspecialchars($row['cedula']).'</p>
+                                        <p class="form-control bg-light" id="cedulaNuevaCita">'.htmlspecialchars($row['cedula']).'</p>
                                 <input type="hidden" value="'.htmlspecialchars($row['cedula']).'">
                             </div>
                         </div>

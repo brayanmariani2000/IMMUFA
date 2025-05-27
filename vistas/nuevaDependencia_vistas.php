@@ -65,3 +65,28 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modalEditarDependencia" tabindex="-1" role="dialog" aria-labelledby="modalEditarDependenciaLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarDependenciaLabel">Editar Dependencia</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="text-white">&times;</span>
+                </button>
+            </div>
+            <form id="formEditarDependencia">
+                <div class="modal-body">
+                    <input type="hidden" id="editarIdDependencia" name="id_dependencia">
+                    <div class="form-group">
+                        <label for="editarNombreDependencia">Nombre de la Dependencia</label>
+                        <input type="text" class="form-control" id="editarNombreDependencia" name="nombre_dependencia" placeholder="Nombre de la Dependencia" required>
+                    </div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-info">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

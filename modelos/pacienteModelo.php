@@ -59,50 +59,85 @@ class pacienteModelo extends conexionModelo{
   }
 
                  /* MOSTRAR LOS DATOS DEL PACIENTE PARA EL MODAL*/ 
-  protected static function mostrar_paciente_modelo($idPersona){
-
-    $sql=conexionModelo::conectar()->prepare("SELECT * FROM persona INNER JOIN discapacidad,municipios,parroquia,etnia
-
-    WHERE '$idPersona'=persona.id_persona
-
-    AND persona.id_discapacidad=discapacidad.id_discapacidad
-
-    AND persona.id_parroquia=parroquia.id_parroquia
-
-    AND parroquia.id_municipios=municipios.id_municipio
-
-    AND etnia.id_etnia=persona.id_etnia");
-
-    $sql->execute();
-
-    return $sql;
-  }
+                 protected static function mostrar_paciente_modelo($idPersona) {
+                  $conexion = conexionModelo::conectar();
+                  $sql = $conexion->prepare("SELECT 
+                      p.id_persona,
+                      p.nombre,
+                      p.apellido,
+                      p.cedula,
+                      p.telefono,
+                      p.correo,
+                      p.id_parroquia,
+                      p.sexo,
+                      pa.parroquias,
+                      m.municipio,
+                      m.id_municipio,
+                      e.estados AS estado,
+                      et.etnias,
+                      d.discapacidades,
+                      p.fecha_nacimiento,
+                      p.nacionalidad,
+                      (SELECT COUNT(*) FROM cita WHERE persona_id = p.id_persona) AS veces_atendido,
+                      GROUP_CONCAT(DISTINCT esp.especialidad SEPARATOR ', ') AS especialidades_atendidas,
+                      MAX(c.fecha_registro) AS ultima_atencion
+                  FROM 
+                      persona p
+                  LEFT JOIN 
+                      parroquia pa ON p.id_parroquia = pa.id_parroquia
+                  LEFT JOIN 
+                      municipios m ON pa.id_municipios = m.id_municipio
+                  LEFT JOIN 
+                      estados e ON m.id_estado = e.id_estado
+                  LEFT JOIN 
+                      etnia et ON p.id_etnia = et.id_etnia
+                  LEFT JOIN 
+                      discapacidad d ON p.id_discapacidad = d.id_discapacidad
+                  LEFT JOIN 
+                      cita c ON p.id_persona = c.persona_id
+                  LEFT JOIN 
+                      consulta con ON c.id_consulta = con.id_consulta
+                  LEFT JOIN 
+                      especialidad esp ON con.id_especialidad = esp.id_especialidad
+                  WHERE 
+                      p.id_persona = :id_persona
+                  GROUP BY 
+                      p.id_persona");
+                  
+                  $sql->bindParam(":id_persona", $idPersona, PDO::PARAM_INT);
+                  $sql->execute();
+                  
+                  return $sql;
+              }
 
   /* ACTUALIZAR LOS DATOS DEL PACIENTE PARA EL MODAL*/ 
-  protected static function actualizar_paciente($nombre,$apellido,$cedula,$fecha_naci,$telefono,$sexo,$etnia,$discapacidad,$idParroquia,$idPersona){
-
-  $sql=conexionModelo::conectar()->prepare("UPDATE `persona` SET `nombre`='$nombre',
-
-  `apellido`='$apellido',
-
-  `telefono`='$telefono',
-
-  `id_discapacidad`='$discapacidad_p',
-
-  `id_parroquia`='$idParroquia',
-
-  `id_etnia`='$etnia',
-
-  `fecha_nacimiento`='$fecha_naci',
-
-  `sexo`='$sexo',
-
-  WHERE id_persona='$idPersona'");
-
-  $sql->execute();
-
-  return $sql;
-  }
+  protected static function actualizar_paciente($nombre, $apellido, $cedula, $fecha_naci, $telefono, $sexo, $etnia, $discapacidad, $idParroquia, $idPersona) {
+    $sql = conexionModelo::conectar()->prepare("UPDATE `persona` SET 
+        `nombre` = :nombre,
+        `apellido` = :apellido,
+        `cedula` = :cedula,
+        `telefono` = :telefono,
+        `id_discapacidad` = :discapacidad,
+        `id_parroquia` = :idParroquia,
+        `id_etnia` = :etnia,
+        `fecha_nacimiento` = :fecha_naci,
+        `sexo` = :sexo
+        WHERE id_persona = :idPersona");
+    
+    $sql->bindParam(":nombre", $nombre, PDO::PARAM_STR);
+    $sql->bindParam(":apellido", $apellido, PDO::PARAM_STR);
+    $sql->bindParam(":cedula", $cedula, PDO::PARAM_INT);
+    $sql->bindParam(":telefono", $telefono, PDO::PARAM_STR);
+    $sql->bindParam(":discapacidad", $discapacidad, PDO::PARAM_INT);
+    $sql->bindParam(":idParroquia", $idParroquia, PDO::PARAM_INT);
+    $sql->bindParam(":etnia", $etnia, PDO::PARAM_INT);
+    $sql->bindParam(":fecha_naci", $fecha_naci, PDO::PARAM_STR);
+    $sql->bindParam(":sexo", $sexo, PDO::PARAM_INT);
+    $sql->bindParam(":idPersona", $idPersona, PDO::PARAM_INT);
+    
+    $sql->execute();
+    return $sql;
+}
 
   protected static function validacion($cedula){
 

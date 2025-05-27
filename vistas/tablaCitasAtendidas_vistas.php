@@ -38,22 +38,35 @@
 
                   <thead>
 
-                    <tr role="row">
-
-                      <th class=""  rowspan="1" colspan="1">N°</th>
-
-                      <th class=""  rowspan="1" colspan="1"style="width: 200px;" id='nombrePacientetabla'>Nombre y Apellido</th>
-
-                      <th class="" style="width: 100.8px;" id='cedulaPacientetabla'>Cedula</th>
-
-                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 150.8px;">Area de Consulta</th>
-
-                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 150.8px;">Fecha Programada</th>
-
-                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 10.8px;">Dependecias</th>
-
-
-                    </tr>
+                  <tr>
+                    <!-- Columna N° -->
+                    <th class="text-center" style="width: 5%; min-width: 50px;">N°</th>
+                    
+                    <!-- Columna Nombre y Apellido -->
+                    <th class="text-start" style="width: 25%; min-width: 250px;" id='nombrePacientetabla'>
+                      <i class="fas fa-user me-2"></i>Nombre y Apellido
+                    </th>
+                    
+                    <!-- Columna Cédula -->
+                    <th class="text-center" style="width: 15%; min-width: 150px;" id='cedulaPacientetabla'>
+                      <i class="fas fa-id-card me-2"></i>Cédula
+                    </th>
+                    
+                    <!-- Columna Área de Consulta -->
+                    <th class="text-start" style="width: 20%; min-width: 200px;">
+                      <i class="fas fa-stethoscope me-2"></i>Área de Consulta
+                    </th>
+                    
+                    <!-- Columna Fecha Programada -->
+                    <th class="text-center" style="width: 20%; min-width: 180px;">
+                      <i class="far fa-calendar-alt me-2"></i>Fecha Programada
+                    </th>
+                    
+                    <!-- Columna Dependencias -->
+                    <th class="text-start" style="width: 20%; min-width: 200px;">
+                      <i class="fas fa-building me-2"></i>Dependencias
+                    </th>
+                  </tr>
 
                   </thead>
 

@@ -37,23 +37,44 @@
 
                   <thead>
 
-                    <tr role="row">
-
-                      <th class=""  rowspan="1" colspan="1">N°</th>
-
-                      <th class=""  rowspan="1" colspan="1"style="width: 200px;" id='nombrePacientetabla'>Nombre y Apellido</th>
-
-                      <th class="" style="width: 100.8px;" id='cedulaPacientetabla'>Cedula</th>
-
-                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 150.8px;">Area de Consulta</th>
-
-                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 150.8px;">Fecha Programada</th>
-
-                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 10.8px;">Observacion</th>
-
-                      <th class="" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 92.8px;">accion</th>
-
-                    </tr>
+                  <tr role="row">
+        <!-- Columna N° -->
+        <th class="text-center p-3" rowspan="1" colspan="1" style="width: 5%; min-width: 50px;">N°</th>
+        
+        <!-- Columna Nombre y Apellido -->
+        <th class="text-start p-3" rowspan="1" colspan="1" style="width: 25%; min-width: 200px;" id='nombrePacientetabla'>
+          Nombre y Apellido
+        </th>
+        
+        <!-- Columna Cédula -->
+        <th class="text-center p-3" style="width: 10%; min-width: 100.8px;" id='cedulaPacientetabla'>
+          Cédula
+        </th>
+        
+        <!-- Columna Área de Consulta -->
+        <th class="text-start p-3" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" 
+            aria-label="Office: activate to sort column ascending" style="width: 15%; min-width: 150.8px;">
+          Área de Consulta
+        </th>
+        
+        <!-- Columna Fecha Programada -->
+        <th class="text-center p-3" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" 
+            aria-label="Age: activate to sort column ascending" style="width: 15%; min-width: 150.8px;">
+          Fecha Programada
+        </th>
+        
+        <!-- Columna Observación -->
+        <th class="text-start p-3" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" 
+            aria-label="Start date: activate to sort column ascending" style="width: 20%; min-width: 150px;">
+          Observación
+        </th>
+        
+        <!-- Columna Acción -->
+        <th class="text-center p-3" tabindex="0" aria-controls="example23" rowspan="1" colspan="1" 
+            aria-label="Start date: activate to sort column ascending" style="width: 10%; min-width: 92.8px;">
+          Acción
+        </th>
+      </tr>
 
                   </thead>
 
@@ -118,116 +139,112 @@
                 <!-- ============
                 VER INFORMACION DEL PACIENTE MODAL 
                 ==============-->
-<div class="modal fade" id="veirInfo_cita" role="dialog">
-
-  <div class="modal-dialog" role="document">
-
-    <div class="modal-content">
-
-      <div class="modal-header"style="background:#3c8dbc; color:white" >
-
-        <h5 class="modal-title">Datos del Paciente</h5>
-
-        <button type="button" class="close" data-dismiss="modal" id="cerrarIconInfo"><span aria-hidden="true">&times;</span></button>
-
+                <div class="modal fade" id="veirInfo_cita" tabindex="-1" aria-labelledby="veirInfo_citaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content border-0 shadow">
+      <!-- Encabezado del Modal -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title fs-5" id="veirInfo_citaLabel">
+          <i class="fas fa-user-injured me-2"></i>Datos del Paciente
+        </h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
       </div>
-      <div class="modal-body">
-
-      <div class="box-body">
-
-        <div class="form-group row">
-
-            <div class="col-md-4">
-
-            <label for="nombrePaciente">Nombre</label>
-
-            <p id="nombrePaciente"></p>
-
-            </div>
-
-            <div class="col-md-4">
-
-            <label for="apellidoPaciente">apellido</label>
-
-            <p  id="apellidoPaciente"></p>
-
-            </div>
-
-            <div class="col-md-4">
-
-            <label for="cedulaPaciente">cedula</label>
-
-            <p  id="cedulaPaciente"></p>
-
-            </div>
-
-        </div>
-
-        <center><h5 class="modal-title" id="exampleModalLabel">Citas</h5></center>
-
-        <div class="form-group row" id="citasInfo">
-
-            <div class="col-md-4">
-
-            <label for="fechaAntencionPaciente">fecha de antencion</label>
-
-            <p id="fechaAntencionPaciente"></p>
-
-            </div>
-
-            <div class="col-md-4">
-
-            <label for="estadoPaciente">estado</label><br><br>
-
-            <select name="condicion" id="condicionCita" class="form-control">
-            
-              <option value="1">Agendada</option>
-
-              <option value="2">Pospuesta</option>
-              
-              <option value="3">Atendida</option>
-              
-              <option value="4">Perdida</option>
-            
-            </select>
-
-            </div>
-
-            <div class="col-md-4">
-
-            <label for="especialidad_cita_persona">area de Consulta</label>
-
-            <p  id="especialidadCitaPersona"></p>
-
+      
+      <!-- Cuerpo del Modal -->
+      <div class="modal-body p-4">
+        <div class="container-fluid">
+          <!-- Sección de Información Básica -->
+          <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+              <label class="form-label fw-bold text-primary">
+                <i class="fas fa-signature me-2"></i>Nombre
+              </label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-user text-primary"></i></span>
+                <p class="form-control bg-light mb-0" id="nombrePaciente"></p>
+              </div>
             </div>
             
-            <div class="">
-               <input type="hidden" name="id_cita" id="id_cita">
-               <input type="hidden" name="id_consulta" id="id_consulta">
+            <div class="col-md-4 mb-3">
+              <label class="form-label fw-bold text-primary">
+                <i class="fas fa-signature me-2"></i>Apellido
+              </label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-user text-primary"></i></span>
+                <p class="form-control bg-light mb-0" id="apellidoPaciente"></p>
+              </div>
             </div>
-
-        </div>
-
-      </div>
-
-     </div>
-
-      <div class="modal-footer">
-
-      <button type="button" class="btn btn-primary" data-dismiss="modal" id="cerrarBtnActul">Cerrar</button>
+            
+            <div class="col-md-4 mb-3">
+              <label class="form-label fw-bold text-primary">
+                <i class="fas fa-id-card me-2"></i>Cédula
+              </label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-address-card text-primary"></i></span>
+                <p class="form-control bg-light mb-0" id="cedulaPaciente"></p>
+              </div>
+            </div>
+          </div>
           
-      <button type="submit" class="btn btn-dark" data-dismiss="modal" id="ActualizarBtnActul">Actualizar</button>
+          <!-- Sección de Citas -->
+          <div class="text-center mb-4">
+            <h5 class="fw-bold text-primary">
+              <i class="fas fa-calendar-check me-2"></i>Información de Cita
+            </h5>
+          </div>
           
-
+          <div class="row" id="citasInfo">
+            <div class="col-md-4 mb-3">
+              <label class="form-label fw-bold text-primary">
+                <i class="far fa-calendar-alt me-2"></i>Fecha de Atención
+              </label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-clock text-primary"></i></span>
+                <p class="form-control bg-light mb-0" id="fechaAntencionPaciente"></p>
+              </div>
+            </div>
+            
+            <div class="col-md-4 mb-3">
+              <label class="form-label fw-bold text-primary">
+                <i class="fas fa-clipboard-check me-2"></i>Estado
+              </label>
+              <select class="form-control" id="condicionCita">
+                <option value="1">🟡 Agendada</option>
+                <option value="2">🔵 Pospuesta</option>
+                <option value="3">🟢 Atendida</option>
+                <option value="4">🔴 Perdida</option>
+              </select>
+            </div>
+            
+            <div class="col-md-4 mb-3">
+              <label class="form-label fw-bold text-primary">
+                <i class="fas fa-stethoscope me-2"></i>Área de Consulta
+              </label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-clinic-medical text-primary"></i></span>
+                <p class="form-control bg-light mb-0" id="especialidadCitaPersona"></p>
+              </div>
+            </div>
+            
+            <!-- Campos ocultos -->
+            <input type="hidden" name="id_cita" id="id_cita">
+            <input type="hidden" name="id_consulta" id="id_consulta">
+          </div>
+        </div>
       </div>
-
+      
+      <!-- Pie del Modal -->
+      <div class="modal-footer bg-light">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <i class="fas fa-times mr-2"></i>Cerrar
+                </button>
+        <button type="button" class="btn btn-primary" id="ActualizarBtnActul">
+          <i class="fas fa-save me-2"></i>Actualizar
+        </button>
+      </div>
     </div>
-
+  </div>
 </div>
 
-</div>
-
-
-        <!-- ============
-                ACTUALIZAR INFORMACION DEL PACIENTE MODAL 
-                ==============-->

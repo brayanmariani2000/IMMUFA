@@ -194,6 +194,28 @@ public function eliminar_dependencia_controlador($dependencia){
 }
 
 
+public function actualizar_especialidad_controlador($id, $nombre) {
+  $actualizar = usuarioModelo::actualizar_especialidad_modelo($id, $nombre);
+
+  if ($actualizar->rowCount() > 0) {
+      echo 1; // Éxito
+  } else {
+      echo 2; // Error
+  }
+}
+
+
+public function actualizar_dependencias_controlador($id, $nombre) {
+  $actualizar = usuarioModelo::actualizar_dependencias_modelo($id, $nombre);
+
+  if ($actualizar->rowCount() > 0) {
+      echo 1; // Éxito
+  } else {
+      echo 2; // Error
+  }
+}
+
+
 
 public function eliminar_area_controlador($area){
 

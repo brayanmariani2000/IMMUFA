@@ -1129,7 +1129,7 @@ class tablaControlador extends listarModelo{
         // Estructura de la tabla con estilos mejorados
         ?>
         <div class="table-responsive">
-            <table class="table table-hover table-bordered" id="tablaDiscapacidadPDF">
+            <table class="table table-hover table-bordered" id="tablaPacientesPorDiscapacidadPDF">
                 <thead class="thead-light">
                     <tr>
                         <th class="text-center">Tipo de Discapacidad</th>
@@ -1187,7 +1187,7 @@ class tablaControlador extends listarModelo{
         // Estructura de la tabla con estilos mejorados
         ?>
         <div class="table-responsive">
-            <table class="table table-hover table-bordered" id="tablaEtniaPDF">
+            <table class="table table-hover table-bordered" id="tablaPacientesPorEtniaPDF">
                 <thead class="thead-light">
                     <tr>
                         <th class="text-center">Grupo Étnico</th>
@@ -1245,7 +1245,7 @@ class tablaControlador extends listarModelo{
         // Estructura de la tabla con estilos mejorados
         ?>
         <div class="table-responsive">
-            <table class="table table-hover table-bordered" id="tablaEdadPDF">
+            <table class="table table-hover table-bordered" id="tablaEdades">
                 <thead class="thead-light">
                     <tr>
                         <th class="text-center">Grupo de Edad</th>
@@ -1303,7 +1303,7 @@ class tablaControlador extends listarModelo{
         // Estructura de la tabla con estilos mejorados
         ?>
         <div class="table-responsive">
-            <table class="table table-hover table-bordered" id="tablaEspecialidadPDF">
+            <table class="table table-hover table-bordered" id="tablaEspecialidadesPdf">
                 <thead class="thead-light">
                     <tr>
                         <th class="text-center">Especialidad Médica</th>
@@ -1361,7 +1361,7 @@ class tablaControlador extends listarModelo{
         // Estructura de la tabla con estilos mejorados
         ?>
         <div class="table-responsive">
-            <table class="table table-hover table-bordered" id="tablaMunicipioPDF">
+            <table class="table table-hover table-bordered" id="tablaPacientesPorMunicipioPDF">
                 <thead class="thead-light">
                     <tr>
                         <th class="text-center">Municipio</th>

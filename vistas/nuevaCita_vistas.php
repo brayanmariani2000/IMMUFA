@@ -12,37 +12,36 @@
                 <div class="col-12">
            
                     <div class="card-body m-t-10">
-                    <form  method="POST" class=" form-bordered" id="paciente_cita">
+                    <form  method="POST" class=" form-bordered" id="paciente_cita_nueva">
 
                             <div class="card mb-4 border-primary">
-                        <div class="card-header bg-primary text-white py-2">
-                   <h5 class="mb-0">
-                    <i class="fas fa-user-tag mr-2"></i>INFORMACIÓN PERSONAL
-                </h5>
-                     </div>
-                         <div class="card-body">
-                     <div class="row">
+                                <div class="card-header bg-primary text-white py-2">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-user-tag mr-2"></i>INFORMACIÓN PERSONAL
+                                    </h5>
+                                </div>
+                             <div class="card-body">
+                            <div class="row">
 
               
                         
-                        <?php
-                    
-                         if(isset($_POST['Nueva_Cita'])){
-                            
-                            require_once "controlador/pacienteControlador.php";
-                                   
-                            $actualizar=new pacienteControlador();
-                    
-                            echo $actualizar->datosPacienteActualizar($_POST['Nueva_Cita']);
-                    
-                    
-                         }
-                    
-                        ?>
-                    
-                </div>
-            </div>
-        </div>
+                                            <?php
+                                        
+                                            if(isset($_POST['Nueva_Cita'])){
+                                                
+                                                require_once "controlador/pacienteControlador.php";
+                                                    
+                                                $actualizar=new pacienteControlador();
+                                        
+                                                echo $actualizar->datosPacienteActualizar($_POST['Nueva_Cita']);
+                                        
+                                        
+                                            }
+                                        
+                                            ?> 
+                                    </div>
+                                </div>
+                            </div>
                        
 
                       
@@ -108,7 +107,10 @@
                             
                             <div class="form-group row">
                              
-                                <input type="text" name="usuario" id="usuarioRegistro" value="<?php  echo $_SESSION['Usuario']?>" class="d-none">  
+                                <input type="text" name="usuario" id="usuarioRegistro" value="<?php  echo $_SESSION['Usuario']?>" class="d-none"> 
+                                <input type="text" name="paciente" id="idPaciente" value="<?php  echo $_POST['Nueva_Cita']?>" class="d-none">  
+
+                                
                                 
                             </div>
 
