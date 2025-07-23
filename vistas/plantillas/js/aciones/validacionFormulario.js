@@ -126,3 +126,10 @@ $(document).ready(function() {
     // Validar el formulario al cargar la página
     validarFormulario();
 });
+
+if($('#etniaPacienteActualizar').val()== null) {
+    var etnia=1
+ }
+ if($('#discapacidadPacienteActualiza').val()== null) {
+     var discapacidad=1
+ }

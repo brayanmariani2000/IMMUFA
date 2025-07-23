@@ -7,7 +7,7 @@ class usuarioModelo extends conexionModelo{
     
         $sql=conexionModelo::conectar()->prepare("INSERT INTO persona(nombre,apellido,cedula,telefono,fecha_nacimiento,correo,sexo,id_parroquia,id_etnia,id_discapacidad)
         
-         VALUES ('$nombre','$apellido','$cedula','$telefono','$fecha_naci','$correo','$sexo','52','0','0')");
+         VALUES ('$nombre','$apellido','$cedula','$telefono','$fecha_naci','$correo','$sexo','52','1','1')");
         
         $sql->execute();
         
@@ -20,7 +20,7 @@ class usuarioModelo extends conexionModelo{
     
         $sql=conexionModelo::conectar()->prepare("INSERT INTO persona(nombre,apellido,cedula,telefono,fecha_nacimiento,correo,sexo,id_parroquia,id_etnia,id_discapacidad)
         
-         VALUES ('$nombre','$apellido','$cedula','$telefono','$fecha_naci','null','$sexo','52','0','0')");
+         VALUES ('$nombre','$apellido','$cedula','$telefono','$fecha_naci','null','$sexo','52','1','1')");
         
         $sql->execute();
         
@@ -84,9 +84,19 @@ class usuarioModelo extends conexionModelo{
         
         return $sql;
     }
-    protected static function eliminar_medico_modelo($cedula){
+    protected static function eliminar_medico_modelo($id){
         
-        $sql=conexionModelo::conectar()->prepare("DELETE FROM medico WHERE '$cedula'=cedula_m");
+        $sql=conexionModelo::conectar()->prepare("UPDATE `medico` SET `estado`='2' WHERE id_medico='$id'");
+        
+        $sql->execute();
+        
+        return $sql;
+
+    }
+
+    protected static function habilitar_medico_modelo($id){
+        
+        $sql=conexionModelo::conectar()->prepare("UPDATE `medico` SET `estado`='1' WHERE id_medico='$id'");
         
         $sql->execute();
         
@@ -96,12 +106,21 @@ class usuarioModelo extends conexionModelo{
 
     protected static function eliminar_usuario_modelo($cedula){
        
-        $sql=conexionModelo::conectar()->prepare("DELETE FROM usuario WHERE '$cedula'=id_usuario");
+        $sql=conexionModelo::conectar()->prepare("UPDATE usuario SET `status`=2 WHERE '$cedula'=id_usuario");
        
         $sql->execute();
        
         return $sql;
 
+
+    }
+    protected static function habilitar_usuario_modelo($cedula){
+       
+        $sql=conexionModelo::conectar()->prepare("UPDATE usuario SET `status`=1 WHERE '$cedula'=id_usuario");
+       
+        $sql->execute();
+       
+        return $sql;
 
 
     }
@@ -211,5 +230,53 @@ class usuarioModelo extends conexionModelo{
         
         return $sql;
     }
+    protected static function agregar_etnia_modelo($etnia) {
+        $sql = conexionModelo::conectar()->prepare("INSERT INTO etnia(etnias, descripcion) VALUES (:etnia, '')");
+        $sql->bindParam(":etnia", $etnia);
+        $sql->execute();
+        return $sql;
+    }
+
+
+    protected static function actualizar_etnia_modelo($id, $etnia) {
+        $sql = conexionModelo::conectar()->prepare("UPDATE etnia SET etnias = :etnia WHERE id_etnia = :id");
+        $sql->bindParam(":etnia", $etnia);
+        $sql->bindParam(":id", $id);
+        $sql->execute();
+        return $sql;
+    }
+    protected static function agregar_discapacidad_modelo($discapacidad) {
+        $sql = conexionModelo::conectar()->prepare("INSERT INTO discapacidad(discapacidades, descripcion) VALUES (:discapacidad, '')");
+        $sql->bindParam(":discapacidad", $discapacidad);
+        $sql->execute();
+        return $sql;
+    }
+
+
+    protected static function actualizar_discapacidad_modelo($id, $discapacidad) {
+        $sql = conexionModelo::conectar()->prepare("UPDATE discapacidad SET discapacidades = :discapacidad WHERE id_discapacidad = :id");
+        $sql->bindParam(":discapacidad", $discapacidad);
+        $sql->bindParam(":id", $id);
+        $sql->execute();
+        return $sql;
+    }
+    protected static function agregar_parroquia_modelo($parroquia, $id_municipio) {
+        $sql = conexionModelo::conectar()->prepare("INSERT INTO parroquia(parroquias, id_municipios) VALUES (:parroquia, :id_municipio)");
+        $sql->bindParam(":parroquia", $parroquia);
+        $sql->bindParam(":id_municipio", $id_municipio);
+        $sql->execute();
+        return $sql;
+    }
+
+
+    protected static function actualizar_parroquia_modelo($id,$parroquia,$id_municipio) {
+        $sql = conexionModelo::conectar()->prepare("UPDATE parroquia SET parroquias = :parroquia WHERE id_parroquia = :id AND id_municipios= :id_municipio");
+        $sql->bindParam(":parroquia", $parroquia);
+        $sql->bindParam(":id_municipio", $id_municipio);
+        $sql->bindParam(":id", $id);
+        $sql->execute();
+        return $sql;
+    }
+
     
 }

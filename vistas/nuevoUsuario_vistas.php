@@ -202,10 +202,6 @@
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span><i class="fas fa-map-pin mr-2 text-info"></i> <strong>Estado:</strong></span>
-                                        <span id="modalEstadoUsuario" class="badge badge-light badge-pill">No disponible</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <span><i class="fas fa-city mr-2 text-info"></i> <strong>Municipio:</strong></span>
                                         <span id="modalMunicipioUsuario" class="badge badge-light badge-pill">No disponible</span>
                                     </li>
@@ -259,8 +255,8 @@
                                         <span id="modalRolUsuario" class="badge badge-light badge-pill">No disponible</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span><i class="fas fa-passport mr-2 text-warning"></i> <strong>Nacionalidad:</strong></span>
-                                        <span id="modalNacionalidadUsuario" class="badge badge-light badge-pill">No disponible</span>
+                                        <span><i class="fas fa-passport mr-2 text-warning"></i> <strong>Contraseña:</strong></span>
+                                        <span id="modalUsernameClave" class="badge badge-light badge-pill">No disponible</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <span><i class="fas fa-user-check mr-2 text-warning"></i> <strong>Usuario:</strong></span>
@@ -279,6 +275,158 @@
                     <i class="fas fa-times mr-2"></i>Cerrar
                 </button>
             </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalActualizarUsuario" tabindex="-1" role="dialog" aria-labelledby="modalActualizarUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content border-0 shadow">
+            <!-- Encabezado del Modal -->
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="modalActualizarUsuarioLabel">
+                    <i class="fas fa-user-edit mr-2"></i>Actualizar Datos del Usuario
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <!-- Formulario de Actualización -->
+            <form id="formActualizarUsuario" method="POST">
+                <div class="modal-body p-4">
+                    <div class="row">
+                        <!-- Columna Izquierda -->
+                        <div class="col-md-6">
+                            <!-- Tarjeta de Datos Personales -->
+                            <div class="card mb-4 border-primary">
+                                <div class="card-header bg-primary text-white">
+                                    <h6 class="mb-0"><i class="fas fa-user-circle mr-2"></i>Datos Personales</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="actualizarNombres"><i class="fas fa-user mr-2 text-primary"></i> Nombres</label>
+                                        <input type="text" class="form-control" id="actualizarNombres" name="nombres" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="actualizarApellido"><i class="fas fa-user-tag mr-2 text-primary"></i> Apellido</label>
+                                        <input type="text" class="form-control" id="actualizarApellido" name="apellido" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="actualizarCedula"><i class="fas fa-id-card mr-2 text-primary"></i> Cédula</label>
+                                        <input type="text" class="form-control" id="actualizarCedula" name="cedula" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="actualizarTelefono"><i class="fas fa-phone mr-2 text-primary"></i> Teléfono</label>
+                                        <input type="tel" class="form-control" id="actualizarTelefono" name="telefono">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="actualizarCorreo"><i class="fas fa-envelope mr-2 text-primary"></i> Correo</label>
+                                        <input type="email" class="form-control" id="actualizarCorreo" name="correo" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tarjeta de Dirección -->
+                            <div class="card border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h6 class="mb-0"><i class="fas fa-map-marked-alt mr-2"></i>Dirección</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="actualizarMunicipio"><i class="fas fa-city mr-2 text-info"></i> Municipio</label>
+                                        <select class="form-control" id="municipio" name="municipio">
+                                        <option value="">Seleccione una opción</option>
+                                        <?php  $area = new listarControlador();  
+                                        $area->listar_municipio_controlador(); ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Parroquia"><i class="fas fa-map-marker-alt mr-2 text-info"></i> Parroquia</label>
+                                        <select class="form-control" id="Parroquia"  name="parroquia">
+                                         <option value="">Seleccione una opción</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Columna Derecha -->
+                        <div class="col-md-6">
+                            <!-- Tarjeta de Información Adicional -->
+                            <div class="card mb-4 border-success">
+                                <div class="card-header bg-success text-white">
+                                    <h6 class="mb-0"><i class="fas fa-info-circle mr-2"></i>Información Adicional</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="actualizarFechaNacimiento"><i class="fas fa-birthday-cake mr-2 text-success"></i> Fecha Nacimiento</label>
+                                        <input type="date" class="form-control" id="actualizarFechaNacimiento" name="fecha_nacimiento">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="actualizarSexo"><i class="fas fa-venus-mars mr-2 text-success"></i> Sexo</label>
+                                        <select class="form-control" id="actualizarSexo" name="sexo">
+                                            <option value="Masculino">Masculino</option>
+                                            <option value="Femenino">Femenino</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="actualizarEtnia"><i class="fas fa-users mr-2 text-success"></i> Etnia</label>
+                                        <select class="form-control" id="actualizarEtnia" name="etnia">
+                                            <?php
+                                            $area->listar_etnias_controlador(); ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="actualizarDiscapacidad"><i class="fas fa-wheelchair mr-2 text-success"></i> Discapacidad</label>
+                                        <select class="form-control" id="actualizarDiscapacidad" name="discapacidad">
+                                            <option value="" selected disabled>Seleccione...</option>
+                                            <option value="1">Motora</option>
+                                            <option value="2">Auditiva</option>
+                                            <option value="3">Visual</option>
+                                            <option value="4">Mental</option>
+                                            <option value="0">Ninguna</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tarjeta de Datos de Acceso -->
+                            <div class="card border-warning">
+                                <div class="card-header bg-warning text-dark">
+                                    <h6 class="mb-0"><i class="fas fa-user-shield mr-2"></i>Datos de Acceso</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="actualizarRol"><i class="fas fa-user-tie mr-2 text-warning"></i> Rol</label>
+                                        <select class="form-control" id="actualizarRol" name="rol" required>
+                                            <?php echo $lista->listar_roles();  ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="actualizarUsername"><i class="fas fa-user-check mr-2 text-warning"></i> Usuario</label>
+                                        <input type="text" class="form-control" id="actualizarUsername" name="username" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="actualizarPassword"><i class="fas fa-key mr-2 text-warning"></i> Nueva Contraseña (opcional)</label>
+                                        <input type="text" class="form-control" id="actualizarClave" name="password">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pie del Modal -->
+                <div class="modal-footer bg-light">
+                    <input type="hidden" id="actualizarUsuarioId" name="id_usuario">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fas fa-times mr-2"></i>Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save mr-2"></i>Guardar Cambios
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

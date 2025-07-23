@@ -13,7 +13,15 @@ if (isset($_POST['eliminarMedico'])) {
    
     if ($_POST['eliminarMedico']==true){
 
-        $in_medico->eliminar_Medico_controlador($_POST['cedulaM']);
+        $in_medico->eliminar_Medico_controlador($_POST['id']);
+        
+    }
+}
+if (isset($_POST['habilitarMedico'])) {
+   
+    if ($_POST['habilitarMedico']==true){
+
+        $in_medico->habilitar_Medico_controlador($_POST['id']);
         
     }
 }

@@ -1,4 +1,4 @@
-            <!-- End Bread crumb -->
+       <!-- End Bread crumb -->
             <!-- Container fluid  -->
             <div class="container-fluid">
 
@@ -128,11 +128,15 @@
 
                                     <h2 class="color-white">
 
-                                        <?php echo $contador->contar_pacientes_controlador_total();?>
+                                        <?php include_once 'controlador/loginControlador.php';
+                                        $num=new loginControlador();
+                                        $num->listar_cita();
+                                        echo $num->contadorPaciente;
+                                        ?>
 
                                     </h2>
 
-                                    <p class="m-b-0">TOTAL DE PACIENTES</p>
+                                    <p class="m-b-0">TOTAL DE PERSONA</p>
                                     
                                 </div>
 

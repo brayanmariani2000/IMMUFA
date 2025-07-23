@@ -45,13 +45,13 @@ $(document).ready(function() {
         $.post(`${server}ajax/medicoAjax.php`, medico, function(repuesta) {
             if(repuesta == "1") {
                 Swal.fire({        
-                    icon: 'success',
+                    type: 'success',
                     title: 'Éxito',
                     text: 'Se ha registrado exitosamente',        
                 });
             } else {
                 Swal.fire({
-                    icon: 'error',
+                    type: 'error',
                     title: 'Error',
                     text: 'Por favor verifique los datos',        
                 });
@@ -61,10 +61,11 @@ $(document).ready(function() {
 
     // Eliminar médico
     $(document).on('click', '#eliminarMedico', function() {
+        var idMedico = $(this).val();
         Swal.fire({        
-            icon: 'info',
-            title: 'ELIMINAR',
-            text: '¿ESTÁ SEGURO QUE DESEA ELIMINAR?',  
+            type: 'warning',
+            title: 'DESABILITAR',
+            text: '¿ESTÁ SEGURO QUE DESEA DESABILITAR?',  
             confirmButtonText: 'OK',
             showCancelButton: true,
         }).then((result) => {
@@ -76,14 +77,58 @@ $(document).ready(function() {
                     url: `${server}ajax/medicoAjax.php`,
                     data: {
                         'eliminarMedico': true,
-                        'cedulaM': cedula_m 
+                        'id': idMedico 
                     },
                     success: function(repuesta) {
                         if(repuesta == 1) {  
                             Swal.fire({        
-                                icon: 'success',
+                                type: 'success',
                                 title: 'Éxito',
-                                text: 'SE HA ELIMINADO CORRECTAMENTE',  
+                                text: 'SE HA DESAHILITADO CORRECTAMENTE',  
+                                confirmButtonText: 'OK',      
+                            }).then((result) => {
+                                if(result.value) { 
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            Swal.fire(
+                                'ERROR',
+                                'NO SE HA ELIMINADO',
+                                'error'
+                            );
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    $(document).on('click', '#habilitarMedico', function() {
+        var idMedico = $(this).val();
+        Swal.fire({        
+            type: 'warning',
+            title: 'HABILITAR',
+            text: '¿ESTÁ SEGURO QUE DESEA HABILITAR?',  
+            confirmButtonText: 'OK',
+            showCancelButton: true,
+        }).then((result) => {
+            if(result.value) { 
+                var cedula_m = $(this).val();
+                
+                $.ajax({
+                    type: 'POST',
+                    url: `${server}ajax/medicoAjax.php`,
+                    data: {
+                        'habilitarMedico': true,
+                        'id': idMedico 
+                    },
+                    success: function(repuesta) {
+                        if(repuesta == 1) {  
+                            Swal.fire({        
+                                type: 'success',
+                                title: 'Éxito',
+                                text: 'SE HA HABILITADO CORRECTAMENTE',  
                                 confirmButtonText: 'OK',      
                             }).then((result) => {
                                 if(result.value) { 
@@ -169,10 +214,74 @@ $(document).ready(function() {
         '#modalFechaNacimiento, #modalGenero, #modalEspecialidad, #modalCorreo').text('');
     });
 });
-function cargarDatosMedico(datosMedico) {
-    // Datos Personales
-   
-    
-    // Mostrar el modal
-
-}
+    $('.actualizarMedico').click(function(e) {
+                e.preventDefault();
+                
+                // Obtener el ID del médico del atributo data-id del botón (ajusta según tu HTML)
+                var idMedico = $(this).val(); // O usa .val() si es un input
+                console.log("ID Médico:", idMedico);
+                
+                // Mostrar el modal inmediatamente
+                $('#actualizarMedicoModal').modal('show');
+                
+                // Hacer la petición AJAX para obtener los datos del médico
+                $.ajax({
+                    url: 'ajax/medicoAjax.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { 
+                        id: idMedico,
+                        obtenerMedico: true
+                    },
+                    success: function(datosMedico) {
+                        if(datosMedico) {
+                            // Datos Personales
+                            $('#nombreMedicoActualizar').val(datosMedico[0].nombres);
+                            $('#apellidoMedicoActualizar').val(datosMedico[0].apellido);
+                            $('#cedulaMedicoActualizar').val(datosMedico[0].cedula);
+                            $('#fechaNacimientoMedico').val(datosMedico[0].fecha_nacimiento);
+                            $('#generoMedico').val(datosMedico[0].sexo === 'Masculino' ? 'Masculino' : 'Femenino');
+                            $('#nacionalidadMedico').val(datosMedico[0].nacionalidad);
+                            
+                            // Datos Profesionales
+                            $('#especialidadMedico').val(datosMedico[0].especialidad);
+                            $('#estadoMedico').val(datosMedico[0].status);
+                            
+                            // Contacto
+                            $('#telefonoMedico').val(datosMedico[0].telefono);
+                            $('#emailMedico').val(datosMedico[0].correo);
+                            $('#ubicacionMedico').val(datosMedico[0].parroquia + ', ' + datosMedico[0].municipio);
+                            
+                            // Información Adicional
+                            $('#etniaMedico').val(datosMedico[0].etnia === 'Sí' ? 'Sí' : 'NO');
+                            $('#discapacidadMedico').val(datosMedico[0].discapacidad === 'Sí' ? 'Sí' : 'NO');
+                            $('#edadMedico').val(datosMedico[0].edad + ' años');
+                            
+                            // Opcional: Calcular edad automáticamente si tienes la fecha
+                            if(datosMedico[0].fecha_nacimiento) {
+                                const edad = calcularEdad(datosMedico[0].fecha_nacimiento);
+                                $('#edadMedico').val(edad + ' años');
+                            }
+                        } else {
+                            Swal.fire('Error', 'No se encontraron datos del médico', 'error');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire('Error', 'Error al cargar los datos: ' + error, 'error');
+                        console.error("Error AJAX:", error);
+                    }
+                });
+            });
+            
+            // Función para calcular edad desde fecha de nacimiento (opcional)
+            function calcularEdad(fechaNacimiento) {
+                const hoy = new Date();
+                const nacimiento = new Date(fechaNacimiento);
+                let edad = hoy.getFullYear() - nacimiento.getFullYear();
+                const mes = hoy.getMonth() - nacimiento.getMonth();
+                
+                if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+                    edad--;
+                }
+                return edad;
+            }

@@ -8,7 +8,7 @@ const Utils = {
      */
     mostrarError: function(mensaje) {
         Swal.fire({
-            icon: 'error',
+            type: 'error',
             title: 'Error',
             text: mensaje,
         });
@@ -22,7 +22,7 @@ const Utils = {
      */
     mostrarExito: function(titulo, texto, callback = null) {
         Swal.fire({
-            icon: 'success',
+            type: 'success',
             title: titulo,
             text: texto,
         }).then(() => {
@@ -198,6 +198,8 @@ const UsuarioController = {
                     $('#modalMunicipioUsuario').text(response[0].municipio || 'No disponible');
                     $('#modalEtniaUsuario').text(response[0].etnia || 'No disponible');
                     $('#modalDiscapacidadUsuario').text(response[0].discapacidad || 'No disponible');
+                    $('#modalUsernameUsuario').text(response[0].UsarioNombre || 'No disponible');
+                    $('#modalUsernameClave').text(response[0].UsuarioClave || 'No disponible');
                 } else {
                     $('#modalInfoUsuario .modal-body').html(`
                         <div class="alert alert-danger">
@@ -221,23 +223,23 @@ const UsuarioController = {
      */
     eliminar: function() {
         const cedula_usuario = $(this).val();
-
+          console.log(cedula_usuario)
         Swal.fire({
-            icon: 'warning',
-            title: '¿Eliminar usuario?',
+            type: 'warning',
+            title: '¿Desabilitar usuario?',
             text: '¿Está seguro que desea eliminar este usuario?',
             showCancelButton: true,
             confirmButtonText: 'Sí, eliminar',
             cancelButtonText: 'Cancelar',
             confirmButtonColor: '#d33'
         }).then((result) => {
-            if(result.isConfirmed) {
+            if(result.value) {
                 $.ajax({
                     type: 'POST',
-                    url: `${server}ajax/usuarioAjax.php`,
+                    url: `ajax/usuarioAjax.php`,
                     data: {
                         'eliminarUsuario': true,
-                        'cedula_usuario': cedula_usuario
+                        'idUsuario': cedula_usuario
                     },
                     success: function(respuesta) {
                         if(respuesta == 1) {
@@ -254,9 +256,44 @@ const UsuarioController = {
                 });
             }
         });
-    }
+    },
+habilitar: function() {
+    const cedula_usuario = $(this).val();
+      console.log(cedula_usuario)
+    Swal.fire({
+        type: 'warning',
+        title: '¿Habilitar usuario?',
+        text: '¿Está seguro que desea habilitadar este usuario?',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, habilitar',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33'
+    }).then((result) => {
+        if(result.value) {
+            $.ajax({
+                type: 'POST',
+                url: `ajax/usuarioAjax.php`,
+                data: {
+                    'habilitarUsuario': true,
+                    'idUsuario': cedula_usuario
+                },
+                success: function(respuesta) {
+                    if(respuesta == 1) {
+                        Utils.mostrarExito('Eliminado', 'El usuario ha sido habilitado correctamente', () => {
+                            location.reload();
+                        });
+                    } else {
+                        Utils.mostrarError('No se pudo eliminar el usuario');
+                    }
+                },
+                error: function() {
+                    Utils.mostrarError('Error en la conexión con el servidor');
+                }
+            });
+        }
+    });
+}
 };
-
 // Inicialización de la aplicación
 $(document).ready(function() {
     // Configurar validación
@@ -268,4 +305,74 @@ $(document).ready(function() {
     $(document).on('submit', '#registrarUsuario', UsuarioController.registrar);
     $(document).on('click', '#verUsuarioBtn', UsuarioController.verInfo);
     $(document).on('click', '#eliminarUsuario', UsuarioController.eliminar);
+    $(document).on('click', '#habilitarUsuario', UsuarioController.habilitar);
+    $(document).on('click', '#actualizarUsuarioBtn', function() {
+        const userId = $(this).val();
+        $('#modalActualizarUsuario').modal('show'); 
+        console.log(userId)
+    
+        $.ajax({
+            url: 'ajax/usuarioAjax.php',
+            type: 'POST',
+            data: {
+                'action': 'obtener_usuario',
+                'id': userId
+            },
+            dataType: 'json',
+            success: function(response) {
+                if(response) {
+                    // Llenar el formulario con los datos del usuario
+                    $('#actualizarUsuarioId').val(response[0].id_usuario);
+                    $('#actualizarNombres').val(response[0].nombres);
+                    $('#actualizarApellido').val(response[0].apellido);
+                    $('#actualizarCedula').val(response[0].cedula);
+                    $('#actualizarTelefono').val(response[0].telefono);
+                    $('#actualizarCorreo').val(response[0].correo);
+                    $('#actualizarFechaNacimiento').val(response[0].fecha_nacimiento);
+                    $('#actualizarSexo').val(response[0].sexo);
+                    $('#actualizarRol').val(response[0].rol);
+                    $('#actualizarParroquia').val(response[0].parroquia);
+                    $('#actualizarMunicipio').val(response[0].municipio);
+                    $('#actualizarEtnia').val(response[0].etnia);
+                    $('#actualizarDiscapacidad').val(response[0].discapacidad);
+                    $('#actualizarNacionalidad').val(response[0].nacionalidad);
+                    $('#actualizarUsername').val(response[0].UsarioNombre);
+                    $('#actualizarClave').val(response[0].UsuarioClave);
+                    
+                    // Aquí puedes cargar los selects de estado, municipio, etc. si es necesario
+                } else {
+                    Swal.fire('Error', 'No se pudo cargar la información del usuario', 'error');
+                    $('#modalActualizarUsuario').modal('hide');
+                }
+            },
+            error: function() {
+                Swal.fire('Error', 'Error al cargar la información del usuario', 'error');
+                $('#modalActualizarUsuario').modal('hide');
+            }
+        });
+    });
+    
+    // Manejar el envío del formulario
+    $('#formActualizarUsuario').submit(function(e) {
+        e.preventDefault();
+        
+        $.ajax({
+            url: 'ajax/usuarioAjax.php',
+            type: 'POST',
+            data: $(this).serialize() + '&action=actualizar_usuario',
+            dataType: 'json',
+            success: function(response) {
+                if(response.success) {
+                    Swal.fire('Éxito', response.message, 'success');
+                    $('#modalActualizarUsuario').modal('hide');
+                    // Recargar la tabla o lista de usuarios si es necesario
+                } else {
+                    Swal.fire('Error', response.message, 'error');
+                }
+            },
+            error: function() {
+                Swal.fire('Error', 'Error al actualizar el usuario', 'error');
+            }
+        });
+    });
 });

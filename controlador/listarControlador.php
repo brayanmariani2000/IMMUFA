@@ -15,6 +15,7 @@ class listarControlador extends listarModelo {
         $lista=$sql->fetchAll();
    
         foreach($lista as $row){
+            if($row['status']==1){
    
             echo ' 
                             <div class="col-md-3">
@@ -34,7 +35,37 @@ class listarControlador extends listarModelo {
                                 </form>
                             </div>
 ';
+}
+   
+        }
+   
+    }
 
+    }
+    public function listar_especialidades_card2() {
+
+        $sql=listarModelo::listar_especialidad();
+
+          
+    if($sql->rowCount()>0){
+   
+        $lista=$sql->fetchAll();
+   
+        foreach($lista as $row){
+            if($row['status']==1){
+   
+            echo ' 
+                           <div class="col s12 m4">
+                        <div class="card hoverable z-depth-2">
+                            <div class="card-content">
+                                <span class="card-title blue-text text-darken-2" style="font-weight: 300;">
+                                    <i class="material-icons left"></i>'.$row['especialidad'].'
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+';
+}
    
         }
    
@@ -51,6 +82,7 @@ public function listar_especialidad_controlador(){
         $lista=$sql->fetchAll();
    
         foreach($lista as $row){
+            if($row['status']==1)
    
             echo '<option value="'.$row['id_especialidad'].'">'.$row['especialidad'].'</option>';
 
@@ -99,6 +131,67 @@ public function listar_discapacidad_controlador(){
 
     }
 
+}
+
+public function listar_discapacidad_controlador_tabla(){
+    $con=0;
+    $sql=listarModelo::listar_discapacidad();
+
+    if($sql->rowCount()>0){
+
+        $lista=$sql->fetchAll();
+
+        foreach($lista as $row){
+            $con++;
+
+          echo '<tr>
+                <td>'.$con.'</td>
+                <td>'.$row['discapacidades'].'</td>
+                <td>   
+                    <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-warning btn-sm btn-editar-discapacidad" value="'. $row['id_discapacidad'].' "
+                                data-id="'. $row['id_discapacidad'].'" 
+                                data-nombre="'.$row['discapacidades'].'">
+                                <i class="fas fa-edit"></i> Actualizar
+                            </button>
+                        </div>
+                </td>
+                </tr>';
+
+
+        }
+
+    }
+}
+
+public function listar_etnia_controlador_tabla(){
+    $con=0;
+    $sql=listarModelo::listar_etnias();
+
+    if($sql->rowCount()>0){
+
+        $lista=$sql->fetchAll();
+
+        foreach($lista as $row){
+            $con++;
+
+          echo '<tr>
+                <td>'.$con.'</td>
+                <td>'.$row['etnias'].'</td>
+                <td>   
+                    <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-warning btn-sm " value="" id="actualizarEtnia"  
+                                 data-id="'. $row['id_etnia'].'" 
+                                data-nombre="'.$row['etnias'].'">
+                                <i class="fas fa-edit"></i> Actualizar
+                            </button>
+                </td>
+                </tr>';
+
+
+        }
+
+    }
 }
 
 
@@ -165,8 +258,10 @@ public function listar_dependencias_controlador(){
 
         foreach($lista as $row){
 
-            echo '<option value="'.$row['id_dependencia'].'">'.$row['dependencia'].'</option>';
+            if($row['status']==1){
 
+            echo '<option value="'.$row['id_dependencia'].'">'.$row['dependencia'].'</option>';
+            }
         }
 
     }
@@ -253,12 +348,20 @@ class tablaControlador extends listarModelo{
                             <button type="button" class="btn btn-info btn-sm" value="<?php echo $row['id_medico']; ?>" id="verMedicoModal">
                                 <i class="fa fa-eye"></i> Ver
                             </button>
-                            <button type="button" class="btn btn-warning btn-sm" value="<?php echo $row['id_medico']; ?>" id="actualizarMedico">
+                            <button type="button" class="btn btn-warning btn-sm actualizarMedico" value="<?php echo $row['id_medico']; ?>" id="actualizarMedico">
                                 <i class="fas fa-edit"></i> Actualizar
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm" value="<?php echo $row['id_medico']; ?>" id="eliminarMedico">
-                                <i class="fas fa-trash-alt"></i> Deshabilitar
-                            </button>
+                            <?php 
+                            if($row['estado']==1){
+                            echo '<button type="button" class="btn btn-danger btn-sm" value="'. $row['id_medico'].'" id="eliminarMedico">
+                                <i class="fas fa-ban mr-1"></i>Deshbilitar
+                                </button>';
+                            }else{
+                            echo '<button type="button" class="btn btn-info btn-sm" value="'. $row['id_medico'].'" id="habilitarMedico">
+                                <i class="fas fa-chek mr-1"></i> habilitar
+                            </button>';
+                            }
+                            ?>
                         </div>
                     </td>
                 </tr>
@@ -266,11 +369,8 @@ class tablaControlador extends listarModelo{
             }
         }
     }
-
-   
     public function tabla_usuario_controlador() {
-        $sql = listarModelo::tabla_usuario();
-        
+        $sql = listarModelo::tabla_usuario();    
         if($sql->rowCount() > 0) {
             $lista = $sql->fetchAll();
             foreach($lista as $row) {
@@ -287,9 +387,14 @@ class tablaControlador extends listarModelo{
                             <button type="button" class="btn btn-warning btn-sm" value="<?php echo $row['id_usuario']; ?>" id="actualizarUsuarioBtn">
                                 <i class="fas fa-edit mr-1"></i> Actualizar
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm" value="<?php echo $row['id_usuario']; ?>" id="eliminarUsuario">
-                                <i class="fas fa-trash-alt mr-1"></i> Deshabilitar
-                            </button>
+                            <?php if($row['status']==1){
+                            echo '<button type="button" class="btn btn-danger btn-sm" value="'. $row['id_usuario'].'" id="eliminarUsuario">
+                                <i class="fas fa-ban mr-1"></i> Deshabilitar
+                            </button>';}else{
+                                echo '<button type="button" class="btn btn-info btn-sm" value="'. $row['id_usuario'].'" id="habilitarUsuario">
+                                <i class="fas fa-chek mr-1"></i> habilitar
+                            </button>';
+                            }?>
                         </div>
                     </td>
                 </tr>
@@ -297,7 +402,6 @@ class tablaControlador extends listarModelo{
             }
         }
     }
-
     public function listar_distribucion_paciente_json_controlador(){
 
         $sql=listarModelo::listar_distribucion_paciente_json_modelo();
@@ -320,7 +424,6 @@ class tablaControlador extends listarModelo{
         echo json_encode($datos);
 
     }
-
     public function listar_genero_paciente_json_controlador(){
 
         $sql=listarModelo::listar_genero_paciente_json_modelo();
@@ -337,7 +440,6 @@ class tablaControlador extends listarModelo{
         echo json_encode($datos);
 
     }
-
     public function listar_edades_paciente_json_controlador(){
 
         $sql=listarModelo::listar_edades_paciente_json_modelo();
@@ -347,7 +449,7 @@ class tablaControlador extends listarModelo{
         // Estructura de datos para Chart.js
         $datos = [
             'labels' => array_column($resultados, 'rango_edad'),
-            'data' => array_column($resultados, 'cantidad_pacientes')
+            'data' => array_column($resultados, 'total_pacientes')
         ];
         
         echo json_encode($datos);
@@ -445,7 +547,7 @@ class tablaControlador extends listarModelo{
         $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
         
         // Calcular total para porcentajes
-        $total = array_sum(array_column($resultados, 'cantidad_pacientes'));
+        $total = array_sum(array_column($resultados, 'total_pacientes'));
         
         // Estructura de la tabla con estilos mejorados
         ?>
@@ -461,12 +563,12 @@ class tablaControlador extends listarModelo{
                 <tbody>
                     <?php
                     foreach($resultados as $row) {
-                        $porcentaje = ($total > 0) ? round(($row['cantidad_pacientes'] / $total) * 100, 2) : 0;
+                        $porcentaje = ($total > 0) ? round(($row['total_pacientes'] / $total) * 100, 2) : 0;
                         $color = $this->getColorForPercentage($porcentaje);
                         ?>
                         <tr>
                             <td class="font-weight-bold"><?php echo htmlspecialchars($row['rango_edad']); ?></td>
-                            <td class="text-center"><?php echo number_format($row['cantidad_pacientes'], 0); ?></td>
+                            <td class="text-center"><?php echo number_format($row['total_pacientes'], 0); ?></td>
                             <td>
                                 <div class="progress" style="height: 25px;">
                                     <div class="progress-bar <?php echo $color; ?>" 
@@ -493,8 +595,6 @@ class tablaControlador extends listarModelo{
         </div>
         <?php
     }
-    
-    // Función auxiliar para asignar colores según el porcentaje
     public function listar_citas_cantidad_especialidad_tabla_controlador() {
         $sql = listarModelo::listar_citas_especialidad_json_modelo();
         $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -548,9 +648,6 @@ class tablaControlador extends listarModelo{
         </div>
         <?php
     }
-    
-    // Función auxiliar para asignar colores según el porcentaje
-
     public function listar_citas_cantidad_dependecias_tabla_controlador() {
         $sql = listarModelo::citasdependeciasModelos();
         $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -565,7 +662,7 @@ class tablaControlador extends listarModelo{
                 <thead class="thead-light">
                     <tr>
                         <th class="text-center">Dependencia</th>
-                        <th class="text-center">Pacientes Atendidos</th>
+                        <th class="text-center">Cantidad de Citas</th>
                         <th class="text-center" style="width: 40%;">Distribución</th>
                     </tr>
                 </thead>
@@ -604,9 +701,6 @@ class tablaControlador extends listarModelo{
         </div>
         <?php
     }
-    
-    // Función auxiliar para asignar colores según el porcentaje (la misma que antes)
-    
     public function listar_citas_cantidad_dependecias_js_controlador_donus(){
 
         $sql=listarModelo::citasdependeciasModelos();
@@ -620,13 +714,12 @@ class tablaControlador extends listarModelo{
             ];
             echo json_encode($datos);
     }
-
     public function listarPacientesPorMunicipioTablaControlador() {
         $sql = listarModelo::pacientesPorMunicipioModelo();
         $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
         
         // Calcular total para porcentajes
-        $total = array_sum(array_column($resultados, 'numero_pacientes'));
+        $total = array_sum(array_column($resultados, 'numero_pacientes_atendidos'));
         
         // Estructura de la tabla con estilos mejorados
         ?>
@@ -643,12 +736,12 @@ class tablaControlador extends listarModelo{
                 <tbody>
                     <?php
                     foreach($resultados as $row) {
-                        $porcentaje = ($total > 0) ? round(($row['numero_pacientes'] / $total) * 100, 2) : 0;
+                        $porcentaje = ($total > 0) ? round(($row['numero_pacientes_atendidos'] / $total) * 100, 2) : 0;
                         $color = $this->getColorForPercentage($porcentaje);
                         ?>
                         <tr>
                             <td class="font-weight-bold"><?php echo htmlspecialchars($row['nombre_municipio']); ?></td>
-                            <td class="text-center text-dark"><?php echo number_format($row['numero_pacientes'], 0); ?></td>
+                            <td class="text-center text-dark"><?php echo number_format($row['numero_pacientes_atendidos'], 0); ?></td>
                             <td>
                                 <div class="progress" style="height: 25px;">
                                     <div class="progress-bar <?php echo $color; ?>" 
@@ -662,7 +755,7 @@ class tablaControlador extends listarModelo{
                                 </div>
                             </td>
                             <td class="text-center">
-    <!-- Formulario para enviar por POST -->
+
                                 <form action="Reporetesmunicipio" method="post" style="display: inline;">
                                     <input type="hidden" name="id_municipio" value="<?php echo $row['id_municipio']; ?>">
                                     <button type="submit" class="btn btn-info btn-sm" title="Ver detalles del municipio">
@@ -685,8 +778,6 @@ class tablaControlador extends listarModelo{
         </div>
         <?php
     }
-    
-    // Función auxiliar para asignar colores según el porcentaje
     private function getColorForPercentage($percentage) {
         if ($percentage > 50) return 'bg-success';
         if ($percentage > 25) return 'bg-primary';
@@ -694,8 +785,6 @@ class tablaControlador extends listarModelo{
         if ($percentage > 5) return 'bg-warning';
         return 'bg-danger';
     }
-
-
     public function generarJsonMunicipiosDonutControlador() {
         $sql = listarModelo::pacientesPorMunicipioModelo();
         $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -727,8 +816,8 @@ class tablaControlador extends listarModelo{
         ];
         
         foreach($resultados as $index => $row) {
-            $datosGrafico['labels'][] = $row['nombre_municipio'] . ' ('.$row['numero_pacientes'].')';
-            $datosGrafico['datasets'][0]['data'][] = $row['numero_pacientes'];
+            $datosGrafico['labels'][] = $row['nombre_municipio'] . ' ('.$row['numero_pacientes_atendidos'].')';
+            $datosGrafico['datasets'][0]['data'][] = $row['numero_pacientes_atendidos'];
             
             // Asignar color consistente
             $colorIndex = $index % count($colores);
@@ -740,8 +829,6 @@ class tablaControlador extends listarModelo{
         echo json_encode($datosGrafico);
         exit();
     }
-    
-    // Función para ajustar brillo del color (hover)
     private function adjustBrightness($hex, $steps) {
         $steps = max(-255, min(255, $steps));
         $hex = str_replace('#', '', $hex);
@@ -762,7 +849,6 @@ class tablaControlador extends listarModelo{
                   .str_pad(dechex($g), 2, '0', STR_PAD_LEFT)
                   .str_pad(dechex($b), 2, '0', STR_PAD_LEFT);
     }
-
     public function listar_citas_diarias_por_especialidad_json_controlador() {
         // Obtener la fecha actual en formato YYYY-MM-DD
         $fechaActual = date('Y-m-d');
@@ -790,7 +876,6 @@ class tablaControlador extends listarModelo{
             'fecha_consulta' => $fechaActual
         ]);
     }
-
     public function listarPacientesPorEtniaTablaControlador() {
         $sql = listarModelo::pacientesPorEtniaModelo();
         $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -844,13 +929,12 @@ class tablaControlador extends listarModelo{
         </div>
         <?php
     }
-
     public function listarPacientesPorDiscapacidadTablaControlador() {
         $sql = listarModelo::pacientesPorDiscapacidadModelo();
         $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
         
         // Calcular total para porcentajes
-        $total = array_sum(array_column($resultados, 'numero_pacientes'));
+        $total = array_sum(array_column($resultados, 'pacientes_atendidos'));
         
         // Estructura de la tabla con estilos mejorados
         ?>
@@ -866,12 +950,12 @@ class tablaControlador extends listarModelo{
                 <tbody>
                     <?php
                     foreach($resultados as $row) {
-                        $porcentaje = ($total > 0) ? round(($row['numero_pacientes'] / $total) * 100, 2) : 0;
+                        $porcentaje = ($total > 0) ? round(($row['pacientes_atendidos'] / $total) * 100, 2) : 0;
                         $color = $this->getColorForPercentage($porcentaje);
                         ?>
                         <tr>
                             <td class="font-weight-bold"><?php echo htmlspecialchars($row['tipo_discapacidad']); ?></td>
-                            <td class="text-center text-dark"><?php echo number_format($row['numero_pacientes'], 0); ?></td>
+                            <td class="text-center text-dark"><?php echo number_format($row['pacientes_atendidos'], 0); ?></td>
                             <td>
                                 <div class="progress" style="height: 25px;">
                                     <div class="progress-bar <?php echo $color; ?>" 
@@ -930,8 +1014,8 @@ class tablaControlador extends listarModelo{
         ];
         
         foreach($resultados as $index => $row) {
-            $datosGrafico['labels'][] = $row['tipo_discapacidad'] . ' ('.$row['numero_pacientes'].')';
-            $datosGrafico['datasets'][0]['data'][] = $row['numero_pacientes'];
+            $datosGrafico['labels'][] = $row['tipo_discapacidad'] . ' ('.$row['pacientes_atendidos'].')';
+            $datosGrafico['datasets'][0]['data'][] = $row['pacientes_atendidos'];
             
             // Asignar color consistente
             $colorIndex = $index % count($colores);
@@ -1055,7 +1139,6 @@ class tablaControlador extends listarModelo{
         echo json_encode($datosGrafico);
         exit();
     }
-
     public function listar_citas_cantidad_dependecias_tabla_controlador_fechas() {
         // Obtener fechas del filtro si existen
         $fechaInicio = isset($_POST['fechaInicio']) ? $_POST['fechaInicio'] : null;
@@ -1231,7 +1314,6 @@ class tablaControlador extends listarModelo{
         <?php
     }
     public function listarPacientesEdadTablaControlador_fechas() {
-        // Obtener fechas del filtro si existen
         $fechaInicio = isset($_POST['fechaInicio']) ? $_POST['fechaInicio'] : null;
         $fechaFin = isset($_POST['fechaFin']) ? $_POST['fechaFin'] : null;
         
@@ -1289,7 +1371,7 @@ class tablaControlador extends listarModelo{
         <?php
     }
     public function listarPacientesEspecialidadTablaControlador_fechas() {
-        // Obtener fechas del filtro si existen
+                
         $fechaInicio = isset($_POST['fechaInicio']) ? $_POST['fechaInicio'] : null;
         $fechaFin = isset($_POST['fechaFin']) ? $_POST['fechaFin'] : null;
         
@@ -1405,7 +1487,7 @@ class tablaControlador extends listarModelo{
         <?php
     }
     public function listarPacientesParroquiaTablaControlador_fechas() {
-        // Obtener fechas del filtro si existen
+
         $fechaInicio = isset($_POST['fechaInicio']) ? $_POST['fechaInicio'] : null;
         $fechaFin = isset($_POST['fechaFin']) ? $_POST['fechaFin'] : null;
         
@@ -1480,7 +1562,6 @@ class tablaControlador extends listarModelo{
         </div>
         <?php
     }
-
     public function listarPacientesPorParroquiaTablaControladorRecibir() {
         // Obtener el ID del municipio desde POST
         $id_municipio = isset($_POST['id_municipio']) ? $_POST['id_municipio'] : null;
@@ -1556,13 +1637,280 @@ class tablaControlador extends listarModelo{
                     </table>
                 </div>
             </div>
-            <div class="card-footer text-right">
-                <a href="javascript:window.print()" class="btn btn-outline-secondary">
-                    <i class="fas fa-print mr-2"></i> Imprimir Reporte
-                </a>
-            </div>
         </div>
         <?php
     }
-    
+    public function mostrarReporteConsolidadoControlador() {
+        ?>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 bg-primary text-white">
+                            <h6 class="m-0 font-weight-bold">Reporte Consolidado de Citas Médicas</h6>
+                        </div>
+                        <div class="card-body" id="reporteConsolidado">
+                            <!-- Sección Discapacidades -->
+                            <h4 class="text-primary mb-3">Pacientes por Discapacidad</h4>
+                            <div class="table-responsive mb-4">
+                            <?php
+                            $sql = listarModelo::pacientesPorDiscapacidadModelo();
+                            $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+                            $total = array_sum(array_column($resultados, 'numero_pacientes'));
+                            ?>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered" id="tablaPacientesPorDiscapacidadPDF">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-center">Tipo de Discapacidad</th>
+                                            <th class="text-center">Pacientes Atendidos</th>
+                                            <th class="text-center" style="width: 40%;">Distribución</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($resultados as $row): 
+                                            $porcentaje = ($total > 0) ? round(($row['numero_pacientes'] / $total) * 100, 2) : 0;
+                                            $color = $this->getColorForPercentage($porcentaje);
+                                        ?>
+                                        <tr>
+                                            <td class="font-weight-bold"><?= htmlspecialchars($row['tipo_discapacidad']) ?></td>
+                                            <td class="text-center text-dark"><?= number_format($row['pacientes_atendidos'], 0) ?></td>
+                                            <td>
+                                                <div class="progress" style="height: 25px;">
+                                                    <div class="progress-bar <?= $color ?>" 
+                                                         role="progressbar" 
+                                                         style="width: <?= $porcentaje ?>%; font-weight: bold;"
+                                                         aria-valuenow="<?= $porcentaje ?>" 
+                                                         aria-valuemin="0" 
+                                                         aria-valuemax="100">
+                                                        <?= $porcentaje ?>%
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                        <tr class="table-info">
+                                            <td class="font-weight-bold text-right">Total:</td>
+                                            <td class="text-center font-weight-bold"><?= number_format($total, 0) ?></td>
+                                            <td class="font-weight-bold text-center">100%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+                            
+                            <!-- Sección Edades -->
+                            <h4 class="text-primary mb-3">Pacientes por Rango de Edad</h4>
+                            <div class="table-responsive mb-4">
+                            <?php
+                            $sql = listarModelo::listar_edades_paciente_json_modelo();
+                            $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+                            $total = array_sum(array_column($resultados, 'total_pacientes'));
+                            ?>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered" id="tablaEdades">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-center">Rango de Edad</th>
+                                            <th class="text-center">Cantidad de Pacientes</th>
+                                            <th class="text-center" style="width: 40%;">Distribución</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($resultados as $row): 
+                                            $porcentaje = ($total > 0) ? round(($row['total_pacientes'] / $total) * 100, 2) : 0;
+                                            $color = $this->getColorForPercentage($porcentaje);
+                                        ?>
+                                        <tr>
+                                            <td class="font-weight-bold"><?= htmlspecialchars($row['rango_edad']) ?></td>
+                                            <td class="text-center"><?= number_format($row['total_pacientes'], 0) ?></td>
+                                            <td>
+                                                <div class="progress" style="height: 25px;">
+                                                    <div class="progress-bar <?= $color ?>" 
+                                                         role="progressbar" 
+                                                         style="width: 100%; font-weight: bold;"
+                                                         aria-valuenow="<?= $porcentaje ?>" 
+                                                         aria-valuemin="0" 
+                                                         aria-valuemax="100">
+                                                        <?= $porcentaje ?>%
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                        <tr class="table-info">
+                                            <td class="font-weight-bold text-right">Total:</td>
+                                            <td class="text-center font-weight-bold"><?= number_format($total, 0) ?></td>
+                                            <td class="font-weight-bold text-center">100%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+                            
+                            <!-- Sección Municipios -->
+                            <h4 class="text-primary mb-3">Pacientes por Municipio</h4>
+                            <div class="table-responsive mb-4">
+                            <?php
+                            $sql = listarModelo::pacientesPorMunicipioModelo();
+                            $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+                            $total = array_sum(array_column($resultados, 'numero_pacientes_atendidos'));
+                            ?>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered" id="tablaPacientesPorMunicipioPDF">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-center">Municipio</th>
+                                            <th class="text-center">Pacientes Atendidos</th>
+                                            <th class="text-center" style="width: 40%;">Distribución</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($resultados as $row): 
+                                            $porcentaje = ($total > 0) ? round(($row['numero_pacientes_atendidos'] / $total) * 100, 2) : 0;
+                                            $color = $this->getColorForPercentage($porcentaje);
+                                        ?>
+                                        <tr>
+                                            <td class="font-weight-bold"><?= htmlspecialchars($row['nombre_municipio']) ?></td>
+                                            <td class="text-center text-dark"><?= number_format($row['numero_pacientes_atendidos'], 0) ?></td>
+                                            <td>
+                                                <div class="progress" style="height: 25px;">
+                                                    <div class="progress-bar <?= $color ?>" 
+                                                         role="progressbar" 
+                                                         style="width: 100%; font-weight: bold;"
+                                                         aria-valuenow="<?= $porcentaje ?>" 
+                                                         aria-valuemin="0" 
+                                                         aria-valuemax="100">
+                                                        <?= $porcentaje ?>%
+                                                    </div>
+                                                </div>
+                                            </td>
+                                           
+                                        </tr>
+                                        <?php endforeach; ?>
+                                        <tr class="table-info">
+                                            <td class="font-weight-bold text-right">Total:</td>
+                                            <td class="text-center font-weight-bold"><?= number_format($total, 0) ?></td>
+                                            <td class="font-weight-bold text-center">100%</td>
+                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+                            
+                            <!-- Sección Especialidades -->
+                            <h4 class="text-primary mb-3">Citas por Especialidad</h4>
+                            <div class="table-responsive mb-4">
+                            <?php
+                            $sql = listarModelo::listar_citas_especialidad_json_modelo();
+                            $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+                            $total = array_sum(array_column($resultados, 'cantidad_citas'));
+                            ?>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered" id="tablaEspecialidadesPdf">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-center">Especialidad</th>
+                                            <th class="text-center">Cantidad de Citas</th>
+                                            <th class="text-center" style="width: 40%;">Distribución</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($resultados as $row): 
+                                            $porcentaje = ($total > 0) ? round(($row['cantidad_citas'] / $total) * 100, 2) : 0;
+                                            $color = $this->getColorForPercentage($porcentaje);
+                                        ?>
+                                        <tr>
+                                            <td class="font-weight-bold"><?= htmlspecialchars($row['especialidad']) ?></td>
+                                            <td class="text-center"><?= number_format($row['cantidad_citas'], 0) ?></td>
+                                            <td>
+                                                <div class="progress" style="height: 25px;">
+                                                    <div class="progress-bar <?= $color ?>" 
+                                                         role="progressbar" 
+                                                         style="width: 100%; font-weight: bold;"
+                                                         aria-valuenow="<?= $porcentaje ?>" 
+                                                         aria-valuemin="0" 
+                                                         aria-valuemax="100">
+                                                        <?= $porcentaje ?>%
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                        <tr class="table-info">
+                                            <td class="font-weight-bold text-right">Total:</td>
+                                            <td class="text-center font-weight-bold"><?= number_format($total, 0) ?></td>
+                                            <td class="font-weight-bold text-center">100%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+                            
+                            <!-- Sección Dependencias -->
+                            <h4 class="text-primary mb-3">Citas por Dependencia</h4>
+                            <div class="table-responsive">
+                            <?php
+                            $sql = listarModelo::citasdependeciasModelos();
+                            $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
+                            $total = array_sum(array_column($resultados, 'numero_pacientes'));
+                            ?>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered" id="tablaDependenciasPDF">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-center">Dependencia</th>
+                                            <th class="text-center">Cantidad de Citas</th>
+                                            <th class="text-center" style="width: 40%;">Distribución</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($resultados as $row): 
+                                            $porcentaje = ($total > 0) ? round(($row['numero_pacientes'] / $total) * 100, 2) : 0;
+                                            $color = $this->getColorForPercentage($porcentaje);
+                                        ?>
+                                        <tr>
+                                            <td class="font-weight-bold"><?= htmlspecialchars($row['nombre_dependencia']) ?></td>
+                                            <td class="text-center"><?= number_format($row['numero_pacientes'], 0) ?></td>
+                                            <td>
+                                                <div class="progress" style="height: 25px;">
+                                                    <div class="progress-bar <?= $color ?>" 
+                                                         role="progressbar" 
+                                                         style="width: 100%; font-weight: bold;"
+                                                         aria-valuenow="<?= $porcentaje ?>" 
+                                                         aria-valuemin="0" 
+                                                         aria-valuemax="100">
+                                                        <?= $porcentaje ?>%
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                        <tr class="table-info">
+                                            <td class="font-weight-bold text-right">Total:</td>
+                                            <td class="text-center font-weight-bold"><?= number_format($total, 0) ?></td>
+                                            <td class="font-weight-bold text-center">100%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php
     }
+    public function mostrarReporteConsolidadoControladorfechas(){
+        $this->listar_citas_cantidad_dependecias_tabla_controlador_fechas();
+        $this->listarPacientesDiscapacidadTablaControlador_fechas();
+        $this->listarPacientesEtniaTablaControlador_fechas();
+        $this->listarPacientesEdadTablaControlador_fechas();
+        $this->listarPacientesEspecialidadTablaControlador_fechas();
+        $this->listarPacientesMunicipioTablaControlador_fechas();
+
+    }
+
+}
+

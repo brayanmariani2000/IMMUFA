@@ -6,32 +6,88 @@
                 <small class="card-subtitle">Pacientes registrados</small>
             </div>
             <div id="example23_filter" class="dataTables_filter">
-
-                      <label>Buscar:<input type="Buscar" class="" placeholder="" aria-controls="example23"></label>
-
-                    </div>
+                <label>Buscar:<input type="text" id="BuscarPacienteRegistro" class="" placeholder="" aria-controls="example23"></label>
+            </div>
         </div>
         
         <div class="card-body">
-            <div class="table-responsive">
-                <table id="tablaCitas" class="table table-hover table-striped align-middle" style="width:100%">
+            <div class="table-responsive" id="tablaCitasPaciente" >
+                <table class="table table-hover table-striped align-middle" style="width:100%">
                     <thead class="">
                         <tr>
                             <th width="5%">N°</th>
                             <th width="20%">Nombre y Apellido</th>
                             <th width="10%">Cédula</th>
-                            <th width="15%">Dirección</th>
                             <th width="10%">Discapacidad</th>
                             <th width="10%">Etnia</th>
-                            <th width="5%">Edad</th>
+                            <th width="10%">Edad</th>
                             <th width="15%" class="text-center">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php 
-                            require_once 'controlador/loginControlador.php';
-                            $tabla = new loginControlador();
-                            echo $tabla->listar_cita();
+                        require_once 'controlador/loginControlador.php';
+                        $paginaActual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+                        $tabla = new loginControlador();
+                        $resultados = $tabla->listar_cita($paginaActual);
+                        
+                        $contador = ($paginaActual - 1) * $resultados['paginacion']['registrosPorPagina'] + 1;
+                        
+                        foreach($resultados['datos'] as $row) {
+                            $fechaNacimiento = new DateTime($row['fecha_nacimiento']);
+                            $hoy = new DateTime();
+                            $edad = $hoy->diff($fechaNacimiento)->y;
+                        ?>
+                        <tr>
+                            <td><?php echo $contador; ?></td>
+                            <td><?php echo htmlspecialchars($row['nombre'].' '.$row['apellido']); ?></td>
+                            <td><?php echo htmlspecialchars($row['cedula']); ?></td>
+                            <td><?php echo htmlspecialchars($row['discapacidades']); ?></td>
+                            <td><?php echo htmlspecialchars($row['etnias']); ?></td>
+                            <td><?php echo $edad; ?> años</td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Acciones">
+                                    <button type="button" class="btn btn-info btn-sm mx-1 ver-datos" 
+                                            data-id="<?php echo $row['id_persona']; ?>"
+                                            id="verDatos"
+                                            title="Ver datos básicos">
+                                        <i class="fas fa-user me-1"></i> Ver Datos
+                                    </button>
+                                    
+                                    <button type="button" class="btn btn-warning btn-sm mx-1 editar-paciente" 
+                                            data-id="<?php echo $row['id_persona']; ?>"
+                                            id="editarPaciente"
+                                            title="Editar información">
+                                        <i class="fas fa-edit me-1"></i> Editar
+                                    </button>
+                                    
+                                    <button type="submit" class="btn btn-success btn-sm mx-1" 
+                                            form="formNuevaCita_<?php echo $row['id_persona']; ?>"
+                                            title="Agendar nueva cita">
+                                        <i class="fas fa-calendar-plus me-1"></i> Cita
+                                    </button>
+                                    <form id="formNuevaCita_<?php echo $row['id_persona']; ?>" 
+                                          action="<?php echo SERVERURL."nuevaCita"; ?>" 
+                                          method="POST" class="d-none">
+                                        <input type="hidden" name="Nueva_Cita" value="<?php echo $row['id_persona']; ?>">
+                                    </form>
+                                    
+                                    <button type="submit" class="btn btn-secondary btn-sm mx-1" 
+                                            form="formHistorial_<?php echo $row['id_persona']; ?>"
+                                            title="Ver historial médico">
+                                        <i class="fas fa-history me-1"></i> Historial
+                                    </button>
+                                    <form id="formHistorial_<?php echo $row['id_persona']; ?>" 
+                                          action="<?php echo SERVERURL."datosPaciente"; ?>" 
+                                          method="POST" class="d-none">
+                                        <input type="hidden" name="verHistoria" value="<?php echo $row['id_persona']; ?>">
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php 
+                        $contador++;
+                        } 
                         ?>
                     </tbody>
                 </table>
@@ -40,25 +96,54 @@
             <!-- Paginación mejorada -->
             <nav aria-label="Paginación de citas" class="mt-3">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                            <i class="fas fa-angle-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="fas fa-angle-right"></i>
-                        </a>
-                    </li>
+                    <?php
+                    $urlBase = "http://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']."?page=tabla";
+                    
+                    // Botón Anterior
+                    if ($paginaActual > 1): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="<?= $urlBase ?>&pagina=<?= $paginaActual - 1 ?>">Anterior</a>
+                        </li>
+                    <?php else: ?>
+                        <li class="page-item disabled">
+                            <span class="page-link">Anterior</span>
+                        </li>
+                    <?php endif;
+                    
+                    // Números de página
+                    $inicioPaginas = max(1, $paginaActual - 2);
+                    $finPaginas = min($resultados['paginacion']['totalPaginas'], $paginaActual + 2);
+                    
+                    for ($i = $inicioPaginas; $i <= $finPaginas; $i++): ?>
+                        <li class="page-item <?= ($i == $paginaActual) ? 'active' : '' ?>">
+                            <a class="page-link" href="<?= $urlBase ?>&pagina=<?= $i ?>"><?= $i ?></a>
+                        </li>
+                    <?php endfor;
+                    
+                    // Botón Siguiente
+                    if ($paginaActual < $resultados['paginacion']['totalPaginas']): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="<?= $urlBase ?>&pagina=<?= $paginaActual + 1 ?>">Siguiente</a>
+                        </li>
+                    <?php else: ?>
+                        <li class="page-item disabled">
+                            <span class="page-link">Siguiente</span>
+                        </li>
+                    <?php endif; ?>
                 </ul>
-                <p class="text-center text-muted small">Mostrando 1 a 10 de 10 registros</p>
+                <p class="text-center text-muted small">
+                    <?php
+                    $inicio = (($paginaActual - 1) * $resultados['paginacion']['registrosPorPagina']) + 1;
+                    $fin = min($paginaActual * $resultados['paginacion']['registrosPorPagina'], $resultados['paginacion']['totalRegistros']);
+                    echo "Mostrando $inicio a $fin de ".$resultados['paginacion']['totalRegistros']." registros";
+                    ?>
+                </p>
             </nav>
         </div>
     </div>
 </div>
+
+<!-- Los modales (infoPacienteModal y actualizarPacienteModal) permanecen igual -->
 
 <!-- Modal para ver información del paciente -->
 <div class="modal fade" id="infoPacienteModal" tabindex="-1" aria-labelledby="infoPacienteModalLabel" aria-hidden="true">
@@ -142,13 +227,6 @@
               </h6>
             </div>
             
-            <div class="col-md-6 mb-3">
-              <label class="form-label fw-bold">Dirección</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light"><i class="fas fa-home"></i></span>
-                <p class="form-control bg-light mb-0" id="modalDireccion"></p>
-              </div>
-            </div>
             
             <div class="col-md-3 mb-3">
               <label class="form-label fw-bold">Municipio</label>
@@ -158,7 +236,7 @@
               </div>
             </div>
             
-            <div class="col-md-3 mb-3">
+            <div class="col-md-5 mb-3">
               <label class="form-label fw-bold">Parroquia</label>
               <div class="input-group">
                 <span class="input-group-text bg-light"><i class="fas fa-map-pin"></i></span>

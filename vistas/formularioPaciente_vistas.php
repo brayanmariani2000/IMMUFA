@@ -150,7 +150,7 @@
                                                             <div class="row">
                                                                 <div class="col-md-4">
                                                                     <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="discapacidad_op" id="discapacidad_si" value="1">
+                                                                        <input class="form-check-input" type="radio" name="discapacidad_op" id="discapacidad_si" value="2">
                                                                         <label class="form-check-label" for="discapacidad_si">
                                                                             SI
                                                                         </label>
@@ -158,7 +158,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="discapacidad_op" id="discapacidad_no" value="0">
+                                                                        <input class="form-check-input" type="radio" name="discapacidad_op" id="discapacidad_no" value="1">
                                                                         <label class="form-check-label" for="discapacidad_no">
                                                                             NO
                                                                         </label>
@@ -170,7 +170,7 @@
                                                         <div class="col-md-6 d-none" id="discapacidad_opcion">
                                                             <label for="discapacidad" class="form-label">DISCAPACIDADES</label>
                                                             <select name="discapacidad" id="discapacidad" class="form-control">
-                                                                <option value="0">---SELECCIONE UNA OPCIÓN---</option>
+                                                                <option value="1">---SELECCIONE UNA OPCIÓN---</option>
                                                                 <?php $area->listar_discapacidad_controlador(); ?>
                                                             </select>
                                                         </div>
@@ -183,7 +183,7 @@
                                                             <div class="row">
                                                                 <div class="col-md-4">
                                                                     <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="etnia_op" id="etnia_si" value="1">
+                                                                        <input class="form-check-input" type="radio" name="etnia_op" id="etnia_si" value="2">
                                                                         <label class="form-check-label" for="etnia_si">
                                                                             SI
                                                                         </label>
@@ -191,7 +191,7 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="etnia_op" id="etnia_no" value="0">
+                                                                        <input class="form-check-input" type="radio" name="etnia_op" id="etnia_no" value="1">
                                                                         <label class="form-check-label" for="etnia_no">
                                                                             NO
                                                                         </label>
@@ -203,7 +203,7 @@
                                                         <div class="col-md-6 d-none" id="etnia_opcion">
                                                             <label for="etnias" class="form-label">ETNIAS</label>
                                                             <select name="etnias" id="etnias" class="form-control">
-                                                                <option value="0">---SELECCIONE UNA OPCIÓN---</option>
+                                                                <option value="1">---SELECCIONE UNA OPCIÓN---</option>
                                                                 <?php $area->listar_etnias_controlador(); ?>
                                                             </select>
                                                         </div>

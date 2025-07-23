@@ -12,7 +12,7 @@ class listarModelo extends conexionModelo {
 
 protected static function listar_etnias(){
     
-    $sql=conexionModelo::conectar()->prepare("SELECT * FROM etnia WHERE id_etnia>0");
+    $sql=conexionModelo::conectar()->prepare("SELECT * FROM etnia WHERE id_etnia>1");
     
     $sql->execute();
     
@@ -20,7 +20,7 @@ protected static function listar_etnias(){
 }
 protected static function listar_discapacidad(){
     
-    $sql=conexionModelo::conectar()->prepare("SELECT * FROM discapacidad WHERE id_discapacidad>0");
+    $sql=conexionModelo::conectar()->prepare("SELECT * FROM discapacidad WHERE id_discapacidad>1");
     
     $sql->execute();
     
@@ -132,18 +132,18 @@ protected static function listar_distribucion_paciente_json_modelo(){
     m.id_municipio,
     m.municipio,
     COUNT(p.id_persona) AS total_pacientes
-FROM 
-    municipios m
-LEFT JOIN 
-    parroquia pa ON m.id_municipio = pa.id_municipios
-LEFT JOIN 
-    persona p ON pa.id_parroquia = p.id_parroquia
-GROUP BY 
-    m.id_municipio, m.municipio
-ORDER BY 
-    total_pacientes DESC;");
-    
-    $sql->execute();
+    FROM 
+        municipios m
+    LEFT JOIN 
+        parroquia pa ON m.id_municipio = pa.id_municipios
+    LEFT JOIN 
+        persona p ON pa.id_parroquia = p.id_parroquia
+    GROUP BY 
+        m.id_municipio, m.municipio
+    ORDER BY 
+        total_pacientes DESC;");
+        
+        $sql->execute();
     
     return $sql;
 }
@@ -157,41 +157,42 @@ protected static function listar_genero_paciente_json_modelo(){
         ELSE 'No especificado'
     END AS genero,
     COUNT(*) AS cantidad
-FROM 
-    persona
-WHERE 
-    sexo IN (1, 2)  -- Solo consideramos valores válidos (1 y 2)
-GROUP BY 
-    sexo;;");
-    
-    $sql->execute();
+    FROM 
+        persona
+    WHERE 
+        sexo IN (1, 2)  -- Solo consideramos valores válidos (1 y 2)
+    GROUP BY 
+        sexo;;");
+        
+        $sql->execute();
     
     return $sql;
 }
-
 protected static function listar_edades_paciente_json_modelo(){
 
     $sql=conexionModelo::conectar()->prepare("SELECT 
     CASE 
-        WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN 0 AND 1 THEN '0-1 año'
-        WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN 2 AND 5 THEN '2-5 años'
-        WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN 6 AND 12 THEN '6-12 años'
-        WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN 13 AND 19 THEN '13-19 años'
-        WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN 20 AND 34 THEN '20-34 años'
-        WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN 35 AND 59 THEN '35-59 años'
-        WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) >= 60 THEN '60+ años'
-        ELSE 'Edad no especificada'
+        WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 0 AND 1 THEN '0-1 años'
+        WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 2 AND 5 THEN '2-5 años'
+        WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 6 AND 12 THEN '6-12 años'
+        WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 13 AND 19 THEN '13-19 años'
+        WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 20 AND 34 THEN '20-34 años'
+        WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 35 AND 59 THEN '35-59 años'
+        WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) >= 60 THEN '60+ años'
+        ELSE 'Sin fecha de nacimiento'
     END AS rango_edad,
-    COUNT(*) AS cantidad_pacientes
-FROM 
-    persona
-WHERE 
-    fecha_nacimiento IS NOT NULL
-GROUP BY 
-    rango_edad
-ORDER BY
+    COUNT(DISTINCT c.persona_id) AS total_pacientes
+    FROM 
+        cita c
+    JOIN 
+        persona p ON c.persona_id = p.id_persona
+    WHERE 
+        c.condicion_id = 3 
+    GROUP BY 
+        rango_edad
+    ORDER BY 
     CASE rango_edad
-        WHEN '0-1 año' THEN 1
+        WHEN '0-1 años' THEN 1
         WHEN '2-5 años' THEN 2
         WHEN '6-12 años' THEN 3
         WHEN '13-19 años' THEN 4
@@ -205,41 +206,40 @@ ORDER BY
     
     return $sql;
 }
-
 protected static function listar_citas_especialidad_json_modelo(){
 
     $sql=conexionModelo::conectar()->prepare("SELECT 
     e.id_especialidad,
     e.especialidad,
     COUNT(c.id_cita) AS cantidad_citas
-FROM 
-    especialidad e
-LEFT JOIN 
-    consulta co ON e.id_especialidad = co.id_especialidad
-LEFT JOIN 
-    cita c ON co.id_consulta = c.id_consulta
-GROUP BY 
-    e.id_especialidad, e.especialidad
-ORDER BY 
-    cantidad_citas DESC;");
-    
-    $sql->execute();
-    
-    return $sql;
+    FROM 
+        especialidad e
+    LEFT JOIN 
+        consulta co ON e.id_especialidad = co.id_especialidad
+    LEFT JOIN 
+        cita c ON co.id_consulta = c.id_consulta
+    GROUP BY 
+        e.id_especialidad, e.especialidad
+    ORDER BY 
+        cantidad_citas DESC;");
+        
+        $sql->execute();
+        
+        return $sql;
 }
 protected static function listar_citas_dependencia_json_modelo(){
 
     $sql=conexionModelo::conectar()->prepare("SELECT 
     d.dependencia AS Dependencia,
     COUNT(c.persona_id) AS Cantidad_Pacientes
-FROM 
-    dependencias d
-LEFT JOIN 
-    cita c ON d.id_dependencia = c.dependencia_id
-GROUP BY 
-    d.dependencia
-ORDER BY 
-    Cantidad_Pacientes DESC;");
+    FROM 
+        dependencias d
+    LEFT JOIN 
+        cita c ON d.id_dependencia = c.dependencia_id
+    GROUP BY 
+        d.dependencia
+    ORDER BY 
+        Cantidad_Pacientes DESC;");
     
     $sql->execute();
     
@@ -266,26 +266,27 @@ protected static function citasdependeciasModelos(){
 }
 protected static function pacientesPorMunicipioModelo() {
     $sql = conexionModelo::conectar()->prepare("SELECT 
-                m.id_municipio,
-                m.municipio AS nombre_municipio,
-                COUNT(p.id_persona) AS numero_pacientes
-            FROM 
-                municipios m
-            JOIN 
-                parroquia pa ON m.id_municipio = pa.id_municipios
-            LEFT JOIN 
-                persona p ON pa.id_parroquia = p.id_parroquia
-            LEFT JOIN
-                cita c ON p.id_persona = c.persona_id
-            GROUP BY 
-                m.id_municipio, m.municipio
-            ORDER BY 
-                numero_pacientes DESC");
-    
-    $sql->execute();
-    return $sql;
+    m.id_municipio,
+    m.municipio AS nombre_municipio,
+    COUNT(DISTINCT p.id_persona) AS numero_pacientes_atendidos
+    FROM 
+        municipios m
+    JOIN 
+        parroquia pa ON m.id_municipio = pa.id_municipios
+    LEFT JOIN 
+        persona p ON pa.id_parroquia = p.id_parroquia
+    LEFT JOIN
+        cita c ON p.id_persona = c.persona_id
+    WHERE
+        c.condicion_id = 3  -- Filtrar solo pacientes atendidos (condición ATENDIDA)
+    GROUP BY 
+        m.id_municipio, m.municipio
+    ORDER BY 
+        numero_pacientes_atendidos DESC;");
+        
+        $sql->execute();
+        return $sql;
 }
-
 public static function listar_citas_diarias_especialidad_modelo($fecha) {
     $sql = conexionModelo::conectar()->prepare("SELECT 
             e.especialidad,
@@ -330,46 +331,50 @@ protected static function pacientesPorEtniaModelo() {
     return $sql;
 }
 protected static function pacientesPorDiscapacidadModelo() {
-    $sql = conexionModelo::conectar()->prepare("SELECT 
-                d.id_discapacidad,
-                d.discapacidades AS tipo_discapacidad,
-                COUNT(p.id_persona) AS numero_pacientes
-            FROM 
-                discapacidad d
-            LEFT JOIN 
-                persona p ON d.id_discapacidad = p.id_discapacidad
-            LEFT JOIN
-                cita c ON p.id_persona = c.persona_id
-            GROUP BY 
-                d.id_discapacidad, d.discapacidades
-            ORDER BY 
-                numero_pacientes DESC");
-    
-    $sql->execute();
-    return $sql;
+        $sql = conexionModelo::conectar()->prepare("SELECT 
+        d.id_discapacidad,
+        d.discapacidades AS tipo_discapacidad,
+        COUNT(DISTINCT p.id_persona) AS pacientes_atendidos
+    FROM 
+        discapacidad d
+    INNER JOIN 
+        persona p ON d.id_discapacidad = p.id_discapacidad
+    INNER JOIN
+        cita c ON p.id_persona = c.persona_id
+    INNER JOIN
+        condicion con ON c.condicion_id = con.id_condicion
+    WHERE
+        c.condicion_id = 3 -- Solo pacientes atendidos
+    GROUP BY 
+        d.id_discapacidad, d.discapacidades
+    ORDER BY 
+        pacientes_atendidos DESC;");
+        
+        $sql->execute();
+        return $sql;
 }
 public static function citasdependeciasModelosFechas($fechaInicio = null, $fechaFin = null) {
-    $sql = conexionModelo::conectar()->prepare("SELECT 
-    d.id_dependencia,
-    d.dependencia,
-    COUNT(cita.id_cita) AS pacientes_atendidos
-FROM 
-    dependencias d
-LEFT JOIN 
-    cita ON d.id_dependencia = cita.dependencia_id
-LEFT JOIN 
-    consulta ON cita.id_consulta = consulta.id_consulta
-LEFT JOIN 
-    condicion ON cita.condicion_id = condicion.id_condicion
-WHERE 
-    condicion.condicion = 'ATENDIDA'
-    AND consulta.fecha_consulta BETWEEN '$fechaInicio' AND '$fechaFin'  -- Rango de fechas (ajustable)
-GROUP BY 
-    d.id_dependencia, d.dependencia
-ORDER BY 
-    pacientes_atendidos DESC;");
-    $sql->execute();
-    return $sql;
+        $sql = conexionModelo::conectar()->prepare("SELECT 
+        d.id_dependencia,
+        d.dependencia,
+        COUNT(cita.id_cita) AS pacientes_atendidos
+    FROM 
+        dependencias d
+    LEFT JOIN 
+        cita ON d.id_dependencia = cita.dependencia_id
+    LEFT JOIN 
+        consulta ON cita.id_consulta = consulta.id_consulta
+    LEFT JOIN 
+        condicion ON cita.condicion_id = condicion.id_condicion
+    WHERE 
+        condicion.condicion = 'ATENDIDA'
+        AND consulta.fecha_consulta BETWEEN '$fechaInicio' AND '$fechaFin'  -- Rango de fechas (ajustable)
+    GROUP BY 
+        d.id_dependencia, d.dependencia
+    ORDER BY 
+        pacientes_atendidos DESC;");
+        $sql->execute();
+        return $sql;
 }
 public static function pacientesDiscapacidadModeloFechas($fechaInicio = null, $fechaFin = null) {
     $sql = conexionModelo::conectar()->prepare("SELECT 
@@ -435,38 +440,36 @@ public static function pacientesEtniaModeloFechas($fechaInicio = null, $fechaFin
 }
 public static function pacientesEdadModeloFechas($fechaInicio = null, $fechaFin = null) {
     $sql = conexionModelo::conectar()->prepare("SELECT 
-                CASE
-                    WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 0 AND 12 THEN '0-12 años'
-                    WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 13 AND 18 THEN '13-18 años'
-                    WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 19 AND 30 THEN '19-30 años'
-                    WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 31 AND 50 THEN '31-50 años'
-                    WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 51 AND 65 THEN '51-65 años'
-                    ELSE '65+ años'
-                END AS grupo_edad,
-                COUNT(p.id_persona) AS pacientes_atendidos
-            FROM 
-                persona p
-            JOIN
-                cita c ON p.id_persona = c.persona_id
-            JOIN
-                condicion co ON c.condicion_id = co.id_condicion
-            JOIN
-                consulta con ON c.id_consulta = con.id_consulta
-            WHERE 
-                co.condicion = 'ATENDIDA'
-                AND (:fechaInicio IS NULL OR con.fecha_consulta >= :fechaInicio)
-                AND (:fechaFin IS NULL OR con.fecha_consulta <= :fechaFin)
-            GROUP BY 
-                grupo_edad
-            ORDER BY
-                CASE grupo_edad
-                    WHEN '0-12 años' THEN 1
-                    WHEN '13-18 años' THEN 2
-                    WHEN '19-30 años' THEN 3
-                    WHEN '31-50 años' THEN 4
-                    WHEN '51-65 años' THEN 5
-                    ELSE 6
-                END");
+    CASE
+        WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 0 AND 12 THEN '0-12 años'
+        WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 13 AND 18 THEN '13-18 años'
+        WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 19 AND 30 THEN '19-30 años'
+        WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 31 AND 50 THEN '31-50 años'
+        WHEN TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) BETWEEN 51 AND 65 THEN '51-65 años'
+        ELSE '65+ años'
+        END AS grupo_edad,
+        COUNT(DISTINCT p.id_persona) AS pacientes_atendidos
+    FROM 
+        cita c
+    JOIN 
+        persona p ON c.persona_id = p.id_persona
+    JOIN
+        consulta con ON c.id_consulta = con.id_consulta
+    WHERE 
+        c.condicion_id = 3  -- ATENDIDA (mejor usar ID que texto para mayor eficiencia)
+        AND (:fechaInicio IS NULL OR con.fecha_consulta >= :fechaInicio)
+        AND (:fechaFin IS NULL OR con.fecha_consulta <= :fechaFin)
+    GROUP BY 
+        grupo_edad
+    ORDER BY
+        CASE grupo_edad
+            WHEN '0-12 años' THEN 1
+            WHEN '13-18 años' THEN 2
+            WHEN '19-30 años' THEN 3
+            WHEN '31-50 años' THEN 4
+            WHEN '51-65 años' THEN 5
+            ELSE 6
+        END;");
     
     // Asignar valores a los parámetros
     $sql->bindValue(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
@@ -585,7 +588,7 @@ public static function pacientesPorParroquiaModelo($id_municipio) {
             LEFT JOIN
                 condicion co ON c.condicion_id = co.id_condicion
             LEFT JOIN
-                consulta con ON c.id_consulta = con.id_consulta
+                consulta con ON c.id_consulta = 3
             WHERE 
                 co.condicion = 'ATENDIDA'
                 AND pr.id_municipios = :id_municipio

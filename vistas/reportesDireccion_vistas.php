@@ -11,9 +11,7 @@
                     </div>
                     <!-- Botones de exportación -->
                     <div class="dt-buttons btn-group">
-                        <button id="excel_municipios" class="btn btn-success btn-sm">
-                            <i class="fas fa-file-excel mr-1"></i> Excel
-                        </button>
+                       
                         <button id="pdf_municipios" class="btn btn-danger btn-sm ml-2">
                             <i class="fas fa-file-pdf mr-1"></i> PDF
                         </button>

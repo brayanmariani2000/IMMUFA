@@ -1,30 +1,56 @@
 <?php
-require('fpdf.php'); // Asegúrate de tener la librería FPDF en tu proyecto
+// Limpiar cualquier buffer de salida
+if (ob_get_level()) ob_end_clean();
 
-// Obtener datos del POST
-$data = json_decode(file_get_contents('php://input'), true);
+// Configuración de errores
+ini_set('display_errors', 0);
+error_reporting(0);
 
-// Crear clase personalizada de FPDF
+// Validar método de solicitud
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Content-Type: application/json', true, 405);
+    die(json_encode(['error' => 'Método no permitido. Use POST']));
+}
+
+// Incluir FPDF
+require_once('fpdf.php');
+
 class PDF extends FPDF {
     private $reportTitle;
     private $reportType;
     
     function __construct($title, $type) {
-        parent::__construct();
+        parent::__construct('P', 'mm', 'Letter');
         $this->reportTitle = $title;
         $this->reportType = $type;
     }
     
-    // Cabecera de página
+    // Cabecera de página con membrete
     function Header() {
-        // Logo
+        // Logos - ajustar rutas según sea necesario
+        $this->Image('logo1.png', 15, 8, 25); // Logo izquierdo
+        $this->Image('Logo2.png', 165, 8, 25); // Logo derecho
         
-        // Título
-        $this->SetFont('Arial', 'B', 16);
-        $this->Cell(0, 10, utf8_decode($this->reportTitle), 0, 1, 'C');
+        // Membrete institucional
+        $this->SetFont('Arial', 'B', 10);
+        $this->SetY(10);
+        $this->Cell(0, 5, utf8_decode('REPÚBLICA BOLIVARIANA DE VENEZUELA'), 0, 1, 'C');
+        $this->Cell(0, 5, utf8_decode('ALCALDÍA BOLIVARIANA DEL MUNICIPIO MATURÍN'), 0, 1, 'C');
+        $this->SetFont('Arial', 'B', 9);
+        $this->Cell(0, 5, utf8_decode('INSTITUTO MUNICIPAL DE LA MUJER Y LA FAMILIA (IMMUFA)'), 0, 1, 'C');
+        
+        // Línea divisoria
+        $this->SetLineWidth(0.5);
+        $this->SetDrawColor(0, 0, 0);
+        $this->Line(15, $this->GetY() + 2, 200, $this->GetY() + 2);
+        $this->Ln(8);
+        
+        // Título del reporte
+        $this->SetFont('Arial', 'B', 14);
+        $this->Cell(0, 8, utf8_decode($this->reportTitle), 0, 1, 'C');
         
         // Subtítulo según tipo de reporte
-        $this->SetFont('Arial', 'I', 12);
+        $this->SetFont('Arial', 'I', 11);
         $subtitle = '';
         switch($this->reportType) {
             case 'municipios':
@@ -43,104 +69,146 @@ class PDF extends FPDF {
                 $subtitle = 'Distribución de pacientes por etnias';
                 break;
             case 'discapacidad':
-                    $subtitle = 'Distribución de pacientes por discapacidad';
+                $subtitle = 'Distribución de pacientes por discapacidad';
                 break;
         }
-        $this->Cell(0, 10, utf8_decode($subtitle), 0, 1, 'C');
+        $this->Cell(0, 6, utf8_decode($subtitle), 0, 1, 'C');
         
-        // Fecha
-        $this->SetFont('Arial', '', 10);
-        $this->Cell(0, 10, 'Fecha: ' . date('d/m/Y H:i'), 0, 1, 'R');
+        // Fecha de generación
+        $this->SetFont('Arial', '', 9);
+        $this->Cell(0, 6, 'Generado: ' . date('d/m/Y H:i'), 0, 1, 'R');
         
-        // Salto de línea
+        // Salto de línea antes del contenido
         $this->Ln(10);
     }
     
     // Pie de página
     function Footer() {
+        // Posición a 1.5 cm del final
         $this->SetY(-15);
+        // Arial italic 8
         $this->SetFont('Arial', 'I', 8);
-        $this->Cell(0, 10, utf8_decode('Página ').$this->PageNo().'/{nb}', 0, 0, 'C');
+        // Número de página
+        $this->Cell(0, 10, utf8_decode('Página ') . $this->PageNo() . ' de {nb}', 0, 0, 'C');
     }
     
-    // Tabla coloreada
-    function ImprovedTable($header, $data, $footer = null) {
-        // Colores, ancho de línea y fuente en negrita
-        $this->SetFillColor(59, 89, 152);
+    // Tabla mejorada
+    function createTable($headers, $data, $footer = null) {
+        // Colores
+        $this->SetFillColor(58, 106, 189); // Azul institucional para encabezado
         $this->SetTextColor(255);
-        $this->SetDrawColor(0, 0, 0);
+        $this->SetDrawColor(150, 150, 150);
         $this->SetLineWidth(0.3);
-        $this->SetFont('', 'B');
+        $this->SetFont('Arial', 'B', 10);
         
-        // Anchuras de las columnas
-        $w = array(70, 40, 40);
-        
-        // Cabeceras
-        for($i = 0; $i < count($header); $i++) {
-            $this->Cell($w[$i], 7, utf8_decode($header[$i]), 1, 0, 'C', true);
+        // Cabecera de tabla
+        $colWidths = [80, 55, 55]; // Anchos de columna ajustados
+        for($i = 0; $i < count($headers); $i++) {
+            $this->Cell($colWidths[$i], 7, utf8_decode($headers[$i]), 1, 0, 'C', true);
         }
         $this->Ln();
         
-        // Restauración de colores y fuentes
-        $this->SetFillColor(224, 235, 255);
+        // Restaurar colores y fuente
+        $this->SetFillColor(232, 240, 254);
         $this->SetTextColor(0);
-        $this->SetFont('');
+        $this->SetFont('Arial', '', 9);
         
         // Datos
         $fill = false;
         foreach($data as $row) {
-            $this->Cell($w[0], 6, utf8_decode($row['col1']), 'LR', 0, 'L', $fill);
-            $this->Cell($w[1], 6, utf8_decode($row['col2']), 'LR', 0, 'C', $fill);
-            $this->Cell($w[2], 6, utf8_decode($row['col3']), 'LR', 0, 'C', $fill);
+            $this->Cell($colWidths[0], 6, utf8_decode($row['col1']), 'LR', 0, 'L', $fill);
+            $this->Cell($colWidths[1], 6, utf8_decode($row['col2']), 'LR', 0, 'C', $fill);
+            $this->Cell($colWidths[2], 6, utf8_decode($row['col3']), 'LR', 0, 'C', $fill);
             $this->Ln();
             $fill = !$fill;
         }
         
-        // Línea de cierre
-        $this->Cell(array_sum($w), 0, '', 'T');
+        // Cierre de tabla
+        $this->Cell(array_sum($colWidths), 0, '', 'T');
         
         // Footer si existe
         if($footer) {
-            $this->Ln(5);
-            $this->SetFont('', 'B');
-            $this->Cell($w[0], 6, utf8_decode($footer['col1']), 1, 0, 'R', true);
-            $this->Cell($w[1], 6, utf8_decode($footer['col2']), 1, 0, 'C', true);
-            $this->Cell($w[2], 6, utf8_decode($footer['col3']), 1, 0, 'C', true);
+            $this->Ln(2);
+            $this->SetFont('Arial', 'B', 9);
+            $this->Cell($colWidths[0], 6, utf8_decode($footer['col1']), 1, 0, 'R', true);
+            $this->Cell($colWidths[1], 6, utf8_decode($footer['col2']), 1, 0, 'C', true);
+            $this->Cell($colWidths[2], 6, utf8_decode($footer['col3']), 1, 0, 'C', true);
         }
+        
+        $this->Ln(10);
     }
 }
 
-// Determinar encabezados según el tipo de reporte
-$header = [];
-switch($data['type']) {
-    case 'municipios':
-        $header = array('Municipio', 'Pacientes', 'Porcentaje');
-        break;
-    case 'dependencias':
-        $header = array('Dependencia', 'Pacientes', 'Porcentaje');
-        break;
-    case 'edades':
-        $header = array('Rango de Edad', 'Pacientes', 'Porcentaje');
-        break;
-    case 'especialidades':
-        $header = array('Especialidad', 'Citas', 'Porcentaje');
-        break;
-    case 'etnias':
-        $header = array('Etnias', 'Pacientes', 'Porcentaje');
-        break;
-    case 'discapacidad':
-        $header = array('Discapacidades', 'Pacientes', 'Porcentaje');
-        break;          
+try {
+    // Obtener datos JSON
+    $jsonInput = file_get_contents('php://input');
+    if (empty($jsonInput)) {
+        throw new Exception('No se recibieron datos');
+    }
+    
+    $requestData = json_decode($jsonInput, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        throw new Exception('Error en formato JSON: ' . json_last_error_msg());
+    }
+    
+    // Validar estructura básica de datos
+    if (!isset($requestData['type']) || !isset($requestData['title']) || !isset($requestData['data'])) {
+        throw new Exception('Formato de datos incorrecto. Faltan campos requeridos');
+    }
+    
+    // Determinar encabezados según el tipo de reporte
+    $header = [];
+    switch($requestData['type']) {
+        case 'municipios':
+            $header = ['Municipio', 'Pacientes', 'Porcentaje'];
+            break;
+        case 'dependencias':
+            $header = ['Dependencia', 'Pacientes', 'Porcentaje'];
+            break;
+        case 'edades':
+            $header = ['Rango de Edad', 'Pacientes', 'Porcentaje'];
+            break;
+        case 'especialidades':
+            $header = ['Especialidad', 'Citas', 'Porcentaje'];
+            break;
+        case 'etnias':
+            $header = ['Etnia', 'Pacientes', 'Porcentaje'];
+            break;
+        case 'discapacidad':
+            $header = ['Discapacidad', 'Pacientes', 'Porcentaje'];
+            break;
+        default:
+            throw new Exception('Tipo de reporte no válido');
+    }
+    
+    // Crear PDF
+    $pdf = new PDF($requestData['title'], $requestData['type']);
+    $pdf->SetMargins(15, 40, 15); // Márgenes ajustados para el membrete
+    $pdf->SetAutoPageBreak(true, 25); // Margen inferior
+    $pdf->AliasNbPages();
+    $pdf->AddPage();
+    
+    // Generar tabla
+    $footer = isset($requestData['footer']) ? $requestData['footer'] : null;
+    $pdf->createTable($header, $requestData['data'], $footer);
+    
+    // Pie del documento
+    $pdf->SetFont('Arial', 'I', 9);
+    $pdf->Cell(0, 8, utf8_decode('Documento generado automáticamente por el sistema IMMUFA'), 0, 1, 'C');
+    
+    // Generar PDF
+    $pdf->Output('I', 'Reporte_IMMUFA_' . $requestData['type'] . '_' . date('Y-m-d') . '.pdf');
+    exit;
 
+} catch (Exception $e) {
+    // Limpiar buffers nuevamente
+    while (ob_get_level()) ob_end_clean();
+    
+    // Respuesta de error estructurada
+    header('Content-Type: application/json', true, 500);
+    die(json_encode([
+        'error' => 'Error al generar PDF',
+        'message' => $e->getMessage(),
+        'timestamp' => date('c')
+    ]));
 }
-
-// Crear PDF
-$pdf = new PDF($data['title'], $data['type']);
-$pdf->AliasNbPages();
-$pdf->AddPage();
-$pdf->SetFont('Arial', '', 12);
-$pdf->ImprovedTable($header, $data['data'], $data['footer']);
-
-// Salida del PDF
-$pdf->Output('D'); // 'D' para forzar descarga
-?>

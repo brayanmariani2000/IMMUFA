@@ -20,6 +20,7 @@ $(document).ready(function(){
 
         console.log(response);
         let plantilla='';
+        let tabla=''
 
         let parroquias=JSON.parse(response);
         console.log(parroquias);
@@ -35,7 +36,33 @@ $(document).ready(function(){
 
         });
 
+        let cont=0
+        parroquias.forEach(parroquia => {
+
+          if(municipio==parroquia.municipio_id){
+           cont++
+
+            tabla+=`<tr>
+                      <td>${cont}</td>
+                      <td>${parroquia.parroquias}</td>
+                          <td>   
+                            <div class="btn-group" role="group">
+                                  <button type="button" class="btn btn-warning btn-sm btn-editar-parroquia" 
+                                      data-id="${parroquia.value}" 
+                                      data-nombre="${parroquia.parroquias}"
+                                      data-municipio="${parroquia.municipio_id}">
+                                      <i class="fas fa-edit"></i> Actualizar
+                                  </button>
+                            </div>
+                          <td>
+                      </tr>`; 
+
+          }
+
+        });
+
         $('#Parroquia').html(plantilla);
+        $('#tablaParroquia').html(tabla);
 
       }
 
@@ -49,14 +76,14 @@ $(document).ready(function(){
 // Para discapacidad
 document.querySelectorAll('input[name="discapacidad_op"]').forEach(radio => {
   radio.addEventListener('change', function() {
-      document.getElementById('discapacidad_opcion').classList.toggle('d-none', this.value === '0');
+      document.getElementById('discapacidad_opcion').classList.toggle('d-none', this.value === '1');
   });
 });
 
 // Para etnia
 document.querySelectorAll('input[name="etnia_op"]').forEach(radio => {
   radio.addEventListener('change', function() {
-      document.getElementById('etnia_opcion').classList.toggle('d-none', this.value === '0');
+      document.getElementById('etnia_opcion').classList.toggle('d-none', this.value === '1');
   });
 });
 
@@ -96,68 +123,6 @@ $('#veirInfo_cita').modal('show')
 
 })
 
-    
-    
-    $('#botonAc').click(function(e){
-
-      
-      e.preventDefault();
-    
-      const paciente={
-    
-        nombre:$('#nombrePaciente').text(),
-  
-        apellido:$('#apellidoPaciente').text(),
-  
-        cedula:$('#cedulaPaciente').text(),
-  
-        fecha_consulta:$('#fechaAntencionPaciente').text(),
-  
-        especialidad:$('#especialidadCitaPersona').text(),   
-               
-        condicion:$('#condicionCita').val(),
-
-        id_consulta:$('#id_consulta').val(),
-
-        id_cita:$('#id_cita').val()
-    
-      }
-      console.log(paciente)
-    
-      /*$.post(`${server}ajax/actualizarPaciente.php`,paciente,function(repuesta){
-    
-        console.log(repuesta);
-    
-        if(repuesta==2){
-    
-          Swal.fire({        
-    
-            type: 'success',
-    
-            title: 'Éxito',
-    
-            text: 'Se ha Actualizado los datos del paciente',        
-    
-          });
-    
-        }else{
-    
-          Swal.fire({
-    
-            type: 'error',
-    
-            title: 'Error',
-    
-            text: 'Por favor Verifique los datos',        
-    
-          });
-    
-        }
-  
-      })    */
-       
-    })	
-  
 
 
 

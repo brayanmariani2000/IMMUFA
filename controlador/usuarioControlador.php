@@ -111,18 +111,18 @@ class usuarioControlador extends usuarioModelo{
 
  public function nueva_especilidad(){
 
-  $especialidad=conexionModelo::limpiar_texto($_POST['area']);
+    $especialidad=conexionModelo::limpiar_texto($_POST['area']);
 
-  $nueva_especialidad=usuarioModelo::nuevo_especilidad_modelo($especialidad);
+    $nueva_especialidad=usuarioModelo::nuevo_especilidad_modelo($especialidad);
 
- if ($nueva_especialidad->rowCount()>0) {
+  if ($nueva_especialidad->rowCount()>0) {
 
-   echo 1;
- 
-  }else{
- 
-    echo 2;
- }
+    echo 1;
+  
+    }else{
+  
+      echo 2;
+  }
 
 }
 
@@ -159,6 +159,20 @@ public function eliminar_Medico_controlador($cedula){
 
   }
 }
+public function habilitar_Medico_controlador($cedula){
+
+  $eliminarMedico=usuarioModelo::habilitar_medico_modelo($cedula);
+
+  if ($eliminarMedico->rowCount()>0) {
+
+    echo 1;
+
+  }else{
+
+    echo 2;
+
+  }
+}
 
 
 public function eliminar_usuario_controlador($cedula){
@@ -175,7 +189,20 @@ public function eliminar_usuario_controlador($cedula){
   }
 
 }
+public function habilitar_usuario_controlador($cedula){
 
+  $eliminarMedico=usuarioModelo::habilitar_usuario_modelo($cedula);
+
+  if ($eliminarMedico->rowCount()>0) {
+
+    echo 1;
+
+  }else{
+
+    echo 2;
+  }
+
+}
 
 public function eliminar_dependencia_controlador($dependencia){
 
@@ -244,7 +271,8 @@ public function listar_especialista_controlador(){
     $json=array();
 
     foreach($lista as $row){
-      if ($row['status']==1) {
+
+      if ($row['estado']==1) {
       
         $json[]=array(
 
@@ -343,6 +371,12 @@ public function obtener_usuario_controlador($id) {
       
       foreach($lista as $row) {
           if($row['id_usuario'] == $id && $row['status'] == 1) {
+            if($row['sexo']==1){
+              $sexo='femenino';
+            }else{
+              $sexo='masculino';
+            }
+            $sexo=
             $json[] = array(
               'id_usuario' => $row['id_usuario'],
               'nombres' => $row['nombre'],
@@ -351,13 +385,16 @@ public function obtener_usuario_controlador($id) {
               'telefono' => $row['telefono'],
               'correo' => $row['correo'],
               'fecha_nacimiento' => $row['fecha_nacimiento'],
-              'sexo' => $row['sexo'],
-              'rol' => $row['rol'],
+              'sexo' => $sexo,
+              'rol' => $row['roles'],
               'nacionalidad' => $row['nacionalidad'],
               'parroquia' => $row['parroquias'],
               'municipio' => $row['municipio'],
               'etnia' => $row['etnias'],
-              'discapacidad' => $row['discapacidades']
+              'discapacidad' => $row['discapacidades'],
+              'idRol'=>$row['rol'],
+              'UsarioNombre'=>$row['usuario'],
+              'UsuarioClave'=>$row['clave']
           );
       }
   }
@@ -414,5 +451,73 @@ public function obtener_medico_json($id) {
       exit;
   }
 }
+
+
+public function agregar_etnia_controlador($etnia) {
+  $etnia=conexionModelo::limpiar_texto($etnia);
+  $agregar = usuarioModelo::agregar_etnia_modelo($etnia);
+  
+  if ($agregar->rowCount() > 0) {
+      echo 1; // Éxito
+  } else {
+      echo 2; // Error
+  }
+}
+
+public function actualizar_etnia_controlador($id, $etnia) {
+  $etnia=conexionModelo::limpiar_texto($etnia);
+  $actualizar = usuarioModelo::actualizar_etnia_modelo($id, $etnia);
+  
+  if ($actualizar->rowCount() > 0) {
+      echo 1; // Éxito
+  } else {
+      echo 2; // Error
+  }
+}
+
+public function agregar_discapacidad_controlador($discapacidad) {
+  $discapacidad=conexionModelo::limpiar_texto($discapacidad);
+  $agregar = usuarioModelo::agregar_discapacidad_modelo($discapacidad);
+  
+  if ($agregar->rowCount() > 0) {
+      echo 1; // Éxito
+  } else {
+      echo 2; // Error
+  }
+}
+
+public function actualizar_discapacidad_controlador($id, $discapacidad) {
+  $discapacidad=conexionModelo::limpiar_texto($discapacidad);
+  $actualizar = usuarioModelo::actualizar_discapacidad_modelo($id, $discapacidad);
+  
+  if ($actualizar->rowCount() > 0) {
+      echo 1; // Éxito
+  } else {
+      echo 2; // Error
+  }
+}
+
+public function agregar_parroquia_controlador($parroquia, $id_municipio) {
+  $parroquia=conexionModelo::limpiar_texto($parroquia);
+  $agregar = usuarioModelo::agregar_parroquia_modelo($parroquia, $id_municipio);
+  
+  if ($agregar->rowCount() > 0) {
+      echo 1; // Éxito
+  } else {
+      echo 2; // Error
+  }
+}
+
+public function actualizar_parroquia_controlador($id, $parroquia,$id_municipio) {
+  $parroquia=conexionModelo::limpiar_texto($parroquia);
+  $actualizar = usuarioModelo::actualizar_parroquia_modelo($id, $parroquia,$id_municipio);
+  
+  if ($actualizar->rowCount() > 0) {
+      echo 1; // Éxito
+  } else {
+      echo 2; // Error
+  }
+}
+
 }
 

@@ -1,10 +1,6 @@
 <!-- End Bread crumb -->
 <!-- Container fluid  -->
 <div class="container-fluid">
-    <!-- Start Page Content -->
-    
-    <!-- Cards de Reportes Mejorados -->
-   <!-- Cards de Reportes con Colores Mejorados -->
 <div class="row">
     <!-- Reporte de Edades -->
     <div class="col-md-4 col-lg-3 mb-4">
@@ -138,9 +134,27 @@
         </a>
     </div>
     
-    <!-- Reporte de Género (Nuevo) -->
+    <div class="col-md-4 col-lg-3 mb-4">
+        <a href="<?php echo SERVERURL?>reportesGeneral" class="card-link">
+            <div class="card text-white bg-gradient-teal h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="mr-3">
+                            <i class="fas fa-chart-bar fa-fw fa-3x"></i>
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-1">Reporte Consolidado</h5>
+                            <p class="card-text mb-0">Reporte Consolidado</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-teal-dark">
+                    <small>Haz clic para ver reporte</small>
+                </div>
+            </div>
+        </a>
+    </div>
     
-    <!-- Reporte de Edad (Nuevo) -->
 </div>
     <!-- Fin Cards de Reportes -->
 

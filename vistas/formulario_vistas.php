@@ -161,10 +161,6 @@
                                         <span><i class="fas fa-venus-mars mr-2 text-primary"></i> <strong>Género:</strong></span>
                                         <span id="modalGenero" class="font-weight-bold">-</span>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span><i class="fas fa-passport mr-2 text-primary"></i> <strong>Nacionalidad:</strong></span>
-                                        <span id="modalNacionalidad" class="font-weight-bold">-</span>
-                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -231,10 +227,7 @@
                                         <span><i class="fas fa-wheelchair mr-2 text-warning"></i> <strong>Discapacidad:</strong></span>
                                         <span id="modalDiscapacidad" class="font-weight-bold">-</span>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span><i class="fas fa-calendar-check mr-2 text-warning"></i> <strong>Edad:</strong></span>
-                                        <span id="modalEdad" class="font-weight-bold">-</span>
-                                    </li>
+
                                 </ul>
                             </div>
                         </div>
@@ -248,6 +241,207 @@
                     <i class="fas fa-times mr-2"></i>Cerrar
                 </button>
             </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="actualizarMedicoModal" tabindex="-1" aria-labelledby="actualizarMedicoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Encabezado del modal -->
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title fw-semibold" id="actualizarMedicoLabel">
+                    <i class="fas fa-user-md me-2"></i>Actualizar Datos del Médico
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <!-- Formulario -->
+            <form id="actualizarMedicoFormulario" method="POST" novalidate>
+                <div class="modal-body">
+                    <!-- Sección de datos personales -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h6 class="text-primary mb-0">
+                                <i class="fas fa-id-card me-2"></i>Datos Personales
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="nombreMedicoActualizar" name="nombre" 
+                                               value="JOSÉ" placeholder="Nombre" required pattern="[A-Za-zÁ-ú\s]{2,}">
+                                        <label for="nombreMedicoActualizar">Nombre</label>
+                                        <div class="invalid-feedback">Ingrese un nombre válido</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="apellidoMedicoActualizar" name="apellido" 
+                                               value="PÉREZ" placeholder="Apellido" required pattern="[A-Za-zÁ-ú\s]{2,}">
+                                        <label for="apellidoMedicoActualizar">Apellido</label>
+                                        <div class="invalid-feedback">Ingrese un apellido válido</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="cedulaMedicoActualizar" name="cedula" 
+                                               value="12456789" placeholder="Cédula" required pattern="[0-9]{6,10}">
+                                        <label for="cedulaMedicoActualizar">Cédula</label>
+                                        <div class="invalid-feedback">Cédula inválida (6-10 dígitos)</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-3 mt-3">
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="date" class="form-control" id="fechaNacimientoMedico" 
+                                               name="fecha_nacimiento" value="1980-10-10" required>
+                                        <label for="fechaNacimientoMedico">Fecha de Nacimiento</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <select class="form-control" id="generoMedico" name="genero" required>
+                                            <option value="Masculino" selected>Masculino</option>
+                                            <option value="Femenino">Femenino</option>
+                                        </select>
+                                        <label for="generoMedico">Género</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sección de datos profesionales -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h6 class="text-primary mb-0">
+                                <i class="fas fa-briefcase-medical me-2"></i>Datos Profesionales
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="especialidadMedico" 
+                                               name="especialidad" value="MEDICINA INTERNA" required>
+                                        <label for="especialidadMedico">Especialidad</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-control" id="estadoMedico" name="estado" required>
+                                        <option value="Activo" selected>---selecione una opcion------</option>
+                                            <option value="Activo" selected>Activo</option>
+                                            <option value="Inactivo">Inactivo</option>
+                                            <option value="Vacaciones">Vacaciones</option>
+                                            <option value="Licencia">Licencia</option>
+                                        </select>
+                                        <label for="estadoMedico">Estado</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sección de contacto -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h6 class="text-primary mb-0">
+                                <i class="fas fa-address-book me-2"></i>Información de Contacto
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="tel" class="form-control" id="telefonoMedico" 
+                                               name="telefono" value="426" pattern="[0-9]{3,15}">
+                                        <label for="telefonoMedico">Teléfono</label>
+                                        <div class="invalid-feedback">Teléfono inválido</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control" id="emailMedico" 
+                                               name="email" value="CORREO@CORREO.COM" required>
+                                        <label for="emailMedico">Correo Electrónico</label>
+                                        <div class="invalid-feedback">Correo inválido</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select name="municipio" id="municipio" class="form-control">
+                                            <?php $area->listar_municipio_controlador(); ?>
+                                        </select>
+                                        <label for="municipio">Municipio</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-control" id="Parroquia" name="parroquiaActul" required>
+                                            <option value="">----Seleccione una opción--------</option>
+                                        </select>
+                                        <label for="Parroquia">Parroquia</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sección de información adicional -->
+                    <div class="card">
+                        <div class="card-header bg-light">
+                            <h6 class="text-primary mb-0">
+                                <i class="fas fa-info-circle me-2"></i>Información Adicional
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-control" id="etniaMedico" name="etnia">
+                                        <option value="" selected disabled>-----Seleccione una opcion-----</option>
+                                            <?php $area = new listarControlador(); 
+                                            $area->listar_etnias_controlador(); ?>
+                                        </select>
+                                        <label for="etniaMedico">Etnia</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-control" id="discapacidadMedico" name="discapacidad">
+                                            <option value="" selected disabled>-----Seleccione una opcion-----</option>
+                                            <option value="1">Motora</option>
+                                            <option value="2">Auditiva</option>
+                                            <option value="3">Visual</option>
+                                            <option value="4">Mental</option>
+                                        </select>
+                                        <label for="discapacidadMedico">Discapacidad</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pie del modal -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cerrar
+                    </button>
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="fas fa-save me-2"></i>Guardar Cambios
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

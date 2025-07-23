@@ -16,52 +16,76 @@
         </div>
         
 
-            <div class="table-responsive">
-                <table class="table table-striped  table-bordered" id="historialCitaTotal">
-                    <thead class="">
-                        <tr>
-                            <th width="5%">N°</th>
-                            <th>Nombre y Apellido</th>
-                            <th>Cédula</th>
-                            <th>Especialidad</th>
-                            <th>Especialista</th>
-                            <th>Fecha Atención</th>
-                            <th>Fecha Registro</th>
-                            <th>Funcionario</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php 
-                        include_once 'controlador/citaControlador.php';
-                        $tablaH = new citaControlador();
-                        echo $tablaH->Historia_cita_controlador();
-                        ?>
-                    </tbody>
-                </table>
-            </div>
+        <div class="table-responsive">
+        <table class="table table-striped table-bordered" id="historialCitaTotal">
+            <thead>
+                <!-- Encabezados de columnas -->
+            </thead>
+            <tbody>
+                <?php 
+                require_once "./controlador/citaControlador.php";
+                $paginaActual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+                $tablaH = new citaControlador();
+                $resultados = $tablaH->Historia_cita_controlador($paginaActual);
+                
+                echo $resultados['datos'];
+                ?>
+            </tbody>
+        </table>
+    </div>
 
-            <div class="row mt-3">
-                <div class="col-md-6">
-                    <div class="dataTables_info" id="historialInfo">
-                        Mostrando 1 a 10 de 100 registros
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-end mb-0">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">Anterior</a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Siguiente</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <div class="dataTables_info">
+                <?php
+                $inicio = (($paginaActual - 1) * 10) + 1;
+                $fin = min($paginaActual * 10, $resultados['paginacion']['totalRegistros']);
+                echo "Mostrando $inicio a $fin de ".$resultados['paginacion']['totalRegistros']." registros";
+                ?>
             </div>
+        </div>
+        <div class="col-md-6">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-end mb-0">
+                    <?php
+                    // URL base para paginación
+                    $urlBase = "http://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']."?page=HistoriaCita";
+                    
+                    // Botón Anterior
+                    if ($paginaActual > 1): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="<?= $urlBase ?>&pagina=<?= $paginaActual - 1 ?>">Anterior</a>
+                        </li>
+                    <?php else: ?>
+                        <li class="page-item disabled">
+                            <span class="page-link">Anterior</span>
+                        </li>
+                    <?php endif;
+                    
+                    // Números de página
+                    $inicioPaginas = max(1, $paginaActual - 2);
+                    $finPaginas = min($resultados['paginacion']['totalPaginas'], $paginaActual + 2);
+                    
+                    for ($i = $inicioPaginas; $i <= $finPaginas; $i++): ?>
+                        <li class="page-item <?= ($i == $paginaActual) ? 'active' : '' ?>">
+                            <a class="page-link" href="<?= $urlBase ?>&pagina=<?= $i ?>"><?= $i ?></a>
+                        </li>
+                    <?php endfor;
+                    
+                    // Botón Siguiente
+                    if ($paginaActual < $resultados['paginacion']['totalPaginas']): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="<?= $urlBase ?>&pagina=<?= $paginaActual + 1 ?>">Siguiente</a>
+                        </li>
+                    <?php else: ?>
+                        <li class="page-item disabled">
+                            <span class="page-link">Siguiente</span>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
+        </div>
+    </div>
         </div>
     </div>
 </div>

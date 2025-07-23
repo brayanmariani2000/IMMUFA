@@ -102,7 +102,8 @@ class pacienteModelo extends conexionModelo{
                   WHERE 
                       p.id_persona = :id_persona
                   GROUP BY 
-                      p.id_persona");
+                      p.id_persona 
+                      ");
                   
                   $sql->bindParam(":id_persona", $idPersona, PDO::PARAM_INT);
                   $sql->execute();
@@ -183,7 +184,9 @@ class pacienteModelo extends conexionModelo{
 
   protected static function buscar_Paciente_Modelo($buscar){
     
-    $sql=conexionModelo::conectar()->prepare("SELECT * FROM persona WHERE cedula LIKE'$buscar%' 
+    $sql=conexionModelo::conectar()->prepare("SELECT * FROM persona INNER JOIN etnia,discapacidad WHERE persona.id_etnia=etnia.id_etnia 
+    AND persona.id_discapacidad=discapacidad.id_discapacidad 
+    AND cedula LIKE'$buscar%' 
     LIMIT 5");
 
     $sql->execute();
@@ -251,7 +254,7 @@ class pacienteModelo extends conexionModelo{
                 p.cedula LIKE :buscar
             ORDER BY 
                 ci.fecha_registro DESC
-            LIMIT 100");
+            LIMIT 10");
 
     $buscarParam = "$buscar%";
     
