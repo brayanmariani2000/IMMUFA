@@ -1,12 +1,12 @@
 
-    <div id="main-wrapper" class="row">
+    <div id="" class=" body ">
         <!-- Elementos decorativos ampliados -->
         <div class="decoration decoration-1"></div>
         <div class="decoration decoration-2"></div>
         <div class="decoration decoration-3"></div>
         <div class="decoration decoration-4"></div>
         
-        <div class="container">
+        <div class="container ">
             <div class="login-container">
                 <!-- Logo -->
                 <div class="logo-container">

@@ -70,7 +70,7 @@ function exportCitasEspecialidadToPDF() {
         window.URL.revokeObjectURL(url);
         
         Swal.fire({
-            icon: 'success',
+            type: 'success',
             title: 'PDF generado',
             text: 'El reporte de citas se ha descargado correctamente',
             timer: 2000,

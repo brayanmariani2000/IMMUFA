@@ -151,7 +151,12 @@ $(document).on('submit', '#actualizarPacienteFormulario', function(e) {
     
     // Mostrar loader o indicador de carga
     $('#loader').show();
-    
+    if($('#etniaPacienteActualizar').val()== null) {
+        var etnia=1
+     }
+     if($('#discapacidadPacienteActualiza').val()== null) {
+         var discapacidad=1
+     }
     // Recolectar datos del formulario
     const formData = {
         id_persona: $(this).data('id-persona'),
@@ -161,12 +166,11 @@ $(document).on('submit', '#actualizarPacienteFormulario', function(e) {
         telefonoActul: $('#telefonoPacienteActualizar').val(),
         fechaNaciActul: $('#fechaNaciPacienteActualizar').val(),
         sexoActul: $('#sexoPacienteActualizar').val(),
-        etniaActul: $('#etniaPacienteActualizar').val(),
-        discapacidadActul: $('#discapacidadPacienteActualizar').val(),
+        etniaActul: etnia,
+        discapacidadActul: discapacidad,
         parroquiaActul: $('#Parroquia').val(),
         actualizarDatosPaciente:true
     };
-    
     // Enviar datos al servidor
     $.ajax({
         url: 'ajax/verInfoPaciente.php',
@@ -178,7 +182,7 @@ $(document).on('submit', '#actualizarPacienteFormulario', function(e) {
             
             if(response.success) {
                 Swal.fire({
-                    icon: 'success',
+                    type: 'success',
                     title: '¡Éxito!',
                     text: response.message,
                     timer: 2000,
@@ -434,7 +438,7 @@ $(document).on('submit', '#actualizarPacienteFormulario', function(e) {
         // Validaciones con SweetAlert2
         if(datosCita.area_consultar == "0") {
             Swal.fire({
-                icon: 'error',
+                type: 'error',
                 title: 'Campo requerido',
                 text: 'Debe seleccionar un área de consulta',
                 confirmButtonColor: '#3085d6'
@@ -444,7 +448,7 @@ $(document).on('submit', '#actualizarPacienteFormulario', function(e) {
 
         if(datosCita.especialista == "0") {
             Swal.fire({
-                icon: 'error',
+                type: 'error',
                 title: 'Campo requerido',
                 text: 'Debe seleccionar un especialista',
                 confirmButtonColor: '#3085d6'
@@ -454,7 +458,7 @@ $(document).on('submit', '#actualizarPacienteFormulario', function(e) {
 
         if(!datosCita.fecha_consulta) {
             Swal.fire({
-                icon: 'error',
+                type: 'error',
                 title: 'Campo requerido',
                 text: 'Debe seleccionar una fecha para la cita',
                 confirmButtonColor: '#3085d6'
@@ -469,7 +473,7 @@ $(document).on('submit', '#actualizarPacienteFormulario', function(e) {
         
         if(fechaSeleccionada < hoy) {
             Swal.fire({
-                icon: 'error',
+                type: 'error',
                 title: 'Fecha inválida',
                 text: 'No puede seleccionar una fecha pasada',
                 confirmButtonColor: '#3085d6'
@@ -488,7 +492,7 @@ $(document).on('submit', '#actualizarPacienteFormulario', function(e) {
                 
                 if(response == "1") {
                     Swal.fire({
-                        icon: 'success',
+                        type: 'success',
                         title: '¡Cita agendada!',
                         text:  '¡Cita agendada!',
                         showConfirmButton: true,
@@ -503,7 +507,7 @@ $(document).on('submit', '#actualizarPacienteFormulario', function(e) {
                     });
                 } else {
                     Swal.fire({
-                        icon: 'error',
+                        type: 'error',
                         title: 'Error al agendar',
                         text: response.mensaje,
                         confirmButtonColor: '#3085d6'
@@ -512,7 +516,7 @@ $(document).on('submit', '#actualizarPacienteFormulario', function(e) {
             },
             error: function(xhr, status, error) {
                 Swal.fire({
-                    icon: 'error',
+                    type: 'error',
                     title: 'Error de conexión',
                     text: 'No se pudo conectar con el servidor. Intente nuevamente.',
                     confirmButtonColor: '#3085d6'
@@ -522,4 +526,4 @@ $(document).on('submit', '#actualizarPacienteFormulario', function(e) {
         });
     });
 
-});;
+});

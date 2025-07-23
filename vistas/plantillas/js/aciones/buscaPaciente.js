@@ -6,16 +6,6 @@ $(document).ready(function() {
 
     // Evento de búsqueda para pacientes
     $('#buscarPaciente').keyup(handlePatientSearch);
-    
-    // Evento para registro de paciente
-    
-    // Evento para actualización de paciente
-    $('#Actualizar_p_inicio').click(handlePatientUpdate);
-    
-    // Evento de búsqueda para historial de citas
-    $('#buscarPacienteHistorial').keyup(handleAppointmentHistorySearch);
-
-    // Manejador de búsqueda de pacientes
     function handlePatientSearch(e) {
         const searchTerm = $(this).val();
         
@@ -32,6 +22,136 @@ $(document).ready(function() {
             error: handleSearchError
         });
     }
+    // Función para mostrar resultados de pacientes
+    function displayPatientResults(response) {
+        const patients = jQuery.parseJSON(response);
+        let html = buildPatientTableHeader();
+        let counter = 1;
+
+        patients.forEach(patient => {
+            html += buildPatientRow(patient, counter);
+            counter++;
+        });
+
+        html += `</tbody></table>`;
+        $('#buscarTabla').html(html);
+    }
+
+    function  buildPatientTableHeader() {
+        return ` 
+        <table class="table table-hover table-responsive" role="grid">
+            <thead>
+                <tr role="row">
+                  <th width="5%">N°</th>
+                            <th width="20%">Nombre y Apellido</th>
+                            <th width="10%">Cédula</th>
+                            <th width="5%">Edad</th>
+                            <th width="15%" class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>`;
+    }
+ 
+    function buildPatientRow(patient, index) {
+       
+        return `
+        <tr> 
+            <td>${index}</td>
+            <td>${patient.nombre} ${patient.apellido}</td>
+            <td>${patient.cedula}</td>
+            <td>${patient.edad}</td>
+            <td>
+               <div class="btn-group" role="group" aria-label="Acciones">
+                              
+                                    
+                                    <button type="submit" class="btn btn-success btn-sm mx-1" 
+                                            form="formNuevaCita_${patient.id}"
+                                            title="Agendar nueva cita">
+                                        <i class="fas fa-calendar-plus me-1"></i> Cita
+                                    </button>
+                                    <form id="formNuevaCita_${patient.id}" 
+                                          action="nuevaCita" 
+                                          method="POST" class="d-none">
+                                        <input type="hidden" name="Nueva_Cita" value=" ${patient.id}">
+                                    </form>
+                                    
+                                    <button type="submit" class="btn btn-secondary btn-sm mx-1" 
+                                            form="formHistorial_${patient.id}"
+                                            title="Ver historial médico">
+                                        <i class="fas fa-history me-1"></i> Historial
+                                    </button>
+                                    <form id="formHistorial_${patient.id}" 
+                                          action="datosPaciente" 
+                                          method="POST" class="d-none">
+                                        <input type="hidden" name="verHistoria" value=" ${patient.id}">
+                                    </form>
+                                </div>
+            </td>
+        </tr>`;
+    }
+
+
+    $('#BuscarPacienteRegistro').keyup(buscar);
+
+    function buscar(e) {
+        const searchTerm = $(this).val();
+        
+        $.ajax({
+            type: 'POST',
+            url: `${serverPath}ajax/verInfoPaciente.php`,
+            data: {
+                'BuscarPaciente': true,
+                'buscar': searchTerm
+            },
+            success: function(response) {
+                CargarDatosServidor(response);
+            },
+            error: handleSearchError
+        });
+    }
+    function CargarDatosServidor(response) {
+        const patients = jQuery.parseJSON(response);
+        let html = CabezeraTablaCita();
+        let counter = 1;
+
+        patients.forEach(patient => {
+            html += cargarPacientes(patient, counter);
+            counter++;
+        });
+
+        html += `</tbody></table>`;
+        $('#tablaCitasPaciente').html(html);
+    }
+    // Función para construir encabezado de tabla de pacientes
+    function CabezeraTablaCita() {
+        return ` 
+        <table class="table table-hover table-responsive" role="grid">
+            <thead>
+                <tr role="row">
+                  <th width="5%">N°</th>
+                            <th width="20%">Nombre y Apellido</th>
+                            <th width="10%">Cédula</th>
+                            <th width="10%">Discapacidad</th>
+                            <th width="10%">Etnia</th>
+                            <th width="10%">Edad</th>
+                            <th width="15%" class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>`;
+    }
+
+    
+    // Evento para registro de paciente
+    
+    // Evento para actualización de paciente
+    $('#Actualizar_p_inicio').click(handlePatientUpdate);
+    
+    // Evento de búsqueda para historial de citas
+    $('#buscarPacienteHistorial').keyup(handleAppointmentHistorySearch);
+
+    // Manejador de búsqueda de pacientes
+ 
+
 
     // Manejador de actualización de paciente
     function handlePatientUpdate(e) {
@@ -70,56 +190,56 @@ $(document).ready(function() {
             });
     }
 
-    // Función para mostrar resultados de pacientes
-    function displayPatientResults(response) {
-        const patients = jQuery.parseJSON(response);
-        let html = buildPatientTableHeader();
-        let counter = 1;
-
-        patients.forEach(patient => {
-            html += buildPatientRow(patient, counter);
-            counter++;
-        });
-
-        html += `</tbody></table>`;
-        $('#buscarTabla').html(html);
-    }
-
-    // Función para construir encabezado de tabla de pacientes
-    function buildPatientTableHeader() {
-        return ` 
-        <table class="table table-hover table-responsive" role="grid">
-            <thead>
-                <tr role="row">
-                    <th rowspan="1" colspan="1">N°</th>
-                    <th rowspan="1" colspan="1">Nombre y Apellido</th>
-                    <th tabindex="0" aria-controls="example23" rowspan="1" colspan="1">Cedula</th>
-                    <th tabindex="0" aria-controls="example23" rowspan="1" colspan="1"><center>accion</center></th>
-                </tr>
-            </thead>
-            <tbody>`;
-    }
 
     // Función para construir fila de paciente
-    function buildPatientRow(patient, index) {
+    function cargarPacientes(patient, index) {
+       
         return `
         <tr> 
             <td>${index}</td>
             <td>${patient.nombre} ${patient.apellido}</td>
             <td>${patient.cedula}</td>
+            <td>${patient.discapacidad}</td>
+            <td>${patient.etnia}</td>
+            <td>${patient.edad}</td>
             <td>
-                <div style="display:flex;">
-                    <form action="nuevaCita" method="post">
-                        <button type="submit" class="btn btn-success" name="Nueva_Cita" value="${patient.id}" style="margin:5px;">
-                            Nueva Cita
-                        </button>
-                    </form> 
-                    <form action="datosPaciente" method="post">
-                        <button type="submit" class="btn btn-info" name="verHistoria" value="${patient.id}" style="margin:5px;">
-                            Ver Historial
-                        </button>
-                    </form> 
-                </div>
+               <div class="btn-group" role="group" aria-label="Acciones">
+                                    <button type="button" class="btn btn-info btn-sm mx-1 ver-datos" 
+                                            data-id=" ${patient.id}"
+                                            id="verDatos"
+                                            title="Ver datos básicos">
+                                        <i class="fas fa-user me-1"></i> Ver Datos
+                                    </button>
+                                    
+                                    <button type="button" class="btn btn-warning btn-sm mx-1 editar-paciente" 
+                                            data-id=" ${patient.id}"
+                                            id="editarPaciente"
+                                            title="Editar información">
+                                        <i class="fas fa-edit me-1"></i> Editar
+                                    </button>
+                                    
+                                    <button type="submit" class="btn btn-success btn-sm mx-1" 
+                                            form="formNuevaCita_${patient.id}"
+                                            title="Agendar nueva cita">
+                                        <i class="fas fa-calendar-plus me-1"></i> Cita
+                                    </button>
+                                    <form id="formNuevaCita_${patient.id}" 
+                                          action="nuevaCita" 
+                                          method="POST" class="d-none">
+                                        <input type="hidden" name="Nueva_Cita" value=" ${patient.id}">
+                                    </form>
+                                    
+                                    <button type="submit" class="btn btn-secondary btn-sm mx-1" 
+                                            form="formHistorial_${patient.id}"
+                                            title="Ver historial médico">
+                                        <i class="fas fa-history me-1"></i> Historial
+                                    </button>
+                                    <form id="formHistorial_${patient.id}" 
+                                          action="datosPaciente" 
+                                          method="POST" class="d-none">
+                                        <input type="hidden" name="verHistoria" value=" ${patient.id}">
+                                    </form>
+                                </div>
             </td>
         </tr>`;
     }

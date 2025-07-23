@@ -13,9 +13,6 @@
                     </div>
                     <!-- Botones de exportación -->
                     <div class="btn-group">
-                        <button id="excel_citas" class="btn btn-sm btn-success">
-                            <i class="fas fa-file-excel mr-1"></i> Excel
-                        </button>
                         <button id="exportarPdfEspecialidad" class="btn btn-sm btn-danger ml-2">
                             <i class="fas fa-file-pdf mr-1"></i> PDF
                         </button>

@@ -30,7 +30,7 @@ $(document).on('click','#dependenciaBT',function(){
        })
 
 })   
-$(document).on('click','#eliminarDependencia',function(){
+$(document).on('click','.btn-desabilitar-dependecia',function(){
    const server1=''
     Swal.fire({        
       type: 'info',
@@ -124,7 +124,7 @@ $('#formEditarDependencia').on('submit', function(event) {
     }
   });
 });
-$(document).on('click','#habilitarDependencia',function(){
+$(document).on('click','.btn-habilitar-dependecia',function(){
   const server1=''
    Swal.fire({        
      type: 'info',

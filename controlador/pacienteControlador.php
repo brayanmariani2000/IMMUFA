@@ -53,7 +53,11 @@ class pacienteControlador extends pacienteModelo{
 
     $hora_consulta='9:00am hasta 12:00pm';
  
-
+     if($etnia=="0"){
+        $etnia==1;
+     }elseif($discapacidad=="0"){
+        $discapacidad==1;
+     }
     /**
     * ============================================================
     * FIN DE LA RECOLECION DE TODOS LOS DATOS Y ASIGNAMIENTO DE LA VARIABLES
@@ -320,7 +324,7 @@ class pacienteControlador extends pacienteModelo{
           'nombre' => $datosPaciente['nombre'],
           'apellido' => $datosPaciente['apellido'],
           'cedula' => $datosPaciente['cedula'],
-          'telefono' => "+58" . $datosPaciente['telefono'],
+          'telefono' => "0" . $datosPaciente['telefono'],
           'correo' => $datosPaciente['correo'] ?? 'No registrado',
           'tipo_discapacidad' => $datosPaciente['discapacidades'] ?? 'Ninguna',
           'municipiosN' => $datosPaciente['municipio'],
@@ -358,7 +362,11 @@ class pacienteControlador extends pacienteModelo{
         $etnia = conexionModelo::limpiar_texto($_POST['etniaActul']);
         $discapacidad = conexionModelo::limpiar_texto($_POST['discapacidadActul']);
         $parroquia = conexionModelo::limpiar_texto($_POST['parroquiaActul']);
-        
+        if($etnia=='0'){
+           $etnia==1;
+        }elseif($discapacidad=='0'){
+            $discapacidad==1;
+        }
         // Validar datos obligatorios
         if(empty($nombre) || empty($apellido) || empty($cedula) || empty($fecha_naci)) {
             echo json_encode(['success' => false, 'message' => 'Los campos nombre, apellido, cédula y fecha de nacimiento son obligatorios']);
@@ -410,6 +418,9 @@ class pacienteControlador extends pacienteModelo{
 
 
       foreach($buscarPaciente as $row){
+        $fechaNacimiento = new DateTime($row['fecha_nacimiento']);
+        $hoy = new DateTime();
+        $edad = $hoy->diff($fechaNacimiento)->y;
 
         if($row['sexo']==1){
     
@@ -428,11 +439,17 @@ class pacienteControlador extends pacienteModelo{
   
         'cedula'  =>$row['cedula'],
   
-        'telefono'=>"+58".$row['telefono'],
+        'telefono'=>"0".$row['telefono'],
   
         'sexo'=>$sexo,
 
-        'id'=>$row['id_persona']
+        'id'=>$row['id_persona'],
+
+        'edad'=>$edad,
+
+        'etnia'=>$row['etnias'],
+
+        'discapacidad'=>$row['discapacidades']
         );        
 
       }
@@ -565,11 +582,9 @@ public function datosCitaActualizar($idPaciente) {
                         <div class="form-group">
                             <label class="font-weight-bold text-info"><i class="fas fa-clipboard-check mr-2"></i>Estado</label>
                             <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text bg-light"><i class="fas fa-tasks text-info"></i></span>
-                                </div>'?><?php if ($row['id_condicion']==3){
+                               '?><?php if ($row['id_condicion']==3){
 
-                                     echo '<p class="form-control bg-info rounded-pill px-3 py-2">'.htmlspecialchars($row['condicion']).'</p>';
+                                     echo '<p class=" bg-info rounded-pill px-3 py-2">'.htmlspecialchars($row['condicion']).'</p>';
                                           
                                 
                                 }elseif($row['id_condicion']==4){
@@ -577,16 +592,7 @@ public function datosCitaActualizar($idPaciente) {
                                     echo '<p class="form-control bg-danger">'.htmlspecialchars($row['condicion']).'</p>' ;
                                 
                                 }else{
-                                    echo ' 
-                                    <select class="form-control">
-                                      <option value="5" selected>---SELECCIONE---</option>
-                                        <option value="1">AGENDADA</option>
-                                        <option value="2">POSPUESTA</option>
-                                        <option value="3">ATENDIDA</option>
-                                        <option value="4">PERDIDA</option>
-                                      
-                                    </select>';
-
+                                    echo '<p class="form-control bg-warning">'.htmlspecialchars($row['condicion']).'</p>' ;
                                 }?>
                                 <?php echo'
                             </div>
@@ -609,9 +615,6 @@ public function datosCitaActualizar($idPaciente) {
                    <!-- Acciones -->
                   <div class="col-md-2 d-flex align-items-end mb-3">'?>
                       <?php if ($row['id_condicion'] != 3 && $row['id_condicion'] != 4): ?>
-                          <button class="btn btn-info btn-sm" id="ActualizarBtnActul" value="'.htmlspecialchars($row['id_cita']).'">
-                              <i class="fas fa-save mr-2"></i>Guardar
-                          </button>
                       <?php endif; ?>
                <?php echo'   </div>';
     }

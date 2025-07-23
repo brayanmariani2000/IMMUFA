@@ -54,6 +54,15 @@ $(document).ready(function() {
             ajaxUrl: 'ajax/actualizarTablasFechas.php',
             tablaTipo: 'municipios',
             successMessage: 'Tabla de municipios actualizada con éxito'
+        },
+        {
+            formId: 'filtroFechasConsolidado',
+            containerId: 'contenedorTablaConsolidado',
+            fechaInicioId: 'fechaInicioConsolidado',
+            fechaFinId: 'fechaFinConsolidado',
+            ajaxUrl: 'ajax/actualizarTablasFechas.php',
+            tablaTipo: 'Consolidado',
+            successMessage: 'Tabla de Consolidado actualizada con éxito'
         }
     ];
 

@@ -18,7 +18,7 @@ echo $in_mini_paciente-> listar_citas_cantidad_dependecias_tabla_controlador_fec
     echo $in_mini_paciente-> listarPacientesMunicipioTablaControlador_fechas();
 }elseif($_POST['tablaTipo']=='parroquias'){
     echo $in_mini_paciente-> listar_citas_cantidad_parroquias_tabla_controlador_fechas();   
-}else{
-    var_dump($_POST);
+}elseif($_POST['tablaTipo']=='Consolidado'){
+    echo $in_mini_paciente-> mostrarReporteConsolidadoControladorfechas();   
 }
 ;
